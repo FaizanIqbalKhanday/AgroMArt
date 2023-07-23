@@ -9,5 +9,8 @@
     <string name="register_button">Sign up</string>
     <string name="login">Login</string>
     <string name="sub_title">Easy to buy easy to sell</string>
-    <string name=""
+    <string name="forget_password">FORGET PASSWORD</string>
+    <string name="forgot_password_detail">PROVIDE YOUR ACCOUNT\'s EMAIL FOR WHICH YOU WANT TO RESET YOUR PASSWORD!</string>
+    <string name="enter_email">Email</string>
+    <string name="nxt_btn">NEXT</string>
 </resources>
