@@ -6,7 +6,8 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
 tools:context=".LoginActivity"
 android:background="@color/bg_color"
-android:padding="30dp">
+android:padding="30dp"
+    android:scrollbars="none">
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -45,8 +46,11 @@ android:padding="30dp">
             app:hintTextColor="@color/black"
             android:textColorHint="@color/black"
             app:endIconMode="clear_text"
+            app:endIconTint="@color/black"
             app:boxStrokeWidthFocused="2dp"
             app:boxStrokeColor="@color/black"
+
+
             >
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -65,6 +69,7 @@ android:padding="30dp">
             app:hintTextColor="@color/black"
             android:textColorHint="@color/black"
             app:endIconMode="password_toggle"
+            app:endIconTint="@color/black"
             app:boxStrokeWidthFocused="2dp"
             app:boxStrokeColor="@color/black"
             >
@@ -87,7 +92,7 @@ android:padding="30dp">
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:background="#00000000"
-            android:text="Forgot Password?"
+            android:text="@string/forget_password"
             android:textColor="@color/purple_700"
             android:textAllCaps="false"/>
         <androidx.appcompat.widget.AppCompatButton
@@ -96,7 +101,7 @@ android:padding="30dp">
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:background="#00000000"
-            android:text="New User? Sign Up"
+            android:text="@string/new_user"
             android:textColor="@color/purple_700"
             android:textAllCaps="false"/>
     </LinearLayout>
