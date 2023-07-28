@@ -1,8 +1,8 @@
 <resources>
-     <!--Android app name-->
+    <!--Android app name-->
     <string name="app_name">AgroMart</string>
     <string name="sub_title">Easy to buy easy to sell</string>
-     <!--Sign up and login screen-->
+    <!--Sign up and login screen-->
     <string name="sign_up">sign up</string>
     <string name="email">Email</string>
     <string name="full_name">Full Name</string>
@@ -11,16 +11,25 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="register_button">Sign up</string>
     <string name="login">Login</string>
-     <!--forget password screen-->
+    <!--forget password screen-->
     <string name="forgot_password">FORGET PASSWORD</string>
     <string name="forgot_password_detail">PROVIDE YOUR ACCOUNT\'s EMAIL FOR WHICH YOU WANT TO RESET YOUR PASSWORD!</string>
     <string name="enter_email">Email</string>
     <string name="nxt_btn">NEXT</string>
     <string name="forget_password">Forgot Password?</string>
     <string name="new_user">New User?Sign Up</string>
-     <!--OTP screen-->
+    <!--OTP screen-->
     <string name="otp_code_text">Co\nde</string>
     <string name="otp_verification_text">Verification</string>
     <string name="otp_description_text">Enter one time password sent on\n+917006893820</string>
     <string name="verify_code">VERIFY CODE</string>
+    <!-- SetNewPassword screen-->
+    <string name="new_credentials">New Credentials</string>
+    <string name="new_credential_details">YOUR IDENTITY HAS BEEN VERIFIED!\nSET YOUR NEW PASSWORD</string>
+    <string name="new_passwrd">New Password</string>
+    <string name="confirm_passwrd">Confirm Password</string>
+    <string name="ok">OK</string>
+    <!-- PasswordCHanged Screen-->
+    <string name="password_updated">PASSWORD UPDATED</string>
+    <string name="password_updated_success_msg">YOUR PASSWORD HAS BEEN UPDATED</string>
 </resources>
