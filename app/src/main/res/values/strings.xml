@@ -32,4 +32,13 @@
     <!-- PasswordCHanged Screen-->
     <string name="password_updated">PASSWORD UPDATED</string>
     <string name="password_updated_success_msg">YOUR PASSWORD HAS BEEN UPDATED</string>
+    <!-- main activity strings -->
+    <string name="search_for">Search For Apple Varities</string>
+    <string name="category">Categories</string>
+    <string name="recommendations">Fresh Recommendations</string>
+    <!-- Apple varities -->
+    <string name="delicious_apple">Delicious Apple</string>
+    <string name="pear">Pear</string>
+
+
 </resources>
