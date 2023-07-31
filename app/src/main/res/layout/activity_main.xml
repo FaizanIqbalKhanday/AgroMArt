@@ -104,7 +104,7 @@
                             app:cardUseCompatPadding="true"
                             app:contentPadding="12dp">
                             <LinearLayout
-                                android:layout_width="100dp"
+                                android:layout_width="70dp"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
                                 <ImageView
@@ -114,19 +114,15 @@
                                 <RelativeLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="16dp">
+                                    android:layout_marginTop="4dp">
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="apple"
+                                        android:text="@string/delicious_apple"
+                                        android:lineBreakWordStyle="phrase"
                                         android:textSize="16sp"
                                         android:textColor="@color/default_color"/>
-                                    <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:src="@drawable/forward"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_alignParentTop="true"/>
+
 
                                 </RelativeLayout>
                             </LinearLayout>
@@ -140,7 +136,7 @@
                             app:cardUseCompatPadding="true"
                             app:contentPadding="12dp">
                             <LinearLayout
-                                android:layout_width="100dp"
+                                android:layout_width="70dp"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
                                 <ImageView
@@ -150,19 +146,15 @@
                                 <RelativeLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="16dp">
+                                    android:layout_marginTop="4dp">
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="pear"
+                                        android:text="@string/pear"
+                                        android:lineBreakWordStyle="phrase"
                                         android:textSize="16sp"
                                         android:textColor="@color/default_color"/>
-                                    <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:src="@drawable/forward"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_alignParentTop="true"/>
+
 
                                 </RelativeLayout>
                             </LinearLayout>
@@ -176,29 +168,25 @@
                             app:cardUseCompatPadding="true"
                             app:contentPadding="12dp">
                             <LinearLayout
-                                android:layout_width="100dp"
+                                android:layout_width="70dp"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
                                 <ImageView
                                     android:layout_width="36dp"
                                     android:layout_height="36dp"
-                                    android:src="@drawable/logo"/>
+                                    android:src="@drawable/apple1"/>
                                 <RelativeLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="16dp">
+                                    android:layout_marginTop="4dp">
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="apple"
+                                        android:text="@string/delicious_apple"
+                                        android:lineBreakWordStyle="phrase"
                                         android:textSize="16sp"
                                         android:textColor="@color/default_color"/>
-                                    <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:src="@drawable/forward"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_alignParentTop="true"/>
+
 
                                 </RelativeLayout>
                             </LinearLayout>
@@ -212,29 +200,25 @@
                             app:cardUseCompatPadding="true"
                             app:contentPadding="12dp">
                             <LinearLayout
-                                android:layout_width="100dp"
+                                android:layout_width="70dp"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
                                 <ImageView
                                     android:layout_width="36dp"
                                     android:layout_height="36dp"
-                                    android:src="@drawable/logo"/>
+                                    android:src="@drawable/apple1"/>
                                 <RelativeLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="16dp">
+                                    android:layout_marginTop="4dp">
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="apple"
+                                        android:text="@string/delicious_apple"
+                                        android:lineBreakWordStyle="phrase"
                                         android:textSize="16sp"
                                         android:textColor="@color/default_color"/>
-                                    <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:src="@drawable/forward"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_alignParentTop="true"/>
+
 
                                 </RelativeLayout>
                             </LinearLayout>
@@ -248,29 +232,25 @@
                             app:cardUseCompatPadding="true"
                             app:contentPadding="12dp">
                             <LinearLayout
-                                android:layout_width="100dp"
+                                android:layout_width="70dp"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
                                 <ImageView
                                     android:layout_width="36dp"
                                     android:layout_height="36dp"
-                                    android:src="@drawable/logo"/>
+                                    android:src="@drawable/apple1"/>
                                 <RelativeLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="16dp">
+                                    android:layout_marginTop="4dp">
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="apple"
+                                        android:text="@string/delicious_apple"
+                                        android:lineBreakWordStyle="phrase"
                                         android:textSize="16sp"
                                         android:textColor="@color/default_color"/>
-                                    <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:src="@drawable/forward"
-                                        android:layout_alignParentEnd="true"
-                                        android:layout_alignParentTop="true"/>
+
 
                                 </RelativeLayout>
                             </LinearLayout>
@@ -296,14 +276,15 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="8dp"
+
                         android:weightSum="100">
                         <androidx.cardview.widget.CardView
-                            android:id="@+id/postView"
+                            android:id="@+id/postView1"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
                             android:layout_weight="50"
+                            android:layout_marginBottom="10dp"
                             app:cardCornerRadius="16dp">
                             <RelativeLayout
                                 android:layout_width="match_parent"
@@ -312,7 +293,7 @@
                                 <ImageView
                                     android:layout_width="match_parent"
                                     android:layout_height="200dp"
-                                   android:scaleType="centerCrop"
+                                    android:scaleType="centerCrop"
                                     android:src="@drawable/apple1" />
 
                                 <LinearLayout
@@ -335,25 +316,25 @@
                                         android:layout_marginTop="4dp"
                                         android:orientation="horizontal"
                                         android:weightSum="100">
-                                        <RelativeLayout
+                                        <LinearLayout
                                             android:layout_width="match_parent"
-                                            android:layout_height="wrap_content">
-                                            <ImageView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:src="@drawable/location"
-                                                />
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal">
+
                                             <TextView
+
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
-                                                android:text="mastpora,,shopian,keller"
-                                                android:textSize="13sp"
+                                                android:drawableStart="@drawable/location"
+                                                android:text="mastpora, shopian, keller"
+                                                android:textSize="14sp"
+                                                android:drawablePadding="4dp"
                                                 android:textColor="@color/default_color"
                                                 android:layout_alignParentRight="true"
                                                 android:layout_alignParentTop="true"/>
 
 
-                                        </RelativeLayout>
+                                        </LinearLayout>
 
                                     </LinearLayout>
                                 </LinearLayout>
@@ -366,6 +347,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
                             android:layout_weight="50"
+                            android:layout_marginBottom="10dp"
                             app:cardCornerRadius="16dp">
                             <RelativeLayout
                                 android:layout_width="match_parent"
@@ -397,25 +379,25 @@
                                         android:layout_marginTop="4dp"
                                         android:orientation="horizontal"
                                         android:weightSum="100">
-                                        <RelativeLayout
+                                        <LinearLayout
                                             android:layout_width="match_parent"
-                                            android:layout_height="wrap_content">
-                                            <ImageView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:src="@drawable/location"
-                                                />
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal">
+
                                             <TextView
+
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
-                                                android:text="mastpora,,shopian,keller"
-                                                android:textSize="13sp"
+                                                android:drawableStart="@drawable/location"
+                                                android:text="mastpora, shopian, keller"
+                                                android:textSize="14sp"
+                                                android:drawablePadding="4dp"
                                                 android:textColor="@color/default_color"
                                                 android:layout_alignParentRight="true"
                                                 android:layout_alignParentTop="true"/>
 
 
-                                        </RelativeLayout>
+                                        </LinearLayout>
 
                                     </LinearLayout>
                                 </LinearLayout>
@@ -426,7 +408,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="8dp"
+
                         android:weightSum="100">
                         <androidx.cardview.widget.CardView
                             android:id="@+id/postView3"
@@ -434,68 +416,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
                             android:layout_weight="50"
-                            app:cardCornerRadius="16dp">
-                            <RelativeLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content">
-
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="200dp"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/apple1" />
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_alignParentBottom="true"
-                                    android:background="@color/white"
-                                    android:orientation="vertical"
-                                    android:padding="8dp">
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/delicious_apple"
-                                        android:textSize="14sp"
-                                        android:textColor="@color/default_color"
-                                        android:textStyle="bold"/>
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="4dp"
-                                        android:orientation="horizontal"
-                                        android:weightSum="100">
-                                        <RelativeLayout
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content">
-                                            <ImageView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:src="@drawable/location"
-                                                />
-                                            <TextView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:text="mastpora,,shopian,keller"
-                                                android:textSize="13sp"
-                                                android:textColor="@color/default_color"
-                                                android:layout_alignParentRight="true"
-                                                android:layout_alignParentTop="true"/>
-
-
-                                        </RelativeLayout>
-
-                                    </LinearLayout>
-                                </LinearLayout>
-
-                            </RelativeLayout>
-                        </androidx.cardview.widget.CardView>
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/postView31"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
-                            android:layout_weight="50"
+                            android:layout_marginBottom="10dp"
                             app:cardCornerRadius="16dp">
                             <RelativeLayout
                                 android:layout_width="match_parent"
@@ -527,25 +448,88 @@
                                         android:layout_marginTop="4dp"
                                         android:orientation="horizontal"
                                         android:weightSum="100">
-                                        <RelativeLayout
+                                        <LinearLayout
                                             android:layout_width="match_parent"
-                                            android:layout_height="wrap_content">
-                                            <ImageView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:src="@drawable/location"
-                                                />
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal">
+
                                             <TextView
+
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
-                                                android:text="mastpora,,shopian,keller"
-                                                android:textSize="13sp"
+                                                android:drawableStart="@drawable/location"
+                                                android:text="mastpora, shopian, keller"
+                                                android:textSize="14sp"
+                                                android:drawablePadding="4dp"
                                                 android:textColor="@color/default_color"
                                                 android:layout_alignParentRight="true"
                                                 android:layout_alignParentTop="true"/>
 
 
-                                        </RelativeLayout>
+                                        </LinearLayout>
+
+                                    </LinearLayout>
+                                </LinearLayout>
+
+                            </RelativeLayout>
+                        </androidx.cardview.widget.CardView>
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/postView4"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="50"
+                            android:layout_marginBottom="10dp"
+                            app:cardCornerRadius="16dp">
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="200dp"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/apple1" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentBottom="true"
+                                    android:background="@color/white"
+                                    android:orientation="vertical"
+                                    android:padding="8dp">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/delicious_apple"
+                                        android:textSize="14sp"
+                                        android:textColor="@color/default_color"
+                                        android:textStyle="bold"/>
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="4dp"
+                                        android:orientation="horizontal"
+                                        android:weightSum="100">
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal">
+
+                                            <TextView
+
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:drawableStart="@drawable/location"
+                                                android:text="mastpora, shopian, keller"
+                                                android:textSize="14sp"
+                                                android:drawablePadding="4dp"
+                                                android:textColor="@color/default_color"
+                                                android:layout_alignParentRight="true"
+                                                android:layout_alignParentTop="true"/>
+
+
+                                        </LinearLayout>
 
                                     </LinearLayout>
                                 </LinearLayout>
@@ -556,14 +540,15 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="8dp"
+
                         android:weightSum="100">
                         <androidx.cardview.widget.CardView
-                            android:id="@+id/postView4"
+                            android:id="@+id/postView5"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
                             android:layout_weight="50"
+                            android:layout_marginBottom="10dp"
                             app:cardCornerRadius="16dp">
                             <RelativeLayout
                                 android:layout_width="match_parent"
@@ -595,25 +580,25 @@
                                         android:layout_marginTop="4dp"
                                         android:orientation="horizontal"
                                         android:weightSum="100">
-                                        <RelativeLayout
+                                        <LinearLayout
                                             android:layout_width="match_parent"
-                                            android:layout_height="wrap_content">
-                                            <ImageView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:src="@drawable/location"
-                                                />
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal">
+
                                             <TextView
+
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
-                                                android:text="mastpora,,shopian,keller"
-                                                android:textSize="13sp"
+                                                android:drawableStart="@drawable/location"
+                                                android:text="mastpora, shopian, keller"
+                                                android:textSize="14sp"
+                                                android:drawablePadding="4dp"
                                                 android:textColor="@color/default_color"
                                                 android:layout_alignParentRight="true"
                                                 android:layout_alignParentTop="true"/>
 
 
-                                        </RelativeLayout>
+                                        </LinearLayout>
 
                                     </LinearLayout>
                                 </LinearLayout>
@@ -621,11 +606,12 @@
                             </RelativeLayout>
                         </androidx.cardview.widget.CardView>
                         <androidx.cardview.widget.CardView
-                            android:id="@+id/postView41"
+                            android:id="@+id/postView6"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="8dp"
                             android:layout_weight="50"
+                            android:layout_marginBottom="10dp"
                             app:cardCornerRadius="16dp">
                             <RelativeLayout
                                 android:layout_width="match_parent"
@@ -657,25 +643,25 @@
                                         android:layout_marginTop="4dp"
                                         android:orientation="horizontal"
                                         android:weightSum="100">
-                                        <RelativeLayout
+                                        <LinearLayout
                                             android:layout_width="match_parent"
-                                            android:layout_height="wrap_content">
-                                            <ImageView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:src="@drawable/location"
-                                                />
+                                            android:layout_height="wrap_content"
+                                            android:orientation="horizontal">
+
                                             <TextView
+
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
-                                                android:text="mastpora,,shopian,keller"
-                                                android:textSize="13sp"
+                                                android:drawableStart="@drawable/location"
+                                                android:text="mastpora, shopian, keller"
+                                                android:textSize="14sp"
+                                                android:drawablePadding="4dp"
                                                 android:textColor="@color/default_color"
                                                 android:layout_alignParentRight="true"
                                                 android:layout_alignParentTop="true"/>
 
 
-                                        </RelativeLayout>
+                                        </LinearLayout>
 
                                     </LinearLayout>
                                 </LinearLayout>
