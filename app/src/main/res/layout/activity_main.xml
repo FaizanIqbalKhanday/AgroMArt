@@ -688,7 +688,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/addPost"
-            android:onClick="sho"
+            android:background="@color/bg_color"
             android:src="@drawable/add_post"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
@@ -712,6 +712,7 @@
                 <ImageView
                     android:layout_width="28dp"
                     android:layout_height="28dp"
+
                     android:src="@drawable/home"
                     android:layout_gravity="center"/>
                 <TextView
