@@ -33,12 +33,22 @@
     <string name="password_updated">PASSWORD UPDATED</string>
     <string name="password_updated_success_msg">YOUR PASSWORD HAS BEEN UPDATED</string>
     <!-- main activity strings -->
-    <string name="search_for">Search For Apple Varities</string>
+    <string name="search_for">Search For Apple Verities</string>
     <string name="category">Categories</string>
     <string name="recommendations">Fresh Recommendations</string>
-    <!-- Apple varities -->
-    <string name="delicious_apple">Delicious Apple</string>
+    <!-- Apple verities -->
+    <string name="delicious">Delicious</string>
     <string name="pear">Pear</string>
-
+    <string name="home">Home</string>
+    <string name="account">Account</string>
+    <!-- add post strings -->
+    <string name="add_post">Add Post</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="upload">UPLOAD</string>
+    <string name="select_grade">Select Grade</string>
+    <string name="or">OR</string>
+    <string name="select_variety">Select Variety</string>
+    <string name="select_packing_type">Select Packing Type</string>
+    <string name="set_address">Set Full Address</string>
 
 </resources>

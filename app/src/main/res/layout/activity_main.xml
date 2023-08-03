@@ -110,8 +110,8 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
                                 <ImageView
-                                    android:layout_width="36dp"
-                                    android:layout_height="36dp"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
                                     android:src="@drawable/apple1"/>
                                 <RelativeLayout
                                     android:layout_width="match_parent"
@@ -120,9 +120,10 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/delicious_apple"
+                                        android:text="@string/delicious"
                                         android:lineBreakWordStyle="phrase"
-                                        android:textSize="16sp"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold"
                                         android:textColor="@color/default_color"/>
 
 
@@ -143,8 +144,8 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
                                 <ImageView
-                                    android:layout_width="36dp"
-                                    android:layout_height="36dp"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
                                     android:src="@drawable/pear"/>
                                 <RelativeLayout
                                     android:layout_width="match_parent"
@@ -155,7 +156,8 @@
                                         android:layout_height="wrap_content"
                                         android:text="@string/pear"
                                         android:lineBreakWordStyle="phrase"
-                                        android:textSize="16sp"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold"
                                         android:textColor="@color/default_color"/>
 
 
@@ -176,8 +178,8 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
                                 <ImageView
-                                    android:layout_width="36dp"
-                                    android:layout_height="36dp"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
                                     android:src="@drawable/apple1"/>
                                 <RelativeLayout
                                     android:layout_width="match_parent"
@@ -186,9 +188,10 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/delicious_apple"
+                                        android:text="@string/delicious"
                                         android:lineBreakWordStyle="phrase"
-                                        android:textSize="16sp"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold"
                                         android:textColor="@color/default_color"/>
 
 
@@ -209,9 +212,9 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
                                 <ImageView
-                                    android:layout_width="36dp"
-                                    android:layout_height="36dp"
-                                    android:src="@drawable/apple1"/>
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:src="@drawable/pear"/>
                                 <RelativeLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -219,9 +222,10 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/delicious_apple"
+                                        android:text="@string/pear"
                                         android:lineBreakWordStyle="phrase"
-                                        android:textSize="16sp"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold"
                                         android:textColor="@color/default_color"/>
 
 
@@ -242,8 +246,8 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
                                 <ImageView
-                                    android:layout_width="36dp"
-                                    android:layout_height="36dp"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
                                     android:src="@drawable/apple1"/>
                                 <RelativeLayout
                                     android:layout_width="match_parent"
@@ -252,9 +256,10 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/delicious_apple"
+                                        android:text="@string/delicious"
                                         android:lineBreakWordStyle="phrase"
-                                        android:textSize="16sp"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold"
                                         android:textColor="@color/default_color"/>
 
 
@@ -312,7 +317,7 @@
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/delicious_apple"
+                                        android:text="@string/delicious"
                                         android:textSize="14sp"
                                         android:textColor="@color/default_color"
                                         android:textStyle="bold"/>
@@ -507,7 +512,7 @@
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/delicious_apple"
+                                        android:text="@string/delicious"
                                         android:textSize="14sp"
                                         android:textColor="@color/default_color"
                                         android:textStyle="bold"/>
@@ -576,7 +581,7 @@
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/delicious_apple"
+                                        android:text="@string/delicious"
                                         android:textSize="14sp"
                                         android:textColor="@color/default_color"
                                         android:textStyle="bold"/>
@@ -683,6 +688,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/addPost"
+            android:onClick="sho"
             android:src="@drawable/add_post"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
@@ -708,6 +714,12 @@
                     android:layout_height="28dp"
                     android:src="@drawable/home"
                     android:layout_gravity="center"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:text="@string/home"
+                    android:textColor="@color/default_color"/>
                 <View
                     android:layout_width="84dp"
                     android:layout_height="2dp"
@@ -720,12 +732,19 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="50"
+
                 android:orientation="vertical">
                 <ImageView
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:src="@drawable/profile"
                     android:layout_gravity="center"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/account"
+                    android:textAlignment="center"
+                    android:textColor="@color/default_color"/>
                 <View
                     android:layout_width="84dp"
                     android:layout_height="2dp"
