@@ -33,10 +33,10 @@
     <string name="password_updated">PASSWORD UPDATED</string>
     <string name="password_updated_success_msg">YOUR PASSWORD HAS BEEN UPDATED</string>
     <!-- main activity strings -->
-    <string name="search_for">Search For Apple Verities</string>
+    <string name="search_for">Search For Apple Varieties</string>
     <string name="category">Categories</string>
     <string name="recommendations">Fresh Recommendations</string>
-    <!-- Apple verities -->
+    <!-- Apple varieties -->
     <string name="delicious">Delicious</string>
     <string name="pear">Pear</string>
     <string name="home">Home</string>
@@ -50,5 +50,21 @@
     <string name="select_variety">Select Variety</string>
     <string name="select_packing_type">Select Packing Type</string>
     <string name="set_address">Set Full Address</string>
+   <!-- Profile Screen-->
+    <string name="Profile_name">Imran Bhat</string>
+    <string name="Profile_emailID">Bhatimran9797@gmail.com</string>
+    <string name="my_posts">My Posts</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="language">Language</string>
+    <string name="profile_password">Password:</string>
+    <string name="change">Change</string>
+    <string name="profile_phn_no">Phone no :</string>
+    <string name="number">7006893820</string>
+    <string name="Address">Address:</string>
+    <string name="profile_address">Baramulla</string>
+    <string name="Gender">Gender:</string>
+    <string name="profile_gender">Male</string>
+    <string name="pincode">Pin Code:</string>
+    <string name="pinNum">193101</string>
 
 </resources>
