@@ -60,10 +60,10 @@
     <string name="change">Change</string>
     <string name="profile_phn_no">Phone no :</string>
     <string name="number">7006893820</string>
-    <string name="Address">Address:</string>
+    <string name="District">District:</string>
     <string name="profile_address">Baramulla</string>
-    <string name="Gender">Gender:</string>
-    <string name="profile_gender">Male</string>
+    <string name="Village">Village:</string>
+    <string name="profile_village">Khanpora</string>
     <string name="pincode">Pin Code:</string>
     <string name="pinNum">193101</string>
 

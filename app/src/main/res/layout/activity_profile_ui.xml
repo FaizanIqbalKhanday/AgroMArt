@@ -303,7 +303,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@string/Address"
+                                android:text="@string/District"
                                 android:textColor="@color/black"
                                 android:textSize="18sp" />
 
@@ -339,7 +339,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@string/Gender"
+                                android:text="@string/Village"
                                 android:textColor="@color/black"
                                 android:textSize="18sp" />
 
@@ -348,7 +348,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@string/profile_gender"
+                                android:text="@string/profile_village"
                                 android:textAlignment="viewEnd"
                                 android:textSize="16sp" />
 
