@@ -47,6 +47,7 @@
     <string name="upload">UPLOAD</string>
     <string name="select_grade">Select Grade</string>
     <string name="or">OR</string>
+    <string name="quantity">Quantity</string>
     <string name="select_variety">Select Variety</string>
     <string name="select_packing_type">Select Packing Type</string>
     <string name="set_address">Set Full Address</string>
