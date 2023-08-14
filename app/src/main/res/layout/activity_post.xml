@@ -64,10 +64,11 @@
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout"
+        app:layout_constraintBottom_toTopOf="@+id/buttonContainer"
         tools:ignore="SpeakableTextPresentCheck">
 
         <LinearLayout
@@ -208,6 +209,7 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/white"
                 android:layout_margin="10dp"
                 android:elevation="12dp"
                 app:cardCornerRadius="40dp">
@@ -216,6 +218,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    android:background="@color/white"
                     android:orientation="horizontal"
                     android:gravity="center_vertical">
 
@@ -223,6 +226,7 @@
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:elevation="12dp"
+                        app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="40dp"
                         android:layout_centerHorizontal="true">
 
@@ -352,6 +356,7 @@
     </ScrollView>
 
     <LinearLayout
+        android:id="@+id/buttonContainer"
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:orientation="horizontal"
@@ -362,23 +367,25 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/chat_btn"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:text="@string/chat"
+            android:background="@drawable/button_bg"
             android:textSize="22sp"
             android:textStyle="bold"
             android:textColor="@color/white"
             android:layout_marginEnd="5dp" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/call_btn"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:text="@string/call"
+            android:background="@drawable/button_bg"
             android:textSize="22sp"
             android:textStyle="bold"
             android:textColor="@color/white"
