@@ -51,7 +51,7 @@
     <string name="select_variety">Select Variety</string>
     <string name="select_packing_type">Select Packing Type</string>
     <string name="set_address">Set Full Address</string>
-   <!-- Profile Screen-->
+    <!-- Profile Screen-->
     <string name="Profile_name">Imran Bhat</string>
     <string name="Profile_emailID">Bhatimran9797@gmail.com</string>
     <string name="my_posts">My Posts</string>
@@ -67,5 +67,19 @@
     <string name="profile_village">Khanpora</string>
     <string name="pincode">Pin Code:</string>
     <string name="pinNum">193101</string>
+    <string name="todo">TODO</string>
+    <string name="chat">Chat</string>
+    <string name="call">Call</string>
+    <string name="product_details">Product Details</string>
+    <string name="variety">Variety:</string>
+    <string name="grade">Grade</string>
+    <string name="gift_5">Gift/5</string>
+    <string name="packing_type">Packing Type</string>
+    <string name="packed">Packed</string>
+    <string name="_250_boxes">250 Boxes</string>
+    <string name="owner_details">Owner Details</string>
+    <string name="name">Name</string>
+    <string name="address">address</string>
+    <string name="phone_number">Phone Number</string>
 
 </resources>
