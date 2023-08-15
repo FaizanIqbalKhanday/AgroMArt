@@ -65,8 +65,8 @@
     <string name="profile_address">Baramulla</string>
     <string name="Village">Village:</string>
     <string name="profile_village">Khanpora</string>
-    <string name="pincode">Pin Code:</string>
-    <string name="pinNum">193101</string>
+    <string name="state">State:</string>
+    <string name="state_name">Jammu and Kashmir</string>
     <string name="todo">TODO</string>
     <string name="chat">Chat</string>
     <string name="call">Call</string>

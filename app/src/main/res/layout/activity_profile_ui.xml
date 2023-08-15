@@ -375,7 +375,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@string/pincode"
+                                android:text="@string/state"
                                 android:textColor="@color/black"
                                 android:textSize="18sp" />
 
@@ -384,7 +384,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@string/pinNum"
+                                android:text="@string/state_name"
                                 android:textAlignment="viewEnd"
                                 android:textSize="16sp" />
 
