@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-<<<<<<< Updated upstream
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -15,11 +14,6 @@ import android.widget.Toast;
 import com.google.android.material.datepicker.MaterialTextInputPicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-=======
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
->>>>>>> Stashed changes
 
 public class RegisterActivity extends AppCompatActivity {
     Button signUpBtn;
@@ -29,7 +23,6 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-<<<<<<< Updated upstream
         signUpBtn = findViewById(R.id.signUpButton);
         fullName = findViewById(R.id.fullName);
         email = findViewById(R.id.email);
@@ -203,10 +196,5 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
     }
-=======
-
-
-    }
->>>>>>> Stashed changes
 
 }
