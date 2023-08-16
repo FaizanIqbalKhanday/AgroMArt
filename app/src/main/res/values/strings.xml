@@ -45,12 +45,13 @@
     <string name="add_post">Add Post</string>
     <string name="upload_image">Upload Image</string>
     <string name="upload">UPLOAD</string>
+    <string name="post_details">Post Details</string>
     <string name="select_grade">Select Grade</string>
     <string name="or">OR</string>
     <string name="quantity">Quantity</string>
     <string name="select_variety">Select Variety</string>
     <string name="select_packing_type">Select Packing Type</string>
-    <string name="set_address">Set Full Address</string>
+    <string name="set_address">Set Address</string>
     <!-- Profile Screen-->
     <string name="Profile_name">Imran Bhat</string>
     <string name="Profile_emailID">Bhatimran9797@gmail.com</string>

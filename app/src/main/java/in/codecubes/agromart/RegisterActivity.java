@@ -178,6 +178,14 @@ public class RegisterActivity extends AppCompatActivity {
             password.setError("this field is required");
             return false;
         }
+        else if(val.length()<=5){
+            password.setError("password is too small");
+            return false;
+        }
+        else if (val.length()>=16){
+            password.setError("password is too long");
+            return false;
+        }
         else{
             password.setError(null);
             return true;

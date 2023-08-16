@@ -15,35 +15,70 @@
         android:background="@color/bg_color"
         app:elevation="0dp">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:gravity="center_vertical">
+
             <ImageView
-                android:id="@+id/register_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:src="@drawable/back" />
+                android:id="@+id/menuButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentStart="true"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/menu"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/add_post"
-                android:textAllCaps="true"
-                android:textStyle="bold"
+                android:text="@string/app_name"
                 android:textColor="@color/black"
-                android:textSize="40sp"
-                android:layout_marginTop="20dp"/>
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/menuButton"
+                app:layout_constraintRight_toLeftOf="@+id/cartButton"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/cartButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/todo"
+                android:src="@drawable/cart"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:background="@color/white">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/add_post"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"/>
+
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="24dp"
+        android:padding="10dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -91,7 +126,7 @@
                             android:layout_marginStart="10dp"
                             android:layout_marginEnd="10dp"
                             android:text="@string/or"
-                            android:textSize="24dp" />
+                            android:textSize="24sp" />
 
                         <ImageView
                             android:id="@+id/takeImages"
@@ -113,6 +148,22 @@
                         android:textStyle="bold" />
 
 
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginRight="4dp"
+                        android:padding="4dp"
+                        android:text="@string/product_details"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -181,26 +232,6 @@
                         android:inputType="none"
                         android:textColor="@color/default_color" />
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/selectAddress"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/set_address"
-                    android:textColorHint="@color/default_color"
-                    app:boxStrokeColor="@color/black"
-                    app:boxStrokeWidthFocused="2dp"
-                    app:endIconMode="clear_text"
-                    app:endIconTint="@color/default_color"
-                    app:hintTextColor="@color/default_color"
-                    app:startIconDrawable="@drawable/location"
-                    app:startIconTint="@color/black">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-                </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/setQuantity"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -213,16 +244,99 @@
                     app:endIconMode="clear_text"
                     app:endIconTint="@color/default_color"
                     app:hintTextColor="@color/default_color"
+                    app:startIconDrawable="@drawable/quantity"
+                    app:startIconTint="@color/black">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:inputType="number"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginRight="4dp"
+                        android:padding="4dp"
+                        android:text="@string/set_address"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/setState"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="@string/state"
+                    android:textColorHint="@color/default_color"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxStrokeColor="@color/default_color"
+                    app:hintTextColor="@color/default_color"
+                    app:startIconDrawable="@drawable/state"
+                    app:startIconTint="@color/default_color"
+                    app:endIconTint="@color/default_color">
+
+                    <AutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:inputType="none"
+                        android:textColor="@color/default_color" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/setDistrict"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="@string/District"
+                    android:textColorHint="@color/default_color"
+                    app:boxBackgroundColor="@color/white"
+                    app:boxStrokeColor="@color/default_color"
+                    app:hintTextColor="@color/default_color"
+                    app:startIconDrawable="@drawable/district"
+                    app:startIconTint="@color/default_color"
+                    app:endIconTint="@color/default_color">
+
+                    <AutoCompleteTextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:inputType="none"
+                        android:textColor="@color/default_color" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/selectAddress"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/Village"
+                    android:textColorHint="@color/default_color"
+                    app:boxStrokeColor="@color/black"
+                    app:boxStrokeWidthFocused="2dp"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/default_color"
+                    app:hintTextColor="@color/default_color"
                     app:startIconDrawable="@drawable/location"
                     app:startIconTint="@color/black">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        android:inputType="textPostalAddress"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
+
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/signUpButton"
+                    android:id="@+id/addPostButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
