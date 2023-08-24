@@ -14,10 +14,14 @@ import android.widget.Toast;
 import com.google.android.material.datepicker.MaterialTextInputPicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
     Button signUpBtn;
     TextInputLayout fullName,email, phoneNumber, password, confirmPassword;
+    FirebaseDatabase rootNode;
+    DatabaseReference reference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +125,9 @@ public class RegisterActivity extends AppCompatActivity {
                 {
                     return;
                 }
+                rootNode =FirebaseDatabase.getInstance();
+                reference =rootNode.getReference("user_data");
+                reference.setValue("my name is fzn");
 
             }
         });
