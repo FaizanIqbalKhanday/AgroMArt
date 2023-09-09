@@ -1,5 +1,6 @@
 package in.codecubes.agromart;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -8,22 +9,46 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
-    Button loginBtn, forgetPasswordBtn ,newUserBtn;
-    TextInputLayout loginEmail ,password;
+    private Button loginBtn, forgetPasswordBtn ,newUserBtn;
+    private TextInputLayout loginEmail ,password;
+    private FirebaseAuth mAuth;
+    private ProgressBar progress_Bar;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        mAuth=FirebaseAuth.getInstance();
+
+        if (mAuth.getCurrentUser() != null) {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+        }
+
         loginEmail =findViewById(R.id.loginEmail);
         password=findViewById(R.id.loginPassword);
         loginBtn= findViewById(R.id.loginButton);
         forgetPasswordBtn= findViewById(R.id.forgotPassword);
+        progress_Bar=findViewById(R.id.progressBar);
         newUserBtn= findViewById(R.id.newUser);
 
         loginEmail.getEditText().addTextChangedListener(new TextWatcher() {
@@ -67,7 +92,8 @@ public class LoginActivity extends AppCompatActivity {
                    return;
                }
                else {
-                   openMainActivity();
+                   progress_Bar.setVisibility(View.VISIBLE);
+                   isUser();
                }
 
             }
@@ -89,18 +115,14 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
-    public void openMainActivity(){
-        Intent intent= new Intent(this, MainActivity.class);
+    public void openSignUpActivity(){
+        Intent intent= new Intent(this, RegisterActivity.class);
         startActivity(intent);
 
 
     }
     public void openForgetPasswordActivity(){
         Intent intent= new Intent(this, ForgetPassword.class);
-        startActivity(intent);
-    }
-    public void openSignUpActivity(){
-        Intent intent= new Intent(this, RegisterActivity.class);
         startActivity(intent);
     }
 
@@ -130,6 +152,29 @@ public class LoginActivity extends AppCompatActivity {
             password.setError(null);
             return true;
         }
+    }
+
+    private void isUser(){
+        String userEnteredEmail = loginEmail.getEditText().getText().toString().trim();
+        String userEnteredPassword = password.getEditText().getText().toString().trim();
+        mAuth.signInWithEmailAndPassword(userEnteredEmail, userEnteredPassword)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+
+                            // Sign in success, update UI with the signed-in user's information
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            progress_Bar.setVisibility(View.INVISIBLE);
+                            Toast.makeText(getApplicationContext(), "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
 

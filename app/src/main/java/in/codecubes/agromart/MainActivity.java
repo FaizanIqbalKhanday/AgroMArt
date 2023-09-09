@@ -14,24 +14,33 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
     private CardView postCard;
-    private ImageView account;
+    private ImageView account ,menu_button;
     private FloatingActionButton addPostBtn;
+    private FirebaseAuth mAuth;
+    private ProgressBar progress_Bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mAuth =FirebaseAuth.getInstance();
+
         postCard = (CardView) findViewById(R.id.postView1);
         addPostBtn = findViewById(R.id.addPost);
         account =findViewById(R.id.goToProfile);
+        menu_button =findViewById(R.id.menubtn);
+        progress_Bar=findViewById(R.id.progressBar);
 
         addPostBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,34 +63,27 @@ public class MainActivity extends AppCompatActivity {
                 openActivity(PostActivity.class);
             }
         });
+        menu_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                progress_Bar.setVisibility(View.VISIBLE);
+                onStart();
+                mAuth.signOut();
+            }
+        });
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.item1:
-                Toast.makeText(MainActivity.this,"About us",Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.item2:
-                Toast.makeText(MainActivity.this,"my posts",Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.item3:
-                Toast.makeText(MainActivity.this,"cart",Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.item4:
-                Toast.makeText(MainActivity.this,"logOut",Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                super.onOptionsItemSelected(item);
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser mUser=mAuth.getCurrentUser();
+        if(mUser!=null){
+            return;
         }
-        return true;
-    }
-
-    @Override
-    public boolean onCreatePanelMenu(int featureId, @NonNull Menu menu) {
-        MenuInflater inflater =getMenuInflater();
-        inflater.inflate(R.menu.menu,menu);
-        return true;
+        else{
+            startActivity(new Intent(this,LoginActivity.class));
+            finish();
+        }
     }
 
     public void openActivity(final Class<? extends Activity> targetActivity) {

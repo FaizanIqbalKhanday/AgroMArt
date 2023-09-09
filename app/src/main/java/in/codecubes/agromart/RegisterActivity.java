@@ -1,5 +1,6 @@
 package in.codecubes.agromart;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,29 +10,46 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCanceledListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.datepicker.MaterialTextInputPicker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class RegisterActivity extends AppCompatActivity {
-    Button signUpBtn;
-    TextInputLayout fullName,email, phoneNumber, password, confirmPassword;
-    FirebaseDatabase rootNode;
-    DatabaseReference reference;
+    private Button signUpBtn;
+    private TextInputLayout fullName,email, phoneNumber, password, confirmPassword;
+    private DatabaseReference reference;
+    private FirebaseAuth mAuth;
+    private ProgressBar progress_Bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        mAuth=FirebaseAuth.getInstance();
+
+        if (mAuth.getCurrentUser() != null) {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+        }
+
         signUpBtn = findViewById(R.id.signUpButton);
         fullName = findViewById(R.id.fullName);
         email = findViewById(R.id.email);
         phoneNumber = findViewById(R.id.phoneNumber);
         password = findViewById(R.id.password);
+        progress_Bar=findViewById(R.id.progressBar);
         confirmPassword = findViewById(R.id.confirmPassword);
 
         fullName.getEditText().addTextChangedListener(new TextWatcher() {
@@ -118,6 +136,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             }
         });
+
         signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,9 +144,30 @@ public class RegisterActivity extends AppCompatActivity {
                 {
                     return;
                 }
-                rootNode =FirebaseDatabase.getInstance();
-                reference =rootNode.getReference("user_data");
-                reference.setValue("my name is fzn");
+                progress_Bar.setVisibility(View.VISIBLE);
+
+                String userName = fullName.getEditText().getText().toString();
+                String userEmail = email.getEditText().getText().toString();
+                String userPhoneNumber = phoneNumber.getEditText().getText().toString();
+                String userPassword = password.getEditText().getText().toString();
+                mAuth.createUserWithEmailAndPassword(userEmail,userPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            UserHelperClass helperClass = new UserHelperClass(userName,userEmail,userPhoneNumber,userPassword);
+                            reference = FirebaseDatabase.getInstance().getReference("user_data");
+                            reference.child(user.getUid()).setValue(helperClass);
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            progress_Bar.setVisibility(View.INVISIBLE);
+                            Toast.makeText(RegisterActivity.this,"registration failed",Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+                });
 
             }
         });
