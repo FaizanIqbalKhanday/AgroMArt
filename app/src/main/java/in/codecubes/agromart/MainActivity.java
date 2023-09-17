@@ -17,6 +17,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -66,9 +68,22 @@ public class MainActivity extends AppCompatActivity {
         menu_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progress_Bar.setVisibility(View.VISIBLE);
-                onStart();
-                mAuth.signOut();
+                mAuth.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            // Sign out successful
+                            // You can navigate to the login screen or perform other actions here
+                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                            finish();
+                        } else {
+                            // Sign out failed, handle the error
+                            // You can show an error message or log the error for debugging
+                            Toast.makeText(MainActivity.this, "Sign out failed", Toast.LENGTH_SHORT).show();
+                        };
+         }
+});
+
             }
         });
     }
@@ -79,9 +94,11 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser mUser=mAuth.getCurrentUser();
         if(mUser!=null){
             return;
+
         }
         else{
             startActivity(new Intent(this,LoginActivity.class));
+            progress_Bar.setVisibility(View.INVISIBLE);
             finish();
         }
     }

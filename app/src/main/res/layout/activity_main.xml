@@ -5,24 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-   
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center">
 
-        <ProgressBar
-
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_centerInParent="true"
-            android:background="@drawable/white_bg"
-            android:indeterminateTint="@color/default_color"
-            android:padding="5dp"
-            android:visibility="invisible"/>
-    </RelativeLayout>
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -777,5 +760,22 @@
         </LinearLayout>
 
 
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <ProgressBar
+
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/white_bg"
+            android:indeterminateTint="@color/purple_700"
+            android:padding="5dp"
+            android:visibility="invisible"/>
     </RelativeLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
