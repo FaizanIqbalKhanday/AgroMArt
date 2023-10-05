@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+import android.app.Application;
+import com.google.firebase.FirebaseApp;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        FirebaseApp.initializeApp(this);
         mAuth =FirebaseAuth.getInstance();
 
         postCard = (CardView) findViewById(R.id.postView1);
@@ -68,22 +70,9 @@ public class MainActivity extends AppCompatActivity {
         menu_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mAuth.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            // Sign out successful
-                            // You can navigate to the login screen or perform other actions here
-                            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                            finish();
-                        } else {
-                            // Sign out failed, handle the error
-                            // You can show an error message or log the error for debugging
-                            Toast.makeText(MainActivity.this, "Sign out failed", Toast.LENGTH_SHORT).show();
-                        };
-         }
-});
-
+                mAuth.signOut();
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                finish();
             }
         });
     }
