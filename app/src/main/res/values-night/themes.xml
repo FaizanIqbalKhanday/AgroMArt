@@ -15,5 +15,14 @@
         <item name="android:textColorPrimary">@color/black</item>
         <item name="android:textViewStyle">@color/material_dynamic_neutral0</item>
         <item name="hintTextColor">@color/black</item>
+        <item name="popupMenuStyle">@style/PopupMenuStyle</item>
     </style>
+
+    <style name="PopupMenuStyle" parent="Widget.AppCompat.PopupMenu.Overflow">
+        <item name="android:popupBackground">@android:color/white</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+
+
 </resources>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/grade_a"
+        android:title="A" >
+    </item>
+    <item
+        android:id="@+id/grade_b"
+        android:title="B" >
+    </item>
+    <item
+        android:id="@+id/grade_c"
+        android:title="C" >
+    </item>
+    <item
+        android:id="@+id/grade_d"
+        android:title="D" >
+    </item>
+
+</menu>

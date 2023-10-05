@@ -152,9 +152,11 @@
                     app:startIconTint="@color/default_color">
 
                     <AutoCompleteTextView
+                        android:id="@+id/selectVarietyAutoCompleteTextView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:textColor="@color/default_color"
                         android:inputType="none" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -174,9 +176,11 @@
                     app:startIconTint="@color/default_color">
 
                     <AutoCompleteTextView
+                        android:id="@+id/selectGradeAutoCompleteTextView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:textColor="@color/default_color"
                         android:inputType="none" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -196,11 +200,12 @@
                     app:endIconTint="@color/default_color">
 
                     <AutoCompleteTextView
+                        android:id="@+id/selectPackingAutoCompleteTextView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:inputType="none"
-                        android:textColor="@color/default_color" />
+                        android:textColor="@color/default_color"
+                        android:inputType="none" />
                 </com.google.android.material.textfield.TextInputLayout>
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/setQuantity"
@@ -219,6 +224,7 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
+                        android:textColor="@color/default_color"
                         android:layout_height="match_parent"
                         android:inputType="number"/>
                 </com.google.android.material.textfield.TextInputLayout>
@@ -253,7 +259,9 @@
                     app:startIconTint="@color/default_color"
                     app:endIconTint="@color/default_color">
 
-                    <AutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/stateAutoCompleteTextView"
+                        style="@style/PopupMenuStyle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -275,7 +283,9 @@
                     app:startIconTint="@color/default_color"
                     app:endIconTint="@color/default_color">
 
-                    <AutoCompleteTextView
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/districtAutoCompleteTextView"
+                        style="@style/PopupMenuStyle"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
