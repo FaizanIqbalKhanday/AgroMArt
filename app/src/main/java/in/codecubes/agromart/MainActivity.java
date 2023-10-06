@@ -2,9 +2,15 @@ package in.codecubes.agromart;
 
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +23,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.app.Application;
+import android.widget.Toolbar;
+
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.FirebaseApp;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,14 +34,29 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
 
     private CardView postCard;
     private ImageView account ,menu_button;
     private FloatingActionButton addPostBtn;
     private FirebaseAuth mAuth;
+    private Toolbar toolbar;
     private ProgressBar progress_Bar;
+    private NavigationView navigationView;
+    private ActionBarDrawerToggle drawerToggle;
+    private DrawerLayout drawerLayout;
+    private  ActionBar actionBar;
 
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+            return super.onOptionsItemSelected(item);
+        }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,8 +67,44 @@ public class MainActivity extends AppCompatActivity {
         postCard = (CardView) findViewById(R.id.postView1);
         addPostBtn = findViewById(R.id.addPost);
         account =findViewById(R.id.goToProfile);
-        menu_button =findViewById(R.id.menubtn);
         progress_Bar=findViewById(R.id.progressBar);
+        drawerLayout=findViewById(R.id.drawable_layout);
+        navigationView =findViewById(R.id.nav_view);
+        drawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
+
+        drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+        actionBar = getSupportActionBar();
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.item1:{
+                        Toast.makeText(MainActivity.this,"home selected",Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case R.id.item2:{
+                        Toast.makeText(MainActivity.this,"profile selected",Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case R.id.item3:{
+                        Toast.makeText(MainActivity.this,"my post selected",Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case R.id.item4:{
+                        Toast.makeText(MainActivity.this,"logout selected",Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case R.id.item5:{
+                        Toast.makeText(MainActivity.this,"about us selected",Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                }
+                return false;
+
+            }
+        });
 
         addPostBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,14 +127,16 @@ public class MainActivity extends AppCompatActivity {
                 openActivity(PostActivity.class);
             }
         });
-        menu_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mAuth.signOut();
-                startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                finish();
-            }
-        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+        else{
+            super.onBackPressed();
+        }
     }
 
     @Override

@@ -82,6 +82,8 @@
     <string name="name">Name</string>
     <string name="address">address</string>
     <string name="phone_number">Phone Number</string>
+    <string name="open">open menu</string>
+    <string name="close">close menu</string>
 
     <string-array name="array_indian_states">
         <item>Andaman and Nicobar Islands</item><item>Andhra Pradesh</item><item>Arunachal Pradesh</item><item>Assam</item>
@@ -95,13 +97,13 @@
     </string-array>
 
     <string-array name="array_andhra_pradesh_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Anantapur</item><item>Chittoor</item><item>East Godavari</item><item>Guntur</item><item>Kadapa</item><item>Krishna</item>
         <item>Kurnool</item><item>Nellore</item><item>Prakasam</item><item>Srikakulam</item><item>Visakhapatnam</item><item>Vizianagaram</item><item>West Godavari</item>
     </string-array>
 
     <string-array name="array_arunachal_pradesh_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Anjaw</item><item>Siang</item><item>Changlang</item><item>Dibang Valley</item><item>East Kameng</item><item>East Siang</item>
         <item>Kamle</item><item>Kra Daadi</item><item>Kurung Kumey</item><item>Lepa Rada</item><item>Lohit</item><item>Longding</item>
         <item>Lower Dibang Valley</item><item>Lower Siang</item><item>Lower Subansiri</item><item>Namsai</item><item>Pakke Kessang</item><item>Papum Pare</item>
@@ -110,7 +112,7 @@
     </string-array>
 
     <string-array name="array_assam_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Bajali</item><item>Baksa</item><item>Barpeta</item><item>Biswanath</item><item>Bongaigaon</item><item>Cachar</item>
         <item>Charaideo</item><item>Chirang</item><item>Darrang</item><item>Dhemaji</item><item>Dhubri</item><item>Dibrugarh</item>
         <item>Dima Hasao</item><item>Goalpara</item><item>Golaghat</item><item>Hailakandi</item><item>Hojai</item><item>Jorhat</item>
@@ -120,7 +122,7 @@
     </string-array>
 
     <string-array name="array_bihar_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Araria</item><item>Arwal</item><item>Aurangabad</item><item>Banka</item><item>Begusarai</item><item>Bhagalpur</item>
         <item>Bhojpur</item><item>Buxar</item><item>Darbhanga</item><item>East Champaran</item><item>Gaya</item><item>Gopalganj</item>
         <item>Jamui</item><item>Jehanabad</item><item>Kaimur</item><item>Katihar</item><item>Khagaria</item><item>Kishanganj</item>
@@ -131,7 +133,7 @@
     </string-array>
 
     <string-array name="array_chhattisgarh_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Balod</item><item>Baloda Bazar</item><item>Balrampur Ramanujganj</item><item>Bastar</item><item>Bemetara</item><item>Bijapur</item>
         <item>Bilaspur</item><item>Dantewada</item><item>Dhamtari</item><item>Durg</item><item>Gariaband</item><item>Gaurela Pendra Marwahi</item>
         <item>Janjgir Champa</item><item>Jashpur</item><item>Kabirdham</item><item>Kanker</item><item>Kondagaon</item><item>Korba</item>
@@ -140,12 +142,12 @@
     </string-array>
 
     <string-array name="array_goa_districts">
-         <!--districts-->
+        <!--districts-->
         <item>North Goa</item><item>South Goa</item>
     </string-array>
 
     <string-array name="array_gujarat_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Ahmedabad</item><item>Amreli</item><item>Anand</item><item>Aravalli</item><item>Banaskantha</item><item>Bharuch</item>
         <item>Bhavnagar</item><item>Botad</item><item>Chhota Udaipur</item><item>Dahod</item><item>Dang</item><item>Devbhoomi Dwarka</item>
         <item>Gandhinagar</item><item>Gir Somnath</item><item>Jamnagar</item><item>Junagadh</item><item>Kheda</item><item>Kutch</item>
@@ -155,7 +157,7 @@
     </string-array>
 
     <string-array name="array_haryana_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Ambala</item><item>Bhiwani</item><item>Charkhi Dadri</item><item>Faridabad</item><item>Fatehabad</item><item>Gurugram</item>
         <item>Hisar</item><item>Jhajjar</item><item>Jind</item><item>Kaithal</item><item>Karnal</item><item>Kurukshetra</item>
         <item>Mahendragarh</item><item>Mewat</item><item>Palwal</item><item>Panchkula</item><item>Panipat</item><item>Rewari</item>
@@ -163,13 +165,13 @@
     </string-array>
 
     <string-array name="array_himachal_pradesh_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Bilaspur</item><item>Chamba</item><item>Hamirpur</item><item>Kangra</item><item>Kinnaur</item><item>Kullu</item>
         <item>Lahaul Spiti</item><item>Mandi</item><item>Shimla</item><item>Sirmaur</item><item>Solan</item><item>Una</item>
     </string-array>
 
     <string-array name="array_jammu_kashmir_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Anantnag</item><item>Bandipora</item><item>Baramulla</item><item>Budgam</item><item>Doda</item><item>Ganderbal</item>
         <item>Jammu</item><item>Kathua</item><item>Kishtwar</item><item>Kulgam</item><item>Kupwara</item><item>Poonch</item>
         <item>Pulwama</item><item>Rajouri</item><item>Ramban</item><item>Reasi</item><item>Samba</item><item>Shopian</item>
@@ -177,7 +179,7 @@
     </string-array>
 
     <string-array name="array_jharkhand_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Bokaro</item><item>Chatra</item><item>Deoghar</item><item>Dhanbad</item><item>Dumka</item><item>East Singhbhum</item>
         <item>Garhwa</item><item>Giridih</item><item>Godda</item><item>Gumla</item><item>Hazaribagh</item><item>Jamtara</item>
         <item>Khunti</item><item>Koderma</item><item>Latehar</item><item>Lohardaga</item><item>Pakur</item><item>Palamu</item>
@@ -185,7 +187,7 @@
     </string-array>
 
     <string-array name="array_karnataka_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Bagalkot</item><item>Bangalore Rural</item><item>Bangalore Urban</item><item>Belgaum</item><item>Bellary</item><item>Bidar</item>
         <item>Chamarajanagar</item><item>Chikkaballapur</item><item>Chikkamagaluru</item><item>Chitradurga</item><item>Dakshina Kannada</item><item>Davanagere</item>
         <item>Dharwad</item><item>Gadag</item><item>Gulbarga</item><item>Hassan</item><item>Haveri</item><item>Kodagu</item>
@@ -195,14 +197,14 @@
     </string-array>
 
     <string-array name="array_kerala_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Alappuzha</item><item>Ernakulam</item><item>Idukki</item><item>Kannur</item><item>Kasaragod</item><item>Kollam</item>
         <item>Kottayam</item><item>Kozhikode</item><item>Malappuram</item><item>Palakkad</item><item>Pathanamthitta</item><item>Thiruvananthapuram</item>
         <item>Thrissur</item><item>Wayanad</item>
     </string-array>
 
     <string-array name="array_madhya_pradesh_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Agar Malwa</item><item>Alirajpur</item><item>Anuppur</item><item>Ashoknagar</item><item>Balaghat</item><item>Barwani</item>
         <item>Betul</item><item>Bhind</item><item>Bhopal</item><item>Burhanpur</item><item>Chachaura</item><item>Chhatarpur</item>
         <item>Chhindwara</item><item>Damoh</item><item>Datia</item><item>Dewas</item><item>Dhar</item><item>Dindori</item>
@@ -216,7 +218,7 @@
     </string-array>
 
     <string-array name="array_maharashtra_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Ahmednagar</item><item>Akola</item><item>Amravati</item><item>Aurangabad</item><item>Beed</item><item>Bhandara</item>
         <item>Buldhana</item><item>Chandrapur</item><item>Dhule</item><item>Gadchiroli</item><item>Gondia</item><item>Hingoli</item>
         <item>Jalgaon</item><item>Jalna</item><item>Kolhapur</item><item>Latur</item><item>Mumbai City</item><item>Mumbai Suburban</item>
@@ -226,33 +228,33 @@
     </string-array>
 
     <string-array name="array_manipur_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Bishnupur</item><item>Chandel</item><item>Churachandpur</item><item>Imphal East</item><item>Imphal West</item><item>Jiribam</item>
         <item>Kakching</item><item>Kamjong</item><item>Kangpokpi</item><item>Noney</item><item>Pherzawl</item><item>Senapati</item>
         <item>Tamenglong</item><item>Tengnoupal</item><item>Thoubal</item><item>Ukhrul</item>
     </string-array>
 
     <string-array name="array_meghalaya_districts">
-         <!--districts-->
+        <!--districts-->
         <item>East Garo Hills</item><item>East Jaintia Hills</item><item>East Khasi Hills</item><item>North Garo Hills</item><item>Ri Bhoi</item>
         <item>South Garo Hills</item><item>South West Garo Hills</item><item>South West Khasi Hills</item><item>West Garo Hills</item>
         <item>West Jaintia Hills</item><item>West Khasi Hills</item>
     </string-array>
 
     <string-array name="array_mizoram_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Aizawl</item><item>Champhai</item><item>Hnahthial</item><item>Khawzawl</item><item>Kolasib</item><item>Lawngtlai</item>
         <item>Lunglei</item><item>Mamit</item><item>Saiha</item><item>Saitual</item><item>Serchhip</item>
     </string-array>
 
     <string-array name="array_nagaland_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Dimapur</item><item>Kiphire</item><item>Kohima</item><item>Longleng</item><item>Mokokchung</item><item>Mon</item>
         <item>Peren</item><item>Phek</item><item>Tuensang</item><item>Wokha</item><item>Zunheboto</item><item>Noklak</item>
     </string-array>
 
     <string-array name="array_odisha_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Angul</item><item>Balangir</item><item>Balasore</item><item>Bargarh</item><item>Bhadrak</item><item>Boudh</item>
         <item>Cuttack</item><item>Debagarh</item><item>Dhenkanal</item><item>Gajapati</item><item>Ganjam</item><item>Jagatsinghpur</item>
         <item>Jajpur</item><item>Jharsuguda</item><item>Kalahandi</item><item>Kandhamal</item><item>Kendrapara</item><item>Kendujhar</item>
@@ -261,7 +263,7 @@
     </string-array>
 
     <string-array name="array_punjab_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Amritsar</item><item>Barnala</item><item>Bathinda</item><item>Faridkot</item><item>Fatehgarh Sahib</item><item>Fazilka</item>
         <item>Firozpur</item><item>Gurdaspur</item><item>Hoshiarpur</item><item>Jalandhar</item><item>Kapurthala</item><item>Ludhiana</item>
         <item>Mansa</item><item>Moga</item><item>Mohali</item><item>Muktsar</item><item>Pathankot</item><item>Patiala</item>
@@ -269,7 +271,7 @@
     </string-array>
 
     <string-array name="array_rajasthan_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Ajmer</item><item>Alwar</item><item>Banswara</item><item>Baran</item><item>Barmer</item><item>Bharatpur</item>
         <item>Bhilwara</item><item>Bikaner</item><item>Bundi</item><item>Chittorgarh</item><item>Churu</item><item>Dausa</item>
         <item>Dholpur</item><item>Dungarpur</item><item>Sri Ganganagar</item><item>Hanumangarh</item><item>Jaipur</item><item>Jaisalmer</item>
@@ -279,12 +281,12 @@
     </string-array>
 
     <string-array name="array_sikkim_districts">
-         <!--districts-->
+        <!--districts-->
         <item>East Sikkim</item><item>North Sikkim</item><item>South Sikkim</item><item>West Sikkim</item>
     </string-array>
 
     <string-array name="array_tamil_nadu_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Ariyalur</item><item>Chengalpattu</item><item>Chennai</item><item>Coimbatore</item><item>Cuddalore</item><item>Dharmapuri</item>
         <item>Dindigul</item><item>Erode</item><item>Kallakurichi</item><item>Kanchipuram</item><item>Kanyakumari</item><item>Karur</item>
         <item>Krishnagiri</item><item>Madurai</item><item>Mayiladuthurai</item><item>Nagapattinam</item><item>Namakkal</item><item>Nilgiris</item>
@@ -295,7 +297,7 @@
     </string-array>
 
     <string-array name="array_telangana_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Adilabad</item><item>Bhadradri Kothagudem</item><item>Hyderabad</item><item>Jagtial</item><item>Jangaon</item><item>Jayashankar Bhupalpally</item>
         <item>Jogulamba Gadwal</item><item>Kamareddy</item><item>Karimnagar</item><item>Khammam</item><item>Komaram Bheem</item><item>Mahabubabad</item>
         <item>Mahbubnagar</item><item>Mancherial</item><item>Medak</item><item>Medchal</item><item>Mulugu</item><item>Nagarkurnool</item>
@@ -305,13 +307,13 @@
     </string-array>
 
     <string-array name="array_tripura_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Dhalai</item><item>Gomati</item><item>Khowai</item><item>North Tripura</item><item>Sepahijala</item><item>South Tripura</item>
         <item>Unakoti</item><item>West Tripura</item>
     </string-array>
 
     <string-array name="array_uttar_pradesh_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Agra</item><item>Aligarh</item><item>Prayagraj</item><item>Ambedkar Nagar</item><item>Amethi</item><item>Amroha</item>
         <item>Auraiya</item><item>Azamgarh</item><item>Baghpat</item><item>Bahraich</item><item>Ballia</item><item>Balrampur</item>
         <item>Banda</item><item>Barabanki</item><item>Bareilly</item><item>Basti</item><item>Bhadohi</item><item>Bijnor</item>
@@ -328,14 +330,14 @@
     </string-array>
 
     <string-array name="array_uttarakhand_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Almora</item><item>Bageshwar</item><item>Chamoli</item><item>Champawat</item><item>Dehradun</item><item>Haridwar</item>
         <item>Nainital</item><item>Pauri</item><item>Pithoragarh</item><item>Rudraprayag</item><item>Tehri</item><item>Udham Singh Nagar</item>
         <item>Uttarkashi</item>
     </string-array>
 
     <string-array name="array_west_bengal_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Alipurduar</item><item>Bankura</item><item>Birbhum</item><item>Cooch Behar</item><item>Dakshin Dinajpur</item><item>Darjeeling</item>
         <item>Hooghly</item><item>Howrah</item><item>Jalpaiguri</item><item>Jhargram</item><item>Kalimpong</item><item>Kolkata</item>
         <item>Malda</item><item>Murshidabad</item><item>Nadia</item><item>North 24 Parganas</item><item>Paschim Bardhaman</item><item>Paschim Medinipur</item>
@@ -343,7 +345,7 @@
     </string-array>
 
     <string-array name="array_andaman_nicobar_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Nicobar</item><item>North Middle Andaman</item><item>South Andaman</item>
     </string-array>
 
@@ -356,12 +358,12 @@
     </string-array>
 
     <string-array name="array_daman_diu_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Daman</item><item>Diu</item>
     </string-array>
 
     <string-array name="array_delhi_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Central Delhi</item><item>East Delhi</item><item>New Delhi</item><item>North Delhi</item>
         <item>North East Delhi</item><item>North West Delhi</item><item>Shahdara</item><item>South Delhi</item>
         <item>South East Delhi</item><item>South West Delhi</item><item>West Delhi</item>
@@ -372,12 +374,12 @@
     </string-array>
 
     <string-array name="array_ladakh_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Kargil</item><item>Leh</item>
     </string-array>
 
     <string-array name="array_puducherry_districts">
-         <!--districts-->
+        <!--districts-->
         <item>Karaikal</item><item>Mahe</item><item>Puducherry</item><item>Yanam</item>
     </string-array>
 
