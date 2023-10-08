@@ -212,6 +212,7 @@ public class AddPostActivity extends AppCompatActivity {
                 ArrayAdapter<String> stateAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, states);
                 stateAutoCompleteTextView.setAdapter(stateAdapter);
 
+
                 // Set an item selected listener for the states AutoCompleteTextView
         stateAutoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
