@@ -49,7 +49,6 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
                 reference.setValue(member);
                 Toast.makeText(AddPostActivity.this, selectedVariety+selectedGrade+selectedPacking, Toast.LENGTH_SHORT).show();
 
-
             }
 
         });
