@@ -4,22 +4,31 @@
     android:layout_height="200dp"
     android:padding="20dp"
     android:orientation="vertical"
-    android:background="@color/bg_color"
-    android:gravity="bottom">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Your Name"
-        android:textColor="@color/black"
-        android:textSize="30dp"
-        android:textStyle="bold" />
-
+    android:background="@drawable/applebg">
+    <androidx.constraintlayout.utils.widget.ImageFilterView
+        android:layout_width="90dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/profile"
+        android:layout_gravity="center_horizontal"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Faizan Iqbal"
-        android:textColor="@color/black"
-        android:textSize="18dp"/>
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        android:textStyle="bold"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FaizanIqbal263@gmail.com"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        android:textStyle="bold"/>
+
 
 </LinearLayout>

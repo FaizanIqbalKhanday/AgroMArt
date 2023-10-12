@@ -248,7 +248,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Zeeshan Manzoor"
+                            android:text="Faizan Iqbal"
                             android:textStyle="bold"
                             android:textSize="22sp"/>
 
@@ -293,7 +293,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="Zeeshan Manzoor"
+                    android:text="kousar Ali"
                     android:textSize="20sp"
                     android:textStyle="italic"/>
 

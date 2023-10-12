@@ -65,7 +65,7 @@ public class PostActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                callIntent.setData(Uri.parse("tel:7006656521"));
+                callIntent.setData(Uri.parse("tel:7006378179"));
                 startActivity(callIntent);
             }
         });
@@ -73,7 +73,7 @@ public class PostActivity extends AppCompatActivity {
         chatBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = "https://api.whatsapp.com/send?phone=7006656521";
+                String url = "https://api.whatsapp.com/send?phone=7006378179";
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(url));
                 startActivity(intent);

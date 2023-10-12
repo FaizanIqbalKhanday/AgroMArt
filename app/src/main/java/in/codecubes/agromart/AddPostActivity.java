@@ -10,18 +10,52 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.ktx.Firebase;
 
-public class AddPostActivity extends AppCompatActivity {
+public class AddPostActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+    private FirebaseDatabase rootNode;
+    private DatabaseReference reference ,reference2;
+    private TextInputLayout variety, grade, PackingType,state, district;
+    private Button addPostButton;
+    private String selectedVariety,selectedGrade,selectedPacking;
+    private Member member;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_post);
-        TextInputLayout selectVarietyLayout = findViewById(R.id.selectVariety);
-        selectVarietyLayout.setEndIconOnClickListener(new View.OnClickListener() {
+        variety = findViewById(R.id.selectVariety);
+        grade = findViewById(R.id.selectGrade);
+        addPostButton =findViewById(R.id.addPostButton);
+        rootNode =FirebaseDatabase.getInstance();
+        reference2=rootNode.getReference("user_data");
+
+
+
+        addPostButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reference = rootNode.getReference("post_details");
+                member=new Member(selectedVariety,selectedGrade,selectedPacking);
+                reference.setValue(member);
+                Toast.makeText(AddPostActivity.this, selectedVariety+selectedGrade+selectedPacking, Toast.LENGTH_SHORT).show();
+
+
+            }
+
+        });
+
+
+        variety.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Create a PopupMenu
@@ -35,10 +69,10 @@ public class AddPostActivity extends AppCompatActivity {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         // Get the selected variety
-                        String selectedVariety = item.getTitle().toString();
+                        selectedVariety  = item.getTitle().toString();
 
                         // Set the selected variety to the AutoCompleteTextView
-                        AutoCompleteTextView autoCompleteTextView = selectVarietyLayout.findViewById(R.id.selectVarietyAutoCompleteTextView);
+                        AutoCompleteTextView autoCompleteTextView = variety.findViewById(R.id.selectVarietyAutoCompleteTextView);
                         autoCompleteTextView.setText(selectedVariety);
 
                         return true;
@@ -50,8 +84,8 @@ public class AddPostActivity extends AppCompatActivity {
             }
         });
 
-        TextInputLayout selectGrade = findViewById(R.id.selectGrade);
-        selectGrade.setEndIconOnClickListener(new View.OnClickListener() {
+
+        grade.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Create a PopupMenu
@@ -65,10 +99,10 @@ public class AddPostActivity extends AppCompatActivity {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         // Get the selected variety
-                        String selectedGrade = item.getTitle().toString();
+                        selectedGrade = item.getTitle().toString();
 
                         // Set the selected variety to the AutoCompleteTextView
-                        AutoCompleteTextView autoCompleteTextView = selectGrade.findViewById(R.id.selectGradeAutoCompleteTextView);
+                        AutoCompleteTextView autoCompleteTextView = grade.findViewById(R.id.selectGradeAutoCompleteTextView);
                         autoCompleteTextView.setText(selectedGrade);
 
                         return true;
@@ -80,8 +114,8 @@ public class AddPostActivity extends AppCompatActivity {
             }
         });
 
-        TextInputLayout selectPacking = findViewById(R.id.packingType);
-        selectPacking.setEndIconOnClickListener(new View.OnClickListener() {
+        PackingType = findViewById(R.id.packingType);
+        PackingType.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Create a PopupMenu
@@ -95,10 +129,10 @@ public class AddPostActivity extends AppCompatActivity {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         // Get the selected variety
-                        String selectedPacking = item.getTitle().toString();
+                        selectedPacking = item.getTitle().toString();
 
                         // Set the selected variety to the AutoCompleteTextView
-                        AutoCompleteTextView autoCompleteTextView = selectPacking.findViewById(R.id.selectPackingAutoCompleteTextView);
+                        AutoCompleteTextView autoCompleteTextView = PackingType.findViewById(R.id.selectPackingAutoCompleteTextView);
                         autoCompleteTextView.setText(selectedPacking);
 
                         return true;
@@ -110,8 +144,6 @@ public class AddPostActivity extends AppCompatActivity {
             }
 
         });
-             TextInputLayout stateInputLayout;
-             TextInputLayout districtInputLayout;
              MaterialAutoCompleteTextView stateAutoCompleteTextView;
              MaterialAutoCompleteTextView districtAutoCompleteTextView;
 
@@ -120,8 +152,8 @@ public class AddPostActivity extends AppCompatActivity {
 
 
                 // Initialize the TextInputLayout and MaterialAutoCompleteTextView
-                stateInputLayout = findViewById(R.id.setState);
-                districtInputLayout = findViewById(R.id.setDistrict);
+                state = findViewById(R.id.setState);
+                district = findViewById(R.id.setDistrict);
                 stateAutoCompleteTextView = findViewById(R.id.stateAutoCompleteTextView);
                 districtAutoCompleteTextView = findViewById(R.id.districtAutoCompleteTextView);
 
@@ -143,7 +175,7 @@ public class AddPostActivity extends AppCompatActivity {
                         "Gujarat",
                         "Haryana",
                         "Himachal Pradesh",
-                        "Jammu and Kashmir",
+                        "J&K",
                         "Jharkhand",
                         "Karnataka",
                         "Kerala",
@@ -223,7 +255,47 @@ public class AddPostActivity extends AppCompatActivity {
             }
         });
             }
+           private  boolean validateVariety(){
+                if(selectedVariety.isEmpty()){
+                    Toast.makeText(AddPostActivity.this, "select Variety", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                else {
+                    return true;
+                }
+
+            }
+    private boolean validateGrade(){
+        if(selectedGrade.isEmpty()){
+            Toast.makeText(AddPostActivity.this, "select Variety", Toast.LENGTH_SHORT).show();
+            return false;
         }
+        else {
+            return true;
+        }
+
+    }
+    private boolean validatePackingType(){
+        if(selectedPacking.isEmpty()){
+            Toast.makeText(AddPostActivity.this, "select Variety", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else {
+            return true;
+        }
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+
+        }
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+}
 
 
 

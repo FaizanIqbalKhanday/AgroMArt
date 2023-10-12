@@ -4,10 +4,28 @@
     android:id="@+id/drawable_layout"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
 
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-        <com.google.android.material.navigation.NavigationView
+    <androidx.appcompat.widget.Toolbar
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:padding="10dp"
+        app:titleTextColor="@color/default_color"
+        android:background="@drawable/white_bg">
+        <androidx.appcompat.widget.SearchView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:iconifiedByDefault="false"
+           app:searchHintIcon="@color/bg_color"
+            style="@style/ThemeOverlay.AppCompat.DayNight"
+            app:queryHint="@string/search_for"/>
+    </androidx.appcompat.widget.Toolbar>
+
+    <com.google.android.material.navigation.NavigationView
             android:id="@+id/nav_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -15,9 +33,11 @@
             app:menu="@menu/menu"
             android:layout_gravity="start"/>
     <RelativeLayout
+        android:layout_marginTop="70dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
 
         <ScrollView
             android:layout_width="match_parent"
@@ -686,14 +706,15 @@
                 android:layout_weight="50"
 
                 android:orientation="vertical">
+
                 <ImageView
                     android:id="@+id/goToProfile"
-                    android:clickable="true"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
-                    android:src="@drawable/profile"
+                    android:layout_gravity="center"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:layout_gravity="center"/>
+                    android:clickable="true"
+                    android:src="@drawable/profile" />
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

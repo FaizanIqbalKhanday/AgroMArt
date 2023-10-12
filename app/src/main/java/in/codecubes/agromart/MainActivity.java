@@ -1,8 +1,10 @@
 package in.codecubes.agromart;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -45,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         }
             return super.onOptionsItemSelected(item);
         }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
 
         account.setOnClickListener(new View.OnClickListener() {
             @Override
