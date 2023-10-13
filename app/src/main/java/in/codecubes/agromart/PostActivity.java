@@ -1,5 +1,6 @@
 package in.codecubes.agromart;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -7,7 +8,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.smarteist.autoimageslider.SliderView;
 
 import java.util.ArrayList;
@@ -15,6 +27,12 @@ import java.util.ArrayList;
 public class PostActivity extends AppCompatActivity {
 
     private Button callBtn, chatBtn;
+    private TextView fullName, variety;
+    private FirebaseDatabase rootNode;
+    private DatabaseReference reference;
+    private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
+    private UserHelperClass member;
 
     private String url1 = "https://images.unsplash.com/photo-1682685795557-976f03aca7b2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=871&q=80";
     private String url2 = "https://images.unsplash.com/photo-1682687220198-88e9bdea9931?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80";
@@ -27,6 +45,30 @@ public class PostActivity extends AppCompatActivity {
 
         callBtn = (Button) findViewById(R.id.call_btn);
         chatBtn = (Button) findViewById(R.id.chat_btn);
+        fullName=findViewById(R.id.full_name);
+        variety =findViewById(R.id.apple_variety);
+        rootNode=FirebaseDatabase.getInstance();
+        mAuth=FirebaseAuth.getInstance();
+        mUser=mAuth.getCurrentUser();
+        String userId=mUser.getUid();
+
+
+        reference=rootNode.getReference("user_data").child(userId);;
+        reference.child(userId).addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String value =snapshot.getValue(String.class);
+                UserHelperClass member =new UserHelperClass(value);
+                fullName.setText((CharSequence) member);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
 
         // we are creating array list for storing our image urls.
         ArrayList<SliderData> sliderDataArrayList = new ArrayList<>();
@@ -80,4 +122,5 @@ public class PostActivity extends AppCompatActivity {
             }
         });
     }
+
 }

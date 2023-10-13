@@ -30,6 +30,8 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputLayout loginEmail ,password;
     private FirebaseAuth mAuth;
     private ProgressBar progress_Bar;
+    private DatabaseReference reference;
+    private FirebaseDatabase rootNode;
 
 
     @Override
@@ -50,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         forgetPasswordBtn= findViewById(R.id.forgotPassword);
         progress_Bar=findViewById(R.id.progressBar);
         newUserBtn= findViewById(R.id.newUser);
+        rootNode=FirebaseDatabase.getInstance();
 
         loginEmail.getEditText().addTextChangedListener(new TextWatcher() {
             @Override

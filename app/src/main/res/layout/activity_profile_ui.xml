@@ -49,7 +49,7 @@
                         app:srcCompat="@drawable/profile" />
 
                     <TextView
-                        android:id="@+id/Profile_name"
+                        android:id="@+id/profile_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
@@ -62,15 +62,15 @@
                         app:layout_constraintTop_toBottomOf="@+id/imageView9" />
 
                     <TextView
-                        android:id="@+id/Profile_emailID"
+                        android:id="@+id/profile_emailID"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/Profile_emailID"
                         android:textColor="@color/black"
                         android:textSize="18sp"
-                        app:layout_constraintEnd_toEndOf="@+id/Profile_name"
-                        app:layout_constraintStart_toStartOf="@+id/Profile_name"
-                        app:layout_constraintTop_toBottomOf="@+id/Profile_name" />
+                        app:layout_constraintEnd_toEndOf="@+id/profile_name"
+                        app:layout_constraintStart_toStartOf="@+id/profile_name"
+                        app:layout_constraintTop_toBottomOf="@+id/profile_name" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -85,7 +85,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/Profile_emailID">
+                        app:layout_constraintTop_toBottomOf="@+id/profile_emailID">
 
                         <LinearLayout
                             android:layout_width="match_parent"

@@ -1,5 +1,6 @@
 package in.codecubes.agromart;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 
@@ -16,17 +17,24 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.ktx.Firebase;
 
 public class AddPostActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private FirebaseDatabase rootNode;
+    private FirebaseAuth mAuth;
+    private FirebaseUser mUser;
     private DatabaseReference reference ,reference2;
-    private TextInputLayout variety, grade, PackingType,state, district;
+    private TextInputLayout variety, grade, packingType,getQuantity,state, district,setVillage;
     private Button addPostButton;
     private String selectedVariety,selectedGrade,selectedPacking;
-    private Member member;
+    private Member postMember , addressMember;
 
 
     @Override
@@ -35,19 +43,41 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         setContentView(R.layout.activity_add_post);
         variety = findViewById(R.id.selectVariety);
         grade = findViewById(R.id.selectGrade);
+        packingType = findViewById(R.id.packingType);
+        getQuantity =findViewById(R.id.setQuantity);
+        setVillage=findViewById(R.id.set_village);
         addPostButton =findViewById(R.id.addPostButton);
         rootNode =FirebaseDatabase.getInstance();
-        reference2=rootNode.getReference("user_data");
+        mAuth=FirebaseAuth.getInstance();
+
 
 
 
         addPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                reference = rootNode.getReference("post_details");
-                member=new Member(selectedVariety,selectedGrade,selectedPacking);
-                reference.setValue(member);
-                Toast.makeText(AddPostActivity.this, selectedVariety+selectedGrade+selectedPacking, Toast.LENGTH_SHORT).show();
+               // if(!validateVariety() | !validateGrade() | !validatePackingType() | !validateQuantity()){
+                   // return;
+               // }
+                //String userUid=mUser.getUid();
+
+                mUser=mAuth.getCurrentUser();
+                String userId=mUser.getUid();
+                reference2=rootNode.getReference("user_data").child(userId);
+                reference=rootNode.getReference("user_data").child(userId);
+
+                String selectedQuantity= getQuantity.getEditText().getText().toString();
+                String selectedVillage= setVillage.getEditText().getText().toString();
+                addressMember=new Member(selectedVillage);
+                postMember=new Member(selectedVariety,selectedGrade,selectedPacking,selectedQuantity);
+                String pid=reference.push().getKey();
+                String aid=reference2.push().getKey();
+                reference2.child(userId).child("address");
+                reference.child(userId).child("post details");
+                reference2.child(aid).setValue(addressMember);
+
+                reference.child(pid).setValue(postMember);
+                Toast.makeText(AddPostActivity.this, userId, Toast.LENGTH_SHORT).show();
 
             }
 
@@ -113,8 +143,7 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
             }
         });
 
-        PackingType = findViewById(R.id.packingType);
-        PackingType.setEndIconOnClickListener(new View.OnClickListener() {
+        packingType.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Create a PopupMenu
@@ -131,7 +160,7 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
                         selectedPacking = item.getTitle().toString();
 
                         // Set the selected variety to the AutoCompleteTextView
-                        AutoCompleteTextView autoCompleteTextView = PackingType.findViewById(R.id.selectPackingAutoCompleteTextView);
+                        AutoCompleteTextView autoCompleteTextView = packingType.findViewById(R.id.selectPackingAutoCompleteTextView);
                         autoCompleteTextView.setText(selectedPacking);
 
                         return true;
@@ -255,35 +284,51 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         });
             }
            private  boolean validateVariety(){
-                if(selectedVariety.isEmpty()){
-                    Toast.makeText(AddPostActivity.this, "select Variety", Toast.LENGTH_SHORT).show();
+                if(!variety.isSelected()){
+                    variety.setError("select variety");
                     return false;
                 }
                 else {
+                    variety.setError(null);
                     return true;
                 }
 
             }
     private boolean validateGrade(){
-        if(selectedGrade.isEmpty()){
-            Toast.makeText(AddPostActivity.this, "select Variety", Toast.LENGTH_SHORT).show();
+        if(!grade.isSelected()){
+            grade.setError("select grade");
             return false;
         }
         else {
+            grade.setError(null);
             return true;
         }
 
     }
     private boolean validatePackingType(){
-        if(selectedPacking.isEmpty()){
-            Toast.makeText(AddPostActivity.this, "select Variety", Toast.LENGTH_SHORT).show();
+        if(!packingType.isSelected()){
+            packingType.setError("select packing type");
             return false;
         }
         else {
+            packingType.setError(null);
             return true;
         }
 
     }
+    private boolean validateQuantity(){
+        String val =getQuantity.getEditText().getText().toString();
+        if(val.isEmpty()){
+           getQuantity.setError("quantity is required");
+            return false;
+        }
+        else {
+            getQuantity.setError(null);
+            return true;
+        }
+
+    }
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

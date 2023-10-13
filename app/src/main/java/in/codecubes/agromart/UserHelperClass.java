@@ -12,6 +12,9 @@ public class UserHelperClass {
         this.phoneNumber = phoneNumber;
         this.password = password;
     }
+    UserHelperClass(String fullName){
+        this.fullName=fullName;
+    }
 
     public String getFullName() {
         return fullName;
