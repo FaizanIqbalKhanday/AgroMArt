@@ -259,7 +259,7 @@
                     app:startIconTint="@color/default_color"
                     app:endIconTint="@color/default_color">
 
-                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    <AutoCompleteTextView
                         android:id="@+id/stateAutoCompleteTextView"
                         style="@style/PopupMenuStyle"
                         android:layout_width="match_parent"
@@ -283,7 +283,7 @@
                     app:startIconTint="@color/default_color"
                     app:endIconTint="@color/default_color">
 
-                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    <AutoCompleteTextView
                         android:id="@+id/districtAutoCompleteTextView"
                         style="@style/PopupMenuStyle"
                         android:layout_width="match_parent"

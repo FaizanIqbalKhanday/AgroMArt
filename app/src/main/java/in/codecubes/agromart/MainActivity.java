@@ -20,17 +20,25 @@ import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
-    private CardView postCard;
-    private ImageView account ,menu_button;
+    private ImageView account;
     private FloatingActionButton addPostBtn;
     private FirebaseAuth mAuth;
     private Toolbar toolbar;
@@ -38,38 +46,38 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView navigationView;
     private ActionBarDrawerToggle drawerToggle;
     private DrawerLayout drawerLayout;
-    private  ActionBar actionBar;
+    private ActionBar actionBar;
 
+    private RecyclerView postRecyclerView;
+    private ArrayList<Post> postList;
+    private PostAdapter adapter;
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-            return super.onOptionsItemSelected(item);
-        }
+        if (drawerToggle.onOptionsItemSelected(item)) return true;
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         FirebaseApp.initializeApp(this);
-        mAuth =FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
-        postCard = (CardView) findViewById(R.id.postView1);
         addPostBtn = findViewById(R.id.addPost);
-        account =findViewById(R.id.goToProfile);
-        progress_Bar=findViewById(R.id.progressBar);
-        drawerLayout=findViewById(R.id.drawable_layout);
-        navigationView =findViewById(R.id.nav_view);
+        account = findViewById(R.id.goToProfile);
+        progress_Bar = findViewById(R.id.progressBar);
+        drawerLayout = findViewById(R.id.drawable_layout);
+        navigationView = findViewById(R.id.nav_view);
         drawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
 
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
         actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+
+        if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -100,6 +108,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        postRecyclerView = (RecyclerView) findViewById(R.id.posts_recycler_view);
+        postRecyclerView.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
+        postRecyclerView.setLayoutManager(layoutManager);
+
+        loadData();
+
         addPostBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,18 +123,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openActivity(ProfileUI.class);
-            }
-        });
-
-        postCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openActivity(PostActivity.class);
             }
         });
     }
@@ -152,5 +159,28 @@ public class MainActivity extends AppCompatActivity {
     public void openActivity(final Class<? extends Activity> targetActivity) {
         Intent intent = new Intent(this, targetActivity);
         startActivity(intent);
+    }
+
+    public void loadData() {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("POSTS");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    postList = new ArrayList<>();
+                    for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                        Post post = dataSnapshot1.getValue(Post.class);
+                        postList.add(post);
+                    }
+                    adapter = new PostAdapter(MainActivity.this, postList);
+                    postRecyclerView.setAdapter(adapter);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

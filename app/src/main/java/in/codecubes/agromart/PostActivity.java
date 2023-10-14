@@ -3,6 +3,7 @@ package in.codecubes.agromart;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -27,17 +28,15 @@ import java.util.ArrayList;
 public class PostActivity extends AppCompatActivity {
 
     private Button callBtn, chatBtn;
-    private TextView fullName, variety;
-    private FirebaseDatabase rootNode;
+    private TextView variety, grade, packing, quantity, address, address2, userName, userPhoneNumber;
+    private String phoneNumber;
     private DatabaseReference reference;
-    private FirebaseAuth mAuth;
-    private FirebaseUser mUser;
-    private UserHelperClass member;
 
     private String url1 = "https://images.unsplash.com/photo-1682685795557-976f03aca7b2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=871&q=80";
     private String url2 = "https://images.unsplash.com/photo-1682687220198-88e9bdea9931?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80";
     private String url3 = "https://images.unsplash.com/photo-1682687220742-aba13b6e50ba?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80";
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,22 +44,47 @@ public class PostActivity extends AppCompatActivity {
 
         callBtn = (Button) findViewById(R.id.call_btn);
         chatBtn = (Button) findViewById(R.id.chat_btn);
-        fullName=findViewById(R.id.full_name);
-        variety =findViewById(R.id.apple_variety);
-        rootNode=FirebaseDatabase.getInstance();
-        mAuth=FirebaseAuth.getInstance();
-        mUser=mAuth.getCurrentUser();
-        String userId=mUser.getUid();
 
+        variety = (TextView) findViewById(R.id.post_variety);
+        grade = (TextView) findViewById(R.id.post_grade);
+        packing = (TextView) findViewById(R.id.post_packing);
+        quantity = (TextView) findViewById(R.id.post_quantity);
+        address = (TextView) findViewById(R.id.post_user_address);
+        address2 = (TextView) findViewById(R.id.post_address_2);
+        userName = (TextView) findViewById(R.id.post_user_name);
+        userPhoneNumber = (TextView) findViewById(R.id.post_user_phone);
 
-        reference=rootNode.getReference("user_data").child(userId);;
-        reference.child(userId).addValueEventListener(new ValueEventListener() {
-
+        reference = FirebaseDatabase.getInstance().getReference();
+        reference.child("POSTS").child(getIntent().getStringExtra("post_id")).addValueEventListener(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String value =snapshot.getValue(String.class);
-                UserHelperClass member =new UserHelperClass(value);
-                fullName.setText((CharSequence) member);
+                variety.setText(snapshot.child("variety").getValue(String.class));
+                grade.setText(snapshot.child("grade").getValue(String.class));
+                packing.setText(snapshot.child("packingType").getValue(String.class));
+                quantity.setText(snapshot.child("quantity").getValue(String.class));
+                String addr = snapshot.child("village").getValue(String.class)
+                                + " "
+                                + snapshot.child("district").getValue(String.class)
+                                + " "
+                                + snapshot.child("state").getValue(String.class);
+                address.setText(addr);
+                address2.setText(addr);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        reference.child("user_data").child(getIntent().getStringExtra("user_id")).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                userName.setText(snapshot.child("fullName").getValue(String.class));
+                String phone = snapshot.child("phoneNumber").getValue(String.class);
+                phoneNumber = phone;
+                userPhoneNumber.setText(phone);
             }
 
             @Override
@@ -107,7 +131,7 @@ public class PostActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent callIntent = new Intent(Intent.ACTION_DIAL);
-                callIntent.setData(Uri.parse("tel:7006378179"));
+                callIntent.setData(Uri.parse("tel:" + phoneNumber));
                 startActivity(callIntent);
             }
         });
@@ -115,7 +139,7 @@ public class PostActivity extends AppCompatActivity {
         chatBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = "https://api.whatsapp.com/send?phone=7006378179";
+                String url = "https://api.whatsapp.com/send?phone=" + phoneNumber;
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(url));
                 startActivity(intent);

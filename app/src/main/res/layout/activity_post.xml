@@ -119,7 +119,7 @@
                     android:textStyle="bold"/>
 
                 <TextView
-                    android:id="@+id/apple_variety"
+                    android:id="@+id/post_variety"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -146,6 +146,7 @@
                     android:textStyle="bold"/>
 
                 <TextView
+                    android:id="@+id/post_grade"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -172,6 +173,7 @@
                     android:textStyle="bold"/>
 
                 <TextView
+                    android:id="@+id/post_packing"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -198,6 +200,7 @@
                     android:textStyle="bold"/>
 
                 <TextView
+                    android:id="@+id/post_quantity"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -254,9 +257,9 @@
                             android:textSize="22sp"/>
 
                         <TextView
+                            android:id="@+id/post_address_2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="061 Mastpora Keller Shopian J&amp;K"
                             android:textSize="16sp"/>
 
                     </LinearLayout>
@@ -291,6 +294,7 @@
                     android:textStyle="bold"/>
 
                 <TextView
+                    android:id="@+id/post_user_name"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -317,6 +321,7 @@
                     android:textStyle="bold"/>
 
                 <TextView
+                    android:id="@+id/post_user_address"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -343,6 +348,7 @@
                     android:textStyle="bold"/>
 
                 <TextView
+                    android:id="@+id/post_user_phone"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
