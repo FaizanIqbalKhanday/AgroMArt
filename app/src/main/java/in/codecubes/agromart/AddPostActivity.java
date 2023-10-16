@@ -1,33 +1,61 @@
 package in.codecubes.agromart;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.ImageView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.UUID;
 
 public class AddPostActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+    private static final int REQUEST_CAMERA_PERMISSION = 200;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int REQUEST_IMAGE_PICK = 2;
+
     private FirebaseDatabase rootNode;
     private FirebaseAuth mAuth;
     private FirebaseUser mUser;
     private DatabaseReference reference;
+    private StorageReference storageReference;
 
     private TextInputLayout varietyTIL, gradeTIL, packingTIL, quantityTIL, stateTIL, districtTIL, villageTIL;
     private Button addPostButton;
+    private ImageView uploadImages, takeImages;
+    private Uri imageUri;
     private String variety, grade, packing, state, district;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +65,7 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         rootNode = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
+        storageReference = FirebaseStorage.getInstance().getReference();
 
         varietyTIL = findViewById(R.id.selectVariety);
         gradeTIL = findViewById(R.id.selectGrade);
@@ -46,6 +75,22 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         districtTIL = findViewById(R.id.setDistrict);
         villageTIL = findViewById(R.id.set_village);
         addPostButton = findViewById(R.id.addPostButton);
+        uploadImages = findViewById(R.id.uploadImages);
+        takeImages = findViewById(R.id.takeImages);
+
+        uploadImages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGallery();
+            }
+        });
+
+        takeImages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkCameraPermission();
+            }
+        });
 
         addPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +108,11 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
 
                 if (postId != null) {
                     reference.child(postId).setValue(post);
-                    startActivity(new Intent(AddPostActivity.this, MainActivity.class));
+                    if (imageUri != null) {
+                        uploadImage(postId);
+                    } else {
+                        startActivity(new Intent(AddPostActivity.this, MainActivity.class));
+                    }
                 }
             }
         });
@@ -81,10 +130,10 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        // Get the selected varietyTIL
-                        variety  = item.getTitle().toString();
+                        // Get the selected variety
+                        variety = item.getTitle().toString();
 
-                        // Set the selected varietyTIL to the AutoCompleteTextView
+                        // Set the selected variety to the AutoCompleteTextView
                         AutoCompleteTextView autoCompleteTextView = varietyTIL.findViewById(R.id.selectVarietyAutoCompleteTextView);
                         autoCompleteTextView.setText(variety);
 
@@ -110,10 +159,10 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        // Get the selected varietyTIL
+                        // Get the selected grade
                         grade = item.getTitle().toString();
 
-                        // Set the selected varietyTIL to the AutoCompleteTextView
+                        // Set the selected grade to the AutoCompleteTextView
                         AutoCompleteTextView autoCompleteTextView = gradeTIL.findViewById(R.id.selectGradeAutoCompleteTextView);
                         autoCompleteTextView.setText(grade);
 
@@ -139,10 +188,10 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        // Get the selected varietyTIL
+                        // Get the selected packing type
                         packing = item.getTitle().toString();
 
-                        // Set the selected varietyTIL to the AutoCompleteTextView
+                        // Set the selected packing type to the AutoCompleteTextView
                         AutoCompleteTextView autoCompleteTextView = packingTIL.findViewById(R.id.selectPackingAutoCompleteTextView);
                         autoCompleteTextView.setText(packing);
 
@@ -269,58 +318,85 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         });
     }
 
-//    private  boolean validateVariety(){
-//        if(!varietyTIL.isSelected()){
-//            varietyTIL.setError("select varietyTIL");
-//            return false;
-//        }
-//        else {
-//            varietyTIL.setError(null);
-//            return true;
-//        }
-//    }
-//
-//    private boolean validateGrade(){
-//        if(!gradeTIL.isSelected()){
-//            gradeTIL.setError("select gradeTIL");
-//            return false;
-//        }
-//        else {
-//            gradeTIL.setError(null);
-//            return true;
-//        }
-//    }
-//
-//    private boolean validatePackingType(){
-//        if(!packingTIL.isSelected()){
-//            packingTIL.setError("select packing type");
-//            return false;
-//        }
-//        else {
-//            packingTIL.setError(null);
-//            return true;
-//        }
-//    }
-//
-//    private boolean validateQuantity(){
-//        String val =quantityTIL.getEditText().getText().toString();
-//        if(val.isEmpty()){
-//           quantityTIL.setError("quantity is required");
-//            return false;
-//        }
-//        else {
-//            quantityTIL.setError(null);
-//            return true;
-//        }
-//    }
+    private void openGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, REQUEST_IMAGE_PICK);
+    }
+
+    private void checkCameraPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+        } else {
+            openCamera();
+        }
+    }
+
+    private void openCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+    }
+
+    private void uploadImage(String postId) {
+        StorageReference imageRef = storageReference.child("images/" + UUID.randomUUID().toString());
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] data = baos.toByteArray();
+
+            UploadTask uploadTask = imageRef.putBytes(data);
+            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            String imageUrl = uri.toString();
+                            reference.child(postId).child("imageUrl").setValue(imageUrl);
+                            startActivity(new Intent(AddPostActivity.this, MainActivity.class));
+                        }
+                    });
+                }
+            });
+        } catch (IOException e) {
+            Log.e("UploadImage", "IOException: " + e.getMessage());
+        }
+    }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {}
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == REQUEST_IMAGE_CAPTURE) {
+                Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
+                uploadImages.setImageBitmap(imageBitmap);
+                imageUri = getImageUri(imageBitmap);
+            } else if (requestCode == REQUEST_IMAGE_PICK && data != null) {
+                Uri selectedImageUri = data.getData();
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
+                    uploadImages.setImageBitmap(bitmap);
+                    imageUri = selectedImageUri;
+                } catch (IOException e) {
+                    Log.e("ImagePick", "IOException: " + e.getMessage());
+                }
+            }
+        }
+    }
+
+    private Uri getImageUri(Bitmap bitmap) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "Title", null);
+        return Uri.parse(path);
+    }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {}
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+    }
 }
-
-
-
-
