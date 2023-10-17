@@ -95,6 +95,10 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         addPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!validateVariety() | !validateGrade() | !validatePacking() | !validateQuantity()
+                        | !validateState() | !validateDistrict() | !validateVillage()){
+                    return;
+                }
                 String userId = mUser.getUid();
                 reference = rootNode.getReference("POSTS");
 
@@ -392,6 +396,7 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         return Uri.parse(path);
     }
 
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
     }
@@ -399,4 +404,84 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
     }
+    private  boolean validateVariety(){
+        if(variety==null) {
+            varietyTIL.setError("select variety");
+            return false;
+        }
+        else {
+            varietyTIL.setError(null);
+            return true;
+        }
+
+    }
+    private  boolean validateGrade(){
+        if(grade==null) {
+            gradeTIL.setError("select grade");
+            return false;
+        }
+        else {
+            gradeTIL.setError(null);
+            return true;
+        }
+
+    }
+    private  boolean validatePacking(){
+        if(packing==null) {
+            packingTIL.setError("select packing type");
+            return false;
+        }
+        else {
+            packingTIL.setError(null);
+            return true;
+        }
+
+    }
+    private  boolean validateState(){
+        if(state==null) {
+            stateTIL.setError("select state");
+            return false;
+        }
+        else {
+            stateTIL.setError(null);
+            return true;
+        }
+
+    }
+    private  boolean validateDistrict(){
+        if(district==null) {
+            districtTIL.setError("select variety");
+            return false;
+        }
+        else {
+            districtTIL.setError(null);
+            return true;
+        }
+
+    }
+    private  boolean validateVillage(){
+        String village = villageTIL.getEditText().getText().toString();
+        if(village.isEmpty()) {
+            villageTIL.setError("village is required");
+            return false;
+        }
+        else {
+            villageTIL.setError(null);
+            return true;
+        }
+
+    }
+    private  boolean validateQuantity(){
+        String quantity = quantityTIL.getEditText().getText().toString();
+        if(quantity.isEmpty()) {
+            quantityTIL.setError("quantity is required");
+            return false;
+        }
+        else {
+            quantityTIL.setError(null);
+            return true;
+        }
+
+    }
+
 }

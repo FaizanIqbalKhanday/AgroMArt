@@ -96,6 +96,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                     case R.id.item4:{
                         Toast.makeText(MainActivity.this,"logout selected",Toast.LENGTH_SHORT).show();
+                        mAuth.signOut();
+                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
                         break;
                     }
                     case R.id.item5:{
