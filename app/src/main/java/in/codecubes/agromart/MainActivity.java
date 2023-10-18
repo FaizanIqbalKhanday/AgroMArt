@@ -204,6 +204,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(MainActivity.this, "Failed to load posts", Toast.LENGTH_SHORT).show();
 
             }
         });
