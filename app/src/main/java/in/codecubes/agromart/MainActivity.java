@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<Post> postList;
     private PostAdapter adapter;
     private ArrayList<Post> filteredList;
+    private CardView delicious_apple, kullu_apple,golden_apple, mahraji_apple,treal_apple,american_apple,pear_apple;
+    private String delicious="delicious", kullu="kullu",golden="golden",mahraji="mahraji",treal="treal",american="american",pear="pear";
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -141,6 +143,62 @@ public class MainActivity extends AppCompatActivity {
                 openActivity(ProfileUI.class);
             }
         });
+        delicious_apple=findViewById(R.id.delicious);
+        golden_apple=findViewById(R.id.golden);
+        kullu_apple=findViewById(R.id.kullu);
+        mahraji_apple=findViewById(R.id.mahraji);
+        treal_apple=findViewById(R.id.treal);
+        pear_apple=findViewById(R.id.pear);
+        american_apple=findViewById(R.id.american);
+
+        delicious_apple.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchByCategory(delicious);
+            }
+        });
+        american_apple.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchByCategory(american);
+
+            }
+        });
+        golden_apple.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchByCategory(golden);
+
+            }
+        });
+        kullu_apple.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchByCategory(kullu);
+
+            }
+        });
+        mahraji_apple.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchByCategory(mahraji);
+
+            }
+        });
+        treal_apple.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchByCategory(treal);
+
+            }
+        });
+        pear_apple.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchByCategory(pear);
+
+            }
+        });
 
         SearchView searchView = findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -156,6 +214,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
     }
 
     @Override
@@ -218,6 +277,24 @@ public class MainActivity extends AppCompatActivity {
             searchResults.addAll(postList);
         } else {
             String lowerCaseQuery = query.toLowerCase();
+            for (Post post : postList) {
+                if ((post.getVariety() != null && post.getVariety().toLowerCase().contains(lowerCaseQuery))
+                        || (post.getDistrict() != null && post.getDistrict().toLowerCase().contains(lowerCaseQuery))) {
+                    searchResults.add(post);
+                }
+            }
+        }
+
+        adapter.setFilteredList(searchResults);
+    }
+    private void searchByCategory(String category) {
+
+        ArrayList<Post> searchResults = new ArrayList<>();
+
+        if (category.isEmpty()) {
+            searchResults.addAll(postList);
+        } else {
+            String lowerCaseQuery = category.toLowerCase();
             for (Post post : postList) {
                 if ((post.getVariety() != null && post.getVariety().toLowerCase().contains(lowerCaseQuery))
                         || (post.getDistrict() != null && post.getDistrict().toLowerCase().contains(lowerCaseQuery))) {

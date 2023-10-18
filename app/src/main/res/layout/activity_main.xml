@@ -30,7 +30,7 @@
             android:id="@+id/nav_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            app:headerLayout="@layout/menu_header"
+            app:headerLayout="@layout/activity_menu_bar"
             app:menu="@menu/menu"
             android:layout_gravity="start"/>
     <RelativeLayout
@@ -74,6 +74,7 @@
                         android:padding="8dp">
 
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/delicious"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
@@ -89,7 +90,7 @@
                                 android:orientation="vertical">
 
                                 <ImageView
-                                    android:layout_width="50dp"
+                                    android:layout_width="65dp"
                                     android:layout_height="50dp"
                                     android:src="@drawable/apple1"/>
 
@@ -114,6 +115,7 @@
                         </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/kullu"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
@@ -129,7 +131,172 @@
                                 android:orientation="vertical">
 
                                 <ImageView
-                                    android:layout_width="50dp"
+                                    android:layout_width="65dp"
+                                    android:layout_height="50dp"
+                                    android:src="@drawable/kullu"/>
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/kullu"
+                                        android:lineBreakWordStyle="phrase"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/default_color"/>
+
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/golden"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="4dp"
+                            app:cardBackgroundColor="@color/white"
+                            app:cardUseCompatPadding="true"
+                            app:contentPadding="12dp">
+
+                            <LinearLayout
+                                android:layout_width="70dp"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="65dp"
+                                    android:layout_height="50dp"
+                                    android:src="@drawable/golden"/>
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/golden"
+                                        android:lineBreakWordStyle="phrase"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/default_color"/>
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/mahraji"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="4dp"
+                            app:cardBackgroundColor="@color/white"
+                            app:cardUseCompatPadding="true"
+                            app:contentPadding="12dp">
+
+                            <LinearLayout
+                                android:layout_width="70dp"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="65dp"
+                                    android:layout_height="50dp"
+                                    android:src="@drawable/mahraji"/>
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/mahraji"
+                                        android:lineBreakWordStyle="phrase"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/default_color"/>
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+
+                        </androidx.cardview.widget.CardView>
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/treal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="4dp"
+                            app:cardBackgroundColor="@color/white"
+                            app:cardUseCompatPadding="true"
+                            app:contentPadding="12dp">
+
+                            <LinearLayout
+                                android:layout_width="70dp"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="65dp"
+                                    android:layout_height="50dp"
+                                    android:src="@drawable/treal"/>
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="4dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/treal"
+                                        android:lineBreakWordStyle="phrase"
+                                        android:textSize="14sp"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/default_color"/>
+
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+
+                        </androidx.cardview.widget.CardView>
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/pear"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            app:cardCornerRadius="8dp"
+                            app:cardElevation="4dp"
+                            app:cardBackgroundColor="@color/white"
+                            app:cardUseCompatPadding="true"
+                            app:contentPadding="12dp">
+
+                            <LinearLayout
+                                android:layout_width="70dp"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="65dp"
                                     android:layout_height="50dp"
                                     android:src="@drawable/pear"/>
 
@@ -153,8 +320,8 @@
                             </LinearLayout>
 
                         </androidx.cardview.widget.CardView>
-
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/american"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="4dp"
@@ -170,9 +337,9 @@
                                 android:orientation="vertical">
 
                                 <ImageView
-                                    android:layout_width="50dp"
+                                    android:layout_width="65dp"
                                     android:layout_height="50dp"
-                                    android:src="@drawable/apple1"/>
+                                    android:src="@drawable/american"/>
 
                                 <RelativeLayout
                                     android:layout_width="match_parent"
@@ -182,87 +349,7 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/delicious"
-                                        android:lineBreakWordStyle="phrase"
-                                        android:textSize="14sp"
-                                        android:textStyle="bold"
-                                        android:textColor="@color/default_color"/>
-
-                                </RelativeLayout>
-
-                            </LinearLayout>
-
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
-                            app:cardCornerRadius="8dp"
-                            app:cardElevation="4dp"
-                            app:cardBackgroundColor="@color/white"
-                            app:cardUseCompatPadding="true"
-                            app:contentPadding="12dp">
-
-                            <LinearLayout
-                                android:layout_width="70dp"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:layout_width="50dp"
-                                    android:layout_height="50dp"
-                                    android:src="@drawable/pear"/>
-
-                                <RelativeLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="4dp">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/pear"
-                                        android:lineBreakWordStyle="phrase"
-                                        android:textSize="14sp"
-                                        android:textStyle="bold"
-                                        android:textColor="@color/default_color"/>
-
-                                </RelativeLayout>
-
-                            </LinearLayout>
-
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="4dp"
-                            app:cardCornerRadius="8dp"
-                            app:cardElevation="4dp"
-                            app:cardBackgroundColor="@color/white"
-                            app:cardUseCompatPadding="true"
-                            app:contentPadding="12dp">
-
-                            <LinearLayout
-                                android:layout_width="70dp"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:layout_width="50dp"
-                                    android:layout_height="50dp"
-                                    android:src="@drawable/apple1"/>
-
-                                <RelativeLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="4dp">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:text="@string/delicious"
+                                        android:text="@string/american"
                                         android:lineBreakWordStyle="phrase"
                                         android:textSize="14sp"
                                         android:textStyle="bold"

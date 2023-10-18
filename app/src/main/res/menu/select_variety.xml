@@ -1,20 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/grade_a"
-        android:title="A" >
+        android:id="@+id/variety_1"
+        android:title="Delicious" >
     </item>
     <item
-        android:id="@+id/grade_b"
-        android:title="B" >
+        android:id="@+id/variety_2"
+        android:title="@string/kullu" >
     </item>
     <item
-        android:id="@+id/grade_c"
-        android:title="C" >
+        android:id="@+id/variety_3"
+        android:title="@string/mahraji" >
     </item>
     <item
-        android:id="@+id/grade_d"
-        android:title="D" >
+        android:id="@+id/variety_4"
+        android:title="@string/golden" >
+    </item>
+    <item
+        android:id="@+id/variety_5"
+        android:title="@string/treal" >
+    </item>
+    <item
+        android:id="@+id/variety_6"
+        android:title="@string/pear" >
+    </item>
+    <item
+        android:id="@+id/variety_7"
+        android:title="@string/american" >
     </item>
 
 </menu>

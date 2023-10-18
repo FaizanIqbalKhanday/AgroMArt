@@ -2,19 +2,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/grade_a"
-        android:title="A" >
+        android:title="@string/grade_a" >
     </item>
     <item
         android:id="@+id/grade_b"
-        android:title="B" >
+        android:title="@string/grade_b" >
     </item>
     <item
         android:id="@+id/grade_c"
-        android:title="C" >
+        android:title="@string/grade_c" >
     </item>
     <item
         android:id="@+id/grade_d"
-        android:title="D" >
+        android:title="@string/grade_d" >
+    </item>
+    <item
+        android:id="@+id/grade_e"
+        android:title="@string/grade_e" >
     </item>
 
 </menu>

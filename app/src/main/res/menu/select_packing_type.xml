@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/grade_a"
-        android:title="A" >
+        android:id="@+id/packing_1"
+        android:title="@string/packing_1" >
     </item>
     <item
-        android:id="@+id/grade_b"
-        android:title="B" >
+        android:id="@+id/packing_2"
+        android:title="@string/Packing_2" >
     </item>
     <item
-        android:id="@+id/grade_c"
-        android:title="C" >
+        android:id="@+id/packing_3"
+        android:title="@string/Packing_3" >
     </item>
-    <item
-        android:id="@+id/grade_d"
-        android:title="D" >
-    </item>
+
 
 </menu>

@@ -303,12 +303,12 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@string/District"
+                                android:text="@string/state"
                                 android:textColor="@color/black"
                                 android:textSize="18sp" />
 
                             <TextView
-                                android:id="@+id/profile_address"
+                                android:id="@+id/profile_state"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -339,12 +339,12 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@string/Village"
+                                android:text="@string/District"
                                 android:textColor="@color/black"
                                 android:textSize="18sp" />
 
                             <TextView
-                                android:id="@+id/Gender"
+                                android:id="@+id/profile_district"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -375,12 +375,12 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@string/state"
+                                android:text="@string/Village"
                                 android:textColor="@color/black"
                                 android:textSize="18sp" />
 
                             <TextView
-                                android:id="@+id/PincodeNum"
+                                android:id="@+id/profile_village"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
