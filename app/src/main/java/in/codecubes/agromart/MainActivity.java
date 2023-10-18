@@ -1,5 +1,4 @@
 package in.codecubes.agromart;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -23,6 +22,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.SearchView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -36,6 +36,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+
+import in.codecubes.agromart.AddPostActivity;
+import in.codecubes.agromart.LoginActivity;
+import in.codecubes.agromart.Post;
+import in.codecubes.agromart.PostAdapter;
+import in.codecubes.agromart.ProfileUI;
+import in.codecubes.agromart.R;
 
 public class MainActivity extends AppCompatActivity {
     private ImageView account;
@@ -51,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView postRecyclerView;
     private ArrayList<Post> postList;
     private PostAdapter adapter;
+    private ArrayList<Post> filteredList;
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -70,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         progress_Bar = findViewById(R.id.progressBar);
         drawerLayout = findViewById(R.id.drawable_layout);
         navigationView = findViewById(R.id.nav_view);
-        drawerToggle = new ActionBarDrawerToggle(this,drawerLayout,R.string.open,R.string.close);
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
 
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
@@ -81,29 +89,29 @@ public class MainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.item1:{
-                        Toast.makeText(MainActivity.this,"home selected",Toast.LENGTH_SHORT).show();
+                switch (item.getItemId()) {
+                    case R.id.item1: {
+                        Toast.makeText(MainActivity.this, "home selected", Toast.LENGTH_SHORT).show();
                         break;
                     }
-                    case R.id.item2:{
-                        Toast.makeText(MainActivity.this,"profile selected",Toast.LENGTH_SHORT).show();
+                    case R.id.item2: {
+                        Toast.makeText(MainActivity.this, "profile selected", Toast.LENGTH_SHORT).show();
                         break;
                     }
-                    case R.id.item3:{
-                        Toast.makeText(MainActivity.this,"my post selected",Toast.LENGTH_SHORT).show();
+                    case R.id.item3: {
+                        Toast.makeText(MainActivity.this, "my post selected", Toast.LENGTH_SHORT).show();
                         break;
                     }
-                    case R.id.item4:{
-                        Toast.makeText(MainActivity.this,"logout selected",Toast.LENGTH_SHORT).show();
+                    case R.id.item4: {
+                        Toast.makeText(MainActivity.this, "logout selected", Toast.LENGTH_SHORT).show();
                         mAuth.signOut();
                         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                         startActivity(intent);
                         finish();
                         break;
                     }
-                    case R.id.item5:{
-                        Toast.makeText(MainActivity.this,"about us selected",Toast.LENGTH_SHORT).show();
+                    case R.id.item5: {
+                        Toast.makeText(MainActivity.this, "about us selected", Toast.LENGTH_SHORT).show();
                         break;
                     }
                 }
@@ -112,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        postRecyclerView = (RecyclerView) findViewById(R.id.posts_recycler_view);
+        postRecyclerView = findViewById(R.id.posts_recycler_view);
         postRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
         postRecyclerView.setLayoutManager(layoutManager);
@@ -133,14 +141,28 @@ public class MainActivity extends AppCompatActivity {
                 openActivity(ProfileUI.class);
             }
         });
+
+        SearchView searchView = findViewById(R.id.searchView);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                performSearch(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                performSearch(newText);
+                return true;
+            }
+        });
     }
 
     @Override
     public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        }
-        else{
+        } else {
             super.onBackPressed();
         }
     }
@@ -148,13 +170,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        FirebaseUser mUser=mAuth.getCurrentUser();
-        if(mUser!=null){
+        FirebaseUser mUser = mAuth.getCurrentUser();
+        if (mUser != null) {
             return;
-
-        }
-        else{
-            startActivity(new Intent(this,LoginActivity.class));
+        } else {
+            startActivity(new Intent(this, LoginActivity.class));
             progress_Bar.setVisibility(View.INVISIBLE);
             finish();
         }
@@ -170,14 +190,15 @@ public class MainActivity extends AppCompatActivity {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
+                if (dataSnapshot.exists()) {
                     postList = new ArrayList<>();
-                    for(DataSnapshot dataSnapshot1:dataSnapshot.getChildren()){
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                         Post post = dataSnapshot1.getValue(Post.class);
                         postList.add(post);
                     }
                     adapter = new PostAdapter(MainActivity.this, postList);
                     postRecyclerView.setAdapter(adapter);
+                    filteredList = new ArrayList<>(postList);
                 }
             }
 
@@ -186,5 +207,24 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+
+    private void performSearch(String query) {
+        ArrayList<Post> searchResults = new ArrayList<>();
+
+        if (query.isEmpty()) {
+            searchResults.addAll(postList);
+        } else {
+            String lowerCaseQuery = query.toLowerCase();
+            for (Post post : postList) {
+                if ((post.getVariety() != null && post.getVariety().toLowerCase().contains(lowerCaseQuery))
+                        || (post.getDistrict() != null && post.getDistrict().toLowerCase().contains(lowerCaseQuery))) {
+                    searchResults.add(post);
+                }
+            }
+        }
+
+        adapter.setFilteredList(searchResults);
     }
 }

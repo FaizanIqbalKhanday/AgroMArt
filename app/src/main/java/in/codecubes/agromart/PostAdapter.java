@@ -18,12 +18,18 @@ import java.util.ArrayList;
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
     Context context;
     ArrayList<Post> postList;
+    ArrayList<Post> filteredList;
 
     public PostAdapter(Context context, ArrayList<Post> postList) {
         this.context = context;
         this.postList = postList;
+        this.filteredList = new ArrayList<>(postList);
     }
 
+    public void setFilteredList(ArrayList<Post> filteredList) {
+        this.filteredList = filteredList;
+        notifyDataSetChanged();
+    }
     @NonNull
     @Override
     public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -31,18 +37,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         return new PostViewHolder(view);
     }
 
+
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        holder.variety.setText(postList.get(position).getVariety());
-        String address = postList.get(position).getVillage() + " " + postList.get(position).getDistrict();
+        holder.variety.setText(filteredList.get(position).getVariety());
+        String address = filteredList.get(position).getVillage() + " " + filteredList.get(position).getDistrict();
         holder.address.setText(address);
 
         holder.postListLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PostActivity.class);
-                intent.putExtra("post_id", postList.get(position).getPostId());
-                intent.putExtra("user_id", postList.get(position).getUserId());
+                intent.putExtra("post_id", filteredList.get(position).getPostId());
+                intent.putExtra("user_id", filteredList.get(position).getUserId());
                 context.startActivity(intent);
             }
         });
@@ -50,7 +57,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     @Override
     public int getItemCount() {
-        return postList.size();
+        return filteredList.size();
     }
 
     public class PostViewHolder extends RecyclerView.ViewHolder {

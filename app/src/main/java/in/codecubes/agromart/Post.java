@@ -1,6 +1,7 @@
 package in.codecubes.agromart;
 
 public class Post {
+    private String title;
     private String variety;
     private String grade;
     private String packingType;
@@ -34,6 +35,15 @@ public class Post {
         this.userId = userId;
         this.postId = postId;
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
 
     public String getVariety() {
         return variety;
