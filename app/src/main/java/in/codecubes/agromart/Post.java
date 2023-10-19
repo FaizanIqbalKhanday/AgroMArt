@@ -2,6 +2,7 @@ package in.codecubes.agromart;
 
 public class Post {
     private String title;
+    private String image;
     private String variety;
     private String grade;
     private String packingType;
@@ -23,7 +24,8 @@ public class Post {
             String district,
             String village,
             String userId,
-            String postId
+            String postId,
+            String image
     ){
         this.variety = variety;
         this.grade = grade;
@@ -34,6 +36,7 @@ public class Post {
         this.village = village;
         this.userId = userId;
         this.postId = postId;
+        this.image = image;
     }
 
     public String getTitle() {
@@ -115,5 +118,13 @@ public class Post {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

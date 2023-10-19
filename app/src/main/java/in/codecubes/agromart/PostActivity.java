@@ -31,6 +31,7 @@ public class PostActivity extends AppCompatActivity {
     private TextView variety, grade, packing, quantity, address, address2, userName, userPhoneNumber;
     private String phoneNumber;
     private DatabaseReference reference;
+    private SliderAdapter adapter;
 
     private String url1 = "https://images.unsplash.com/photo-1682685795557-976f03aca7b2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=871&q=80";
     private String url2 = "https://images.unsplash.com/photo-1682687220198-88e9bdea9931?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80";
@@ -54,6 +55,12 @@ public class PostActivity extends AppCompatActivity {
         userName = (TextView) findViewById(R.id.post_user_name);
         userPhoneNumber = (TextView) findViewById(R.id.post_user_phone);
 
+        // we are creating array list for storing our image urls.
+        ArrayList<SliderData> sliderDataArrayList = new ArrayList<>();
+
+        // initializing the slider view.
+        SliderView sliderView = findViewById(R.id.slider);
+
         reference = FirebaseDatabase.getInstance().getReference();
         reference.child("POSTS").child(getIntent().getStringExtra("post_id")).addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
@@ -70,6 +77,12 @@ public class PostActivity extends AppCompatActivity {
                                 + snapshot.child("state").getValue(String.class);
                 address.setText(addr);
                 address2.setText(addr);
+                sliderDataArrayList.add(new SliderData(snapshot.child("image").getValue(String.class)));
+                // passing this array list inside our adapter class.
+                adapter = new SliderAdapter(PostActivity.this, sliderDataArrayList);
+                // below method is used to
+                // setadapter to sliderview.
+                sliderView.setSliderAdapter(adapter);
             }
 
             @Override
@@ -93,28 +106,14 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
-
-        // we are creating array list for storing our image urls.
-        ArrayList<SliderData> sliderDataArrayList = new ArrayList<>();
-
-        // initializing the slider view.
-        SliderView sliderView = findViewById(R.id.slider);
-
-        // adding the urls inside array list
-        sliderDataArrayList.add(new SliderData(url1));
-        sliderDataArrayList.add(new SliderData(url2));
-        sliderDataArrayList.add(new SliderData(url3));
-
-        // passing this array list inside our adapter class.
-        SliderAdapter adapter = new SliderAdapter(this, sliderDataArrayList);
+//        // adding the urls inside array list
+//        sliderDataArrayList.add(new SliderData(url1));
+//        sliderDataArrayList.add(new SliderData(url2));
+//        sliderDataArrayList.add(new SliderData(url3));
 
         // below method is used to set auto cycle direction in left to
         // right direction you can change according to requirement.
         sliderView.setAutoCycleDirection(SliderView.LAYOUT_DIRECTION_LTR);
-
-        // below method is used to
-        // setadapter to sliderview.
-        sliderView.setSliderAdapter(adapter);
 
         // below method is use to set
         // scroll time in seconds.

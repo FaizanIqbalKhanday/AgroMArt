@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ClipData;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -24,7 +25,10 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,12 +36,14 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public class AddPostActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -65,7 +71,7 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         rootNode = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
-        storageReference = FirebaseStorage.getInstance().getReference();
+        storageReference = FirebaseStorage.getInstance().getReference("Images");
 
         varietyTIL = findViewById(R.id.selectVariety);
         gradeTIL = findViewById(R.id.selectGrade);
@@ -100,23 +106,15 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
                     return;
                 }
                 String userId = mUser.getUid();
-                reference = rootNode.getReference("POSTS");
 
                 // Get village and quantity values
                 String quantity = quantityTIL.getEditText().getText().toString();
                 String village = villageTIL.getEditText().getText().toString();
 
-                String postId = reference.push().getKey();
-
-                Post post = new Post(variety, grade, packing, quantity, state, district, village, userId, postId);
-
-                if (postId != null) {
-                    reference.child(postId).setValue(post);
-                    if (imageUri != null) {
-                        uploadImage(postId);
-                    } else {
-                        startActivity(new Intent(AddPostActivity.this, MainActivity.class));
-                    }
+                if (imageUri != null) {
+                    uploadImage(variety, grade, packing, quantity, state, district, village, userId);
+                } else {
+                    Toast.makeText(AddPostActivity.this, "Please select image first.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -323,8 +321,12 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void openGallery() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, REQUEST_IMAGE_PICK);
+
     }
 
     private void checkCameraPermission() {
@@ -340,51 +342,93 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
     }
 
-    private void uploadImage(String postId) {
-        StorageReference imageRef = storageReference.child("images/" + UUID.randomUUID().toString());
-        try {
-            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            byte[] data = baos.toByteArray();
+    private void uploadImage(
+            String variety,
+            String grade,
+            String packing,
+            String quantity,
+            String state,
+            String district,
+            String village,
+            String userId
+    ) {
+        StorageReference imageRef = storageReference.child(System.currentTimeMillis() + ".jpg");
+        reference = rootNode.getReference("POSTS");
+        imageRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        String image = uri.toString();
+                        String postId = reference.push().getKey();
+                        Post post = new Post(variety, grade, packing, quantity, state, district, village, userId, postId, image);
 
-            UploadTask uploadTask = imageRef.putBytes(data);
-            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            String imageUrl = uri.toString();
-                            reference.child(postId).child("imageUrl").setValue(imageUrl);
+                        if (postId != null) {
+                            reference.child(postId).setValue(post);
                             startActivity(new Intent(AddPostActivity.this, MainActivity.class));
                         }
-                    });
-                }
-            });
-        } catch (IOException e) {
-            Log.e("UploadImage", "IOException: " + e.getMessage());
-        }
+                    }
+                });
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(AddPostActivity.this, "There is some error " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                Toast.makeText(AddPostActivity.this, "Getting Uploaded... " + (float) (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount()) + " %", Toast.LENGTH_SHORT).show();
+            }
+        });
+//        try {
+//            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//            byte[] data = baos.toByteArray();
+//
+//            UploadTask uploadTask = imageRef.putBytes(data);
+//            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//
+//                @Override
+//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                    imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                        @Override
+//                        public void onSuccess(Uri uri) {
+//                            String imageUrl = uri.toString();
+//                            Toast.makeText(AddPostActivity.this, "image " + imageUrl, Toast.LENGTH_SHORT).show();
+//                            reference.child(postId).child("imageUrl").setValue(imageUrl);
+//                            startActivity(new Intent(AddPostActivity.this, MainActivity.class));
+//                        }
+//                    });
+//                }
+//            });
+//        } catch (IOException e) {
+//            Log.e("UploadImage", "IOException: " + e.getMessage());
+//        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
+        if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_IMAGE_CAPTURE) {
-                Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
-                uploadImages.setImageBitmap(imageBitmap);
-                imageUri = getImageUri(imageBitmap);
+//                Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
+//                uploadImages.setImageBitmap(imageBitmap);
+//                imageUri = getImageUri(imageBitmap);
+                Glide.with(AddPostActivity.this).load(data.getData()).into(uploadImages);
+                imageUri = data.getData();
             } else if (requestCode == REQUEST_IMAGE_PICK && data != null) {
                 Uri selectedImageUri = data.getData();
-                try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
-                    uploadImages.setImageBitmap(bitmap);
-                    imageUri = selectedImageUri;
-                } catch (IOException e) {
-                    Log.e("ImagePick", "IOException: " + e.getMessage());
-                }
+                imageUri = data.getData();
+                Glide.with(AddPostActivity.this).load(data.getData()).into(uploadImages);
+//                try {
+//                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
+//                    uploadImages.setImageBitmap(bitmap);
+//                } catch (IOException e) {
+//                    Log.e("ImagePick", "IOException: " + e.getMessage());
+//                }
             }
         }
     }
