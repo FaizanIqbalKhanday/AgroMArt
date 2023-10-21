@@ -29,6 +29,7 @@ public class ProfileUI extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_ui);
+        getSupportActionBar().hide();
         Button back_btn=findViewById(R.id.back_to_home);
 
         profileName=(TextView) findViewById(R.id.profile_name);

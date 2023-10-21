@@ -16,7 +16,16 @@
             </item>
             <item android:id="@+id/item4"
                 android:title="logout"
-                android:icon="@drawable/logout">
+                >
+                <menu>
+                    <group android:checkableBehavior="single">
+                        <item android:id="@+id/item4a"
+                            android:title="logout"
+                            android:icon="@drawable/logout">
+
+                        </item>
+                    </group>
+                </menu>
             </item>
             <item android:id="@+id/item5"
                 android:title="about us"

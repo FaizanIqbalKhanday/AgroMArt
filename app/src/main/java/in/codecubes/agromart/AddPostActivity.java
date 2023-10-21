@@ -66,6 +66,7 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_add_post);
 
         rootNode = FirebaseDatabase.getInstance();

@@ -12,6 +12,7 @@ public class VerifyOTP extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_verify_otp);
         Button verifyCodeBtn= findViewById(R.id.verifyCodeButton);
         verifyCodeBtn.setOnClickListener(new View.OnClickListener() {
