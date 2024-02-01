@@ -92,33 +92,31 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.item1: {
-                        Toast.makeText(MainActivity.this, "home selected", Toast.LENGTH_SHORT).show();
+                    case R.id.item1:
+                        showToast("Home selected");
                         break;
-                    }
-                    case R.id.item2: {
-                        Toast.makeText(MainActivity.this, "profile selected", Toast.LENGTH_SHORT).show();
+                    case R.id.item2:
+                        showToast("Profile selected");
                         break;
-                    }
-                    case R.id.item3: {
-                        Toast.makeText(MainActivity.this, "my post selected", Toast.LENGTH_SHORT).show();
+                    case R.id.item3:
+                        showToast("My post selected");
                         break;
-                    }
-                    case R.id.item4: {
-                        Toast.makeText(MainActivity.this, "logout selected", Toast.LENGTH_SHORT).show();
+                    case R.id.item4:
+                        showToast("Logout selected");
                         mAuth.signOut();
                         Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                         startActivity(intent);
                         finish();
                         break;
-                    }
-                    case R.id.item5: {
-                        Toast.makeText(MainActivity.this, "about us selected", Toast.LENGTH_SHORT).show();
+                    case R.id.item5:
+                        showToast("About us selected");
                         break;
-                    }
                 }
-                return false;
+                return true; // Event handled
+            }
 
+            private void showToast(String message) {
+                Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
             }
         });
 

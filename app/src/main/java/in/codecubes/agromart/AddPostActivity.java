@@ -2,10 +2,13 @@ package in.codecubes.agromart;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 
 import android.Manifest;
@@ -30,6 +33,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -62,11 +66,14 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
     private ImageView uploadImages, takeImages;
     private Uri imageUri;
     private String variety, grade, packing, state, district;
+    private NavigationView navigationView;
+    private ActionBarDrawerToggle drawerToggle;
+    private DrawerLayout drawerLayout;
+    private ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         setContentView(R.layout.activity_add_post);
 
         rootNode = FirebaseDatabase.getInstance();
@@ -84,6 +91,46 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         addPostButton = findViewById(R.id.addPostButton);
         uploadImages = findViewById(R.id.uploadImages);
         takeImages = findViewById(R.id.takeImages);
+        navigationView = findViewById(R.id.nav_view);
+        drawerLayout = findViewById(R.id.drawable_layout);
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
+
+        drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+        actionBar = getSupportActionBar();
+        if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.item1:
+                        showToast("Home selected");
+                        break;
+                    case R.id.item2:
+                        showToast("Profile selected");
+                        break;
+                    case R.id.item3:
+                        showToast("My post selected");
+                        break;
+                    case R.id.item4:
+                        showToast("Logout selected");
+                        mAuth.signOut();
+                        Intent intent = new Intent(AddPostActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+                    case R.id.item5:
+                        showToast("About us selected");
+                        break;
+                }
+                return true; // Event handled
+            }
+
+            private void showToast(String message) {
+                Toast.makeText(AddPostActivity.this, message, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         uploadImages.setOnClickListener(new View.OnClickListener() {
             @Override
