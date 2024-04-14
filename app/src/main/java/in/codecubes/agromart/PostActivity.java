@@ -28,7 +28,7 @@ import java.util.ArrayList;
 public class PostActivity extends AppCompatActivity {
 
     private Button callBtn, chatBtn;
-    private TextView variety, grade, packing, quantity, address, address2, userName, userPhoneNumber;
+    private TextView full_name, variety, grade, packing, quantity, address, address2, userName, userPhoneNumber;
     private String phoneNumber;
     private DatabaseReference reference;
     private SliderAdapter adapter;
@@ -41,7 +41,6 @@ public class PostActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         setContentView(R.layout.activity_post);
 
         callBtn = (Button) findViewById(R.id.call_btn);
@@ -54,6 +53,7 @@ public class PostActivity extends AppCompatActivity {
         address = (TextView) findViewById(R.id.post_user_address);
         address2 = (TextView) findViewById(R.id.post_address_2);
         userName = (TextView) findViewById(R.id.post_user_name);
+        full_name = (TextView) findViewById(R.id.full_name);
         userPhoneNumber = (TextView) findViewById(R.id.post_user_phone);
 
         // we are creating array list for storing our image urls.
@@ -70,7 +70,7 @@ public class PostActivity extends AppCompatActivity {
                 variety.setText(snapshot.child("variety").getValue(String.class));
                 grade.setText(snapshot.child("grade").getValue(String.class));
                 packing.setText(snapshot.child("packingType").getValue(String.class));
-                quantity.setText(snapshot.child("quantity").getValue(String.class));
+                quantity.setText(snapshot.child("quantity").getValue(String.class) + " Boxes");
                 String addr = snapshot.child("village").getValue(String.class)
                                 + " "
                                 + snapshot.child("district").getValue(String.class)
@@ -96,6 +96,7 @@ public class PostActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 userName.setText(snapshot.child("fullName").getValue(String.class));
+                full_name.setText(snapshot.child("fullName").getValue(String.class));
                 String phone = snapshot.child("phoneNumber").getValue(String.class);
                 phoneNumber = phone;
                 userPhoneNumber.setText(phone);
