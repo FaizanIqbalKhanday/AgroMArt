@@ -24,10 +24,24 @@
         android:layout_height="match_parent"
         android:padding="10dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_color">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/add_post"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="25dp"/>
+        </LinearLayout>
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="none">
+            android:scrollbars="none"
+            android:layout_marginTop="40dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -47,57 +61,76 @@
                     android:textColor="@color/black"
                     android:textSize="18sp"
                     android:textStyle="bold" />
-
                 <LinearLayout
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:padding="10dp">
-
+                    android:gravity="center">
                     <LinearLayout
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/search_bg"
+                        android:gravity="center"
+                        android:layout_margin="10dp"
                         android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/uploadImages"
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:layout_marginEnd="10dp"
-                            android:src="@drawable/img_bg" />
-
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_margin="10dp"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginEnd="10dp"
-                            android:text="@string/or"
-                            android:textSize="24sp" />
+                            android:layout_weight=".3333"
+                            android:background="@drawable/green_bg"
+                            android:elevation="9dp"
+                            android:orientation="vertical">
+                            <ImageView
+                                android:id="@+id/uploadImages"
+                                android:layout_width="100dp"
+                                android:layout_height="64dp"
+                                android:src="@drawable/img_bg"/>
 
-                        <ImageView
-                            android:id="@+id/takeImages"
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:layout_marginStart="10dp"
-                            android:src="@drawable/camera" />
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="8dp"
+                                android:text="@string/gallery"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:layout_weight=".3333"
+                            android:background="@drawable/green_bg"
+                            android:elevation="9dp"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/takeImages"
+                                android:layout_width="100dp"
+                                android:layout_height="64dp"
+                                android:src="@drawable/camera" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="8dp"
+                                android:text="@string/take_photo"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+
+
                     </LinearLayout>
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/uploadButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:background="@drawable/button_bg"
-                        android:padding="5dp"
-                        android:text="@string/upload"
-                        android:textColor="@color/white"
-                        android:textStyle="bold" />
-
-
                 </LinearLayout>
+
+
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -109,7 +142,6 @@
                         android:layout_marginRight="4dp"
                         android:padding="4dp"
                         android:text="@string/product_details"
-                        android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -296,6 +328,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:textColor="@color/default_color"
                         android:inputType="textPostalAddress"/>
                 </com.google.android.material.textfield.TextInputLayout>
 

@@ -6,6 +6,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -28,6 +29,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -75,7 +77,6 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_post);
-
         rootNode = FirebaseDatabase.getInstance();
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
@@ -90,7 +91,6 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         villageTIL = findViewById(R.id.set_village);
         addPostButton = findViewById(R.id.addPostButton);
         uploadImages = findViewById(R.id.uploadImages);
-        takeImages = findViewById(R.id.takeImages);
         navigationView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawable_layout);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
@@ -100,51 +100,30 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.item1:
-                        showToast("Home selected");
-                        break;
-                    case R.id.item2:
-                        showToast("Profile selected");
-                        break;
-                    case R.id.item3:
-                        showToast("My post selected");
-                        break;
-                    case R.id.item4:
-                        showToast("Logout selected");
-                        mAuth.signOut();
-                        Intent intent = new Intent(AddPostActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                        break;
-                    case R.id.item5:
-                        showToast("About us selected");
-                        break;
+        if (uploadImages != null) {
+            uploadImages.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                        openGallery();
+
                 }
-                return true; // Event handled
-            }
+            });
+        } else {
+            // Handle null uploadImages
+        }
 
-            private void showToast(String message) {
-                Toast.makeText(AddPostActivity.this, message, Toast.LENGTH_SHORT).show();
-            }
-        });
+        if(takeImages!=null){
+            takeImages.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    checkCameraPermission();
+                }
+            });
 
-        uploadImages.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openGallery();
-            }
-        });
+        }
+        else{
 
-        takeImages.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkCameraPermission();
-            }
-        });
+        }
 
         addPostButton.setOnClickListener(new View.OnClickListener() {
             @Override

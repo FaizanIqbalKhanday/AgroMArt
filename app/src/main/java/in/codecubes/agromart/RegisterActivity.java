@@ -9,6 +9,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -28,12 +29,12 @@ public class RegisterActivity extends AppCompatActivity {
     private TextInputLayout fullName,email, phoneNumber, password, confirmPassword;
     private DatabaseReference reference;
     private FirebaseAuth mAuth;
+    private ImageView menuBar;
     private ProgressBar progress_Bar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         setContentView(R.layout.activity_register);
 
         mAuth=FirebaseAuth.getInstance();

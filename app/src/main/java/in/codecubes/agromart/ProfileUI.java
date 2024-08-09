@@ -2,11 +2,13 @@ package in.codecubes.agromart;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +24,7 @@ public class ProfileUI extends AppCompatActivity {
     private TextView profileName ,profileEmail, userPhoneNumber ,state,district,village;
     private DatabaseReference reference, reference2;
     private FirebaseUser mUser;
+    private CardView editProfile;
     private String userId;
     private String pId;
 
@@ -29,15 +32,25 @@ public class ProfileUI extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_ui);
-        getSupportActionBar().hide();
         Button back_btn=findViewById(R.id.back_to_home);
 
+        editProfile= findViewById(R.id.edit_profile);
         profileName=(TextView) findViewById(R.id.profile_name);
         profileEmail=(TextView)findViewById(R.id.profile_emailID);
         userPhoneNumber=(TextView)findViewById(R.id.number);
         state= (TextView)findViewById(R.id.profile_state);
         district =(TextView)findViewById(R.id.profile_district);
         village =(TextView)findViewById(R.id.profile_village);
+
+
+
+
+        editProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editProfile();
+            }
+        });
 
 
         mUser=FirebaseAuth.getInstance().getCurrentUser();
@@ -60,6 +73,10 @@ public class ProfileUI extends AppCompatActivity {
                 homeScreen();
             }
         });
+    }
+    public void editProfile(){
+        Intent intent=new Intent(this,EditProfileActivity.class);
+        startActivity(intent);
     }
     public void homeScreen(){
         Intent intent=new Intent(this,MainActivity.class);

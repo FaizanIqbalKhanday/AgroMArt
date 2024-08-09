@@ -9,7 +9,7 @@
         android:layout_width="90dp"
         android:layout_height="80dp"
         android:layout_marginTop="10dp"
-        android:src="@drawable/profile"
+        android:src="@drawable/pro_icon"
         android:layout_gravity="center_horizontal"/>
     <TextView
         android:id="@+id/userName"

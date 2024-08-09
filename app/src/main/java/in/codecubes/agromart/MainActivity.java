@@ -1,21 +1,24 @@
 package in.codecubes.agromart;
+import static android.content.ContentValues.TAG;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -44,8 +47,8 @@ import in.codecubes.agromart.PostAdapter;
 import in.codecubes.agromart.ProfileUI;
 import in.codecubes.agromart.R;
 
-public class MainActivity extends AppCompatActivity {
-    private ImageView account;
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private ImageView account,menuBar;
     private FloatingActionButton addPostBtn;
     private FirebaseAuth mAuth;
     private Toolbar toolbar;
@@ -62,11 +65,6 @@ public class MainActivity extends AppCompatActivity {
     private CardView delicious_apple, kullu_apple,golden_apple, mahraji_apple,treal_apple,american_apple,pear_apple;
     private String delicious="delicious", kullu="kullu",golden="golden",mahraji="mahraji",treal="treal",american="american",pear="pear";
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item)) return true;
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,49 +74,19 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         addPostBtn = findViewById(R.id.addPost);
+        menuBar=findViewById(R.id.menu_bar);
         account = findViewById(R.id.goToProfile);
         progress_Bar = findViewById(R.id.progressBar);
         drawerLayout = findViewById(R.id.drawable_layout);
         navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
 
         drawerLayout.addDrawerListener(drawerToggle);
         drawerToggle.syncState();
-        actionBar = getSupportActionBar();
+        navigationView.bringToFront();
+        menuBar.setOnClickListener(view -> drawerLayout.openDrawer(navigationView));
 
-        if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
-
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.item1:
-                        showToast("Home selected");
-                        break;
-                    case R.id.item2:
-                        showToast("Profile selected");
-                        break;
-                    case R.id.item3:
-                        showToast("My post selected");
-                        break;
-                    case R.id.item4:
-                        showToast("Logout selected");
-                        mAuth.signOut();
-                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                        break;
-                    case R.id.item5:
-                        showToast("About us selected");
-                        break;
-                }
-                return true; // Event handled
-            }
-
-            private void showToast(String message) {
-                Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
-            }
-        });
 
         postRecyclerView = findViewById(R.id.posts_recycler_view);
         postRecyclerView.setHasFixedSize(true);
@@ -283,6 +251,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+
         adapter.setFilteredList(searchResults);
     }
     private void searchByCategory(String category) {
@@ -302,5 +271,19 @@ public class MainActivity extends AppCompatActivity {
         }
 
         adapter.setFilteredList(searchResults);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id=item.getItemId();
+        switch (id){
+            case R.id.item1:
+                Toast.makeText(this, "home is selected", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.item4:
+                Toast.makeText(this, "logOut is selected", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        return true;
     }
 }

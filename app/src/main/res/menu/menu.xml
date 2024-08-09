@@ -1,38 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-        <group android:checkableBehavior="single">
-            <item android:id="@+id/item1"
-                android:title="home"
-                android:icon="@drawable/home">
-            </item>
-            <item android:id="@+id/item2"
-                android:title="my profile"
-                android:icon="@drawable/profile">
-            </item>
-
-            <item android:id="@+id/item3"
-                android:title="my posts"
-                android:icon="@drawable/packing">
-            </item>
-            <item android:id="@+id/item4"
-                android:title="logout"
-                >
-                <menu>
-                    <group android:checkableBehavior="single">
-                        <item android:id="@+id/item4a"
-                            android:title="logout"
-                            android:icon="@drawable/logout">
-
-                        </item>
-                    </group>
-                </menu>
-            </item>
-            <item android:id="@+id/item5"
-                android:title="about us"
-                android:icon="@drawable/about">
-            </item>
-
-
-        </group>
-
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/item1"
+            android:icon="@drawable/home"
+            android:title="home" />
+        <item
+            android:id="@+id/item2"
+            android:icon="@drawable/profile"
+            android:title="my profile" />
+        <item
+            android:id="@+id/item3"
+            android:icon="@drawable/packing"
+            android:title="my posts" />
+        <item
+            android:title="logout">
+            <menu>
+                <group android:checkableBehavior="single">
+                    <item
+                        android:id="@+id/item4"
+                        android:icon="@drawable/logout"
+                        android:title="logout" />
+                </group>
+            </menu>
+        </item>
+        <item
+            android:id="@+id/item5"
+            android:icon="@drawable/about"
+            android:title="about us" />
+    </group>
 </menu>

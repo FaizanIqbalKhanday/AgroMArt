@@ -18,7 +18,6 @@ public class ForgetPassword extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
         setContentView(R.layout.activity_forget_password);
         nextBtn= findViewById(R.id.nextButton);
         email =findViewById(R.id.forgotPasswordEmail);
