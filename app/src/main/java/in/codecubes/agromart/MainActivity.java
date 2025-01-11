@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -280,7 +281,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.item1:
                 Toast.makeText(this, "home is selected", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.item3:
+                Toast.makeText(this, "terms is selected", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("https://agromarttermsandcondations.blogspot.com/2025/01/agromart-terms-and-conditions-welcome.html"));
+                startActivity(intent);
+                break;
+            case R.id.item5:
+                Toast.makeText(this, "home is selected", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, AboutUsActivity.class));
+                break;
             case R.id.item4:
+                mAuth.signOut();
+                startActivity(new Intent(this, LoginActivity.class));
                 Toast.makeText(this, "logOut is selected", Toast.LENGTH_SHORT).show();
                 break;
         }

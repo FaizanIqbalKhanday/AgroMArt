@@ -4,10 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -40,30 +42,23 @@ public class EditProfileActivity extends AppCompatActivity {
         reference = FirebaseDatabase.getInstance().getReference();
         String userId = getIntent().getStringExtra("user_id");
         if(userId!=null){
-            reference.child("user_data").child(getIntent().getStringExtra("user_id")).addValueEventListener(new ValueEventListener() {
+            reference.child("user_data").child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    setName.setText(snapshot.child("fullName").getValue(String.class));
                     if (snapshot.exists()) {
-                        String fullName = snapshot.child("fullName").getValue(String.class);
-                        if (fullName != null) {
-                            setName.setText(fullName);
-                        }
 
-                        String phoneNumber = snapshot.child("phoneNumber").getValue(String.class);
-                        if (phoneNumber != null) {
-                            setNumber.setText(phoneNumber);
-                        }
+
+                            setName.setText(snapshot.child("fullName").getValue(String.class));
+
                     }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-
+                    Toast.makeText(EditProfileActivity.this, "Failed to fetch data", Toast.LENGTH_SHORT).show();
                 }
             });
-        }
-        else{
-
         }
 
 

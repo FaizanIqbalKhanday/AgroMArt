@@ -69,6 +69,29 @@
     <string name="set_address">Set Address</string>
     <string name="gallery">Gallery</string>
     <string name="take_photo">Take Photo</string>
+    <!--About us activity-->
+    <string name="about_agromart">About AgroMart</string>
+    <string name="about_content">Agromart is a revolutionary platform connecting fruit growers directly with traders, eliminating intermediaries to empower growers and maximize their earnings. By bridging the gap between producers and buyers, we aim to create a transparent, efficient, and fair marketplace for agricultural trade.</string>
+   <string name="our_mission">Our Mission</string>
+    <string name="mission_content">To empower fruit growers by providing them with direct access to traders, ensuring fair pricing and fostering sustainable growth in the agricultural sector.</string>
+    <string name="our_vision">Our Vision</string>
+    <string name="vision_content">To empower fruit growers by providing them with direct access to traders, ensuring fair pricing and fostering sustainable growth in the agricultural sector.</string>
+    <string name="why_agromart">Why AgroMart</string>
+    <string name="direct_connection">1. Direct Connection :</string>
+    <string name="direct_connection_content">No middlemen, meaning better earnings for growers and fair prices for traders.</string>
+    <string name="transparency">2. Transparency</string>
+    <string name="transparency_content">Clear communication and secure transactions.</string>
+    <string name="efficiency">3. Efficiency</string>
+    <string name="efficiency_content">A user-friendly platform to save time and effort.</string>
+    <string name="support_for_growth">4. Support for Growth: </string>
+    <string name="support_content">We prioritize the success of growers and traders alike.</string>
+    <string name="our_story">Our Story</string>
+    <string name="our_story_content">Agromart was born out of a desire to revolutionize the way agricultural trade works. We understand the struggles growers face in getting a fair price for their produce and the challenges traders face in sourcing high-quality fruits efficiently. With Agromart, we strive to solve these problems and pave the way for a better future in agriculture.</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="contact_description">Do you have questions or feedback? Feel free to reach out! We’re here to help.</string>
+    <string name="phone">Phone</string>
+    <string name="our_phone">+91 7006378179</string>
+    <string name="our_email">barshoinfotech@gmail.com</string>
     <!-- Profile Screen-->
     <string name="save">SAVE</string>
     <!-- Profile Screen-->

@@ -54,7 +54,8 @@
                 app:endIconTint="@color/default_color"
                 app:hintTextColor="@color/default_color"
                 app:startIconDrawable="@drawable/person"
-                app:startIconTint="@color/black">
+                app:startIconTint="@color/black"
+                    android:visibility="visible">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/newName"

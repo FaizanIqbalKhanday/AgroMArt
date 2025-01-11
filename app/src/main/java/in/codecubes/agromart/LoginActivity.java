@@ -174,7 +174,7 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
                             // If sign in fails, display a message to the user.
                             progress_Bar.setVisibility(View.INVISIBLE);
-                            Toast.makeText(getApplicationContext(), "Authentication failed.",
+                            Toast.makeText(getApplicationContext(), "Invalid email or password.",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }

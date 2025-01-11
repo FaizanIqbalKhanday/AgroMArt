@@ -10,8 +10,12 @@
             android:title="my profile" />
         <item
             android:id="@+id/item3"
-            android:icon="@drawable/packing"
-            android:title="my posts" />
+            android:icon="@drawable/terms"
+            android:title="Terms and Conditions" />
+        <item
+            android:id="@+id/item5"
+            android:icon="@drawable/about"
+            android:title="about us" />
         <item
             android:title="logout">
             <menu>
@@ -23,9 +27,6 @@
                 </group>
             </menu>
         </item>
-        <item
-            android:id="@+id/item5"
-            android:icon="@drawable/about"
-            android:title="about us" />
+
     </group>
 </menu>
