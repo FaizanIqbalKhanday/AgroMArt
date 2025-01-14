@@ -9,6 +9,11 @@
     <color name="white">#FFFFFFFF</color>
     <color name="default_color">#505a49</color>
 
+    <color name="progress_background">#F3F3F3</color>
+    <color name="progress_start">#B2FF22</color>
+    <color name="progress_end">#FF0051</color>
+    <color name="progress_bg">#FFFFFF</color>
+
 
     <!--  Custom colors  -->
     <color name="bg_color">#B0EDCC</color>

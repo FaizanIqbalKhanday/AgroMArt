@@ -90,7 +90,9 @@ public class ProfileUI extends AppCompatActivity {
                 profileName.setText(snapshot.child("fullName").getValue(String.class));
                 profileEmail.setText(snapshot.child("email").getValue(String.class));
                 userPhoneNumber.setText(snapshot.child("phoneNumber").getValue(String.class));
-
+                state.setText(snapshot.child("state").getValue(String.class));
+                district.setText(snapshot.child("district").getValue(String.class));
+                village.setText(snapshot.child("village").getValue(String.class));
             }
 
             @Override

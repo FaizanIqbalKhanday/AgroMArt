@@ -86,6 +86,7 @@
                         android:textColor="@color/default_color"
                         android:inputType="phone"/>
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -175,8 +176,9 @@
                         android:textColor="@color/default_color"
                         android:inputType="textPostalAddress"/>
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/addPostButton"
+                    android:id="@+id/updateButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
@@ -184,11 +186,25 @@
                     android:text="@string/save"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:indeterminateDrawable="@drawable/custom_progress_bar"
+                    android:background="@drawable/progress_bg"
+                    android:padding="8dp" />
+
+
+
+
 
             </LinearLayout>
 
 
         </ScrollView>
+
 
     </RelativeLayout>
 

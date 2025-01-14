@@ -30,6 +30,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -39,8 +40,11 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -50,6 +54,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.UUID;
 
 public class AddPostActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
@@ -67,11 +72,13 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
     private Button addPostButton;
     private ImageView uploadImages, takeImages;
     private Uri imageUri;
+    private String userId;
     private String variety, grade, packing, state, district;
     private NavigationView navigationView;
     private ActionBarDrawerToggle drawerToggle;
     private DrawerLayout drawerLayout;
     private ActionBar actionBar;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +98,7 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         villageTIL = findViewById(R.id.set_village);
         addPostButton = findViewById(R.id.addPostButton);
         uploadImages = findViewById(R.id.uploadImages);
+        progressBar=findViewById(R.id.progressBar);
         navigationView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawable_layout);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
@@ -124,6 +132,10 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         else{
 
         }
+        reference = FirebaseDatabase.getInstance().getReference("POSTS");
+        String userId = mUser.getUid();
+
+
 
         addPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,6 +144,7 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
                         | !validateState() | !validateDistrict() | !validateVillage()){
                     return;
                 }
+                progressBar.setVisibility(View.VISIBLE);
                 String userId = mUser.getUid();
 
                 // Get village and quantity values
@@ -253,7 +266,7 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
                 "Gujarat",
                 "Haryana",
                 "Himachal Pradesh",
-                "J&K",
+                "Jammu & Kashmir",
                 "Jharkhand",
                 "Karnataka",
                 "Kerala",
@@ -347,6 +360,7 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         });
     }
 
+
     private void openGallery() {
 //        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         Intent intent = new Intent();
@@ -368,6 +382,7 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
     }
+
 
     private void uploadImage(
             String variety,
@@ -393,6 +408,7 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
 
                         if (postId != null) {
                             reference.child(postId).setValue(post);
+                            progressBar.setVisibility(View.INVISIBLE);
                             startActivity(new Intent(AddPostActivity.this, MainActivity.class));
                         }
                     }
@@ -406,34 +422,10 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                progressBar.setVisibility(View.VISIBLE);
                 Toast.makeText(AddPostActivity.this, "Getting Uploaded... " + (float) (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount()) + " %", Toast.LENGTH_SHORT).show();
             }
         });
-//        try {
-//            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-//            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-//            byte[] data = baos.toByteArray();
-//
-//            UploadTask uploadTask = imageRef.putBytes(data);
-//            uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//
-//                @Override
-//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                    imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                        @Override
-//                        public void onSuccess(Uri uri) {
-//                            String imageUrl = uri.toString();
-//                            Toast.makeText(AddPostActivity.this, "image " + imageUrl, Toast.LENGTH_SHORT).show();
-//                            reference.child(postId).child("imageUrl").setValue(imageUrl);
-//                            startActivity(new Intent(AddPostActivity.this, MainActivity.class));
-//                        }
-//                    });
-//                }
-//            });
-//        } catch (IOException e) {
-//            Log.e("UploadImage", "IOException: " + e.getMessage());
-//        }
     }
 
     @Override
@@ -450,15 +442,11 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
                 Uri selectedImageUri = data.getData();
                 imageUri = data.getData();
                 Glide.with(AddPostActivity.this).load(data.getData()).into(uploadImages);
-//                try {
-//                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
-//                    uploadImages.setImageBitmap(bitmap);
-//                } catch (IOException e) {
-//                    Log.e("ImagePick", "IOException: " + e.getMessage());
-//                }
             }
         }
     }
+
+
 
     private Uri getImageUri(Bitmap bitmap) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -521,7 +509,7 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
     }
     private  boolean validateDistrict(){
         if(district==null) {
-            districtTIL.setError("select variety");
+            districtTIL.setError("select district");
             return false;
         }
         else {

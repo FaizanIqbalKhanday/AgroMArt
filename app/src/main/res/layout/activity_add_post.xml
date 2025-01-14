@@ -242,6 +242,15 @@
                         android:layout_height="match_parent"
                         android:inputType="number"/>
                 </com.google.android.material.textfield.TextInputLayout>
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:indeterminateDrawable="@drawable/custom_progress_bar"
+                    android:background="@drawable/progress_bg"
+                    android:padding="8dp" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
