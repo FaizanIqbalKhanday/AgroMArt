@@ -21,8 +21,15 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegisterActivity extends AppCompatActivity {
     private Button signUpBtn;
@@ -138,8 +145,10 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         signUpBtn.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
+
                 if(!validateName() | !validateEmail() | !validatePhoneNumber() | !validateConfirmPassword() | !validatePassword())
                 {
                     return;
@@ -150,22 +159,39 @@ public class RegisterActivity extends AppCompatActivity {
                 String userEmail = email.getEditText().getText().toString();
                 String userPhoneNumber = phoneNumber.getEditText().getText().toString();
                 String userPassword = password.getEditText().getText().toString();
-                mAuth.createUserWithEmailAndPassword(userEmail,userPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                mAuth.fetchSignInMethodsForEmail(userEmail).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
                     @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            UserHelperClass helperClass = new UserHelperClass(userName,userEmail,userPhoneNumber,userPassword);
-                            reference = FirebaseDatabase.getInstance().getReference("user_data");
-                            reference.child(user.getUid()).setValue(helperClass);
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                    public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
+                        if (task.isSuccessful()) {
+                            SignInMethodQueryResult result = task.getResult();
+                            if (result != null && !result.getSignInMethods().isEmpty()) {
+                                // Email already exists
+                                progress_Bar.setVisibility(View.INVISIBLE);
+                                email.setError("Email is already registered");
+                            } else {
+                                // Email does not exist, proceed with registration
+                                mAuth.createUserWithEmailAndPassword(userEmail, userPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<AuthResult> task) {
+                                        if (task.isSuccessful()) {
+                                            FirebaseUser user = mAuth.getCurrentUser();
+                                            UserHelperClass helperClass = new UserHelperClass(userName, userEmail, userPhoneNumber);
+                                            reference = FirebaseDatabase.getInstance().getReference("user_data");
+                                            reference.child(user.getUid()).setValue(helperClass);
+                                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        } else {
+                                            progress_Bar.setVisibility(View.INVISIBLE);
+                                            Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+                            }
                         } else {
                             progress_Bar.setVisibility(View.INVISIBLE);
-                            Toast.makeText(RegisterActivity.this,"registration failed",Toast.LENGTH_LONG).show();
+                            Toast.makeText(RegisterActivity.this, "Error checking email", Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 });
 

@@ -8,7 +8,6 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-
     tools:context=".MainActivity">
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"

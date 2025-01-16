@@ -57,6 +57,7 @@
             android:layout_height="wrap_content"
             app:itemCount="6"
             app:itemWidth="50dp"
+            android:inputType="number"
             app:itemHeight="50dp"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"

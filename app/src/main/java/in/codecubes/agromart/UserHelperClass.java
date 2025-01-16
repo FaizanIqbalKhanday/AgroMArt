@@ -1,16 +1,15 @@
 package in.codecubes.agromart;
 
 public class UserHelperClass {
-    String fullName, email, phoneNumber,password;
+    String fullName, email, phoneNumber;
 
     public UserHelperClass() {
     }
 
-    public UserHelperClass(String fullName, String email, String phoneNumber, String password) {
+    public UserHelperClass(String fullName, String email, String phoneNumber) {
         this.fullName = fullName;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.password = password;
     }
     UserHelperClass(String fullName){
         this.fullName=fullName;
@@ -40,11 +39,4 @@ public class UserHelperClass {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

@@ -1,5 +1,7 @@
 package in.codecubes.agromart;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -79,6 +81,8 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
     private DrawerLayout drawerLayout;
     private ActionBar actionBar;
     private ProgressBar progressBar;
+    private ActivityResultLauncher<String> cameraPermissionLauncher;
+    private ActivityResultLauncher<Intent> takePictureLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +102,7 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         villageTIL = findViewById(R.id.set_village);
         addPostButton = findViewById(R.id.addPostButton);
         uploadImages = findViewById(R.id.uploadImages);
+        takeImages=findViewById(R.id.takeImages);
         progressBar=findViewById(R.id.progressBar);
         navigationView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawable_layout);
@@ -112,7 +117,7 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
             uploadImages.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                        openGallery();
+                    openGallery();
 
                 }
             });
@@ -120,6 +125,30 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
             // Handle null uploadImages
         }
 
+        cameraPermissionLauncher = registerForActivityResult(
+                new ActivityResultContracts.RequestPermission(),
+                isGranted -> {
+                    if (isGranted) {
+                        openCamera();
+                    } else {
+                        Toast.makeText(AddPostActivity.this, "Camera permission is required", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+
+        // Initialize the camera intent launcher
+        takePictureLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Uri imageUri = result.getData() != null ? result.getData().getData() : null;
+                        if (imageUri != null) {
+                            Glide.with(AddPostActivity.this).load(imageUri).into(uploadImages);
+                            this.imageUri = imageUri;
+                        }
+                    }
+                }
+        );
         if(takeImages!=null){
             takeImages.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -132,8 +161,6 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         else{
 
         }
-        reference = FirebaseDatabase.getInstance().getReference("POSTS");
-        String userId = mUser.getUid();
 
 
 
@@ -372,7 +399,8 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
 
     private void checkCameraPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+            // Request permission using the ActivityResultLauncher
+            cameraPermissionLauncher.launch(Manifest.permission.CAMERA);
         } else {
             openCamera();
         }
@@ -380,7 +408,7 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
 
     private void openCamera() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
+        takePictureLauncher.launch(intent);
     }
 
 

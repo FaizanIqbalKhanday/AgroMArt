@@ -6,8 +6,8 @@
             android:title="home" />
         <item
             android:id="@+id/item2"
-            android:icon="@drawable/profile"
-            android:title="my profile" />
+            android:icon="@drawable/camera"
+            android:title="my Posts" />
         <item
             android:id="@+id/item3"
             android:icon="@drawable/terms"

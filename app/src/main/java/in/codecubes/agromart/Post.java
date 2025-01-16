@@ -39,6 +39,9 @@ public class Post {
         this.image = image;
     }
 
+    public Post(String variety, String grade, String packing, String quantity, String state, String district, String village, String toString, String userId) {
+    }
+
     public String getTitle() {
         return title;
     }

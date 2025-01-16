@@ -91,13 +91,13 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               if(!validateEmail() | !validatePassword()){
-                   return;
-               }
-               else {
-                   progress_Bar.setVisibility(View.VISIBLE);
-                   isUser();
-               }
+                if(!validateEmail() | !validatePassword()){
+                    return;
+                }
+                else {
+                    progress_Bar.setVisibility(View.VISIBLE);
+                    isUser();
+                }
 
             }
         });
@@ -139,7 +139,7 @@ public class LoginActivity extends AppCompatActivity {
             return false;
         }
         else if(!val.matches(emailPattern)){
-           loginEmail.setError("invalid email");
+            loginEmail.setError("invalid email");
             return false;
         }
         else

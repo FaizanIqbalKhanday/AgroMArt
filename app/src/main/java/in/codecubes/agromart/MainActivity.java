@@ -9,9 +9,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.TextureView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -52,15 +54,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ImageView account,menuBar;
     private FloatingActionButton addPostBtn;
     private FirebaseAuth mAuth;
-    private Toolbar toolbar;
+   private FirebaseUser mUser;
+   private String  uId;
     private ProgressBar progress_Bar;
     private NavigationView navigationView;
     private ActionBarDrawerToggle drawerToggle;
     private DrawerLayout drawerLayout;
     private ActionBar actionBar;
+    private TextView user_name, user_email;
 
     private RecyclerView postRecyclerView;
     private ArrayList<Post> postList;
+    private DatabaseReference reference2;
     private PostAdapter adapter;
     private ArrayList<Post> filteredList;
     private CardView delicious_apple, kullu_apple,golden_apple, mahraji_apple,treal_apple,american_apple,pear_apple;
@@ -80,6 +85,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         progress_Bar = findViewById(R.id.progressBar);
         drawerLayout = findViewById(R.id.drawable_layout);
         navigationView = findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        user_name=headerView.findViewById(R.id.userName);
+        user_email=headerView.findViewById(R.id.userEmail);
         navigationView.setNavigationItemSelectedListener(this);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
 
@@ -93,6 +101,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         postRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
         postRecyclerView.setLayoutManager(layoutManager);
+        mUser=mAuth.getCurrentUser();
+        uId =mUser.getUid();
+        if (mUser!=null){
+
+        }
+        getUserDataInMenuBar();
 
         loadData();
 
@@ -213,6 +227,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void loadData() {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("POSTS");
+
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -279,7 +294,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id=item.getItemId();
         switch (id){
             case R.id.item1:
-                Toast.makeText(this, "home is selected", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, MainActivity.class));
+
                 break;
             case R.id.item3:
                 Toast.makeText(this, "terms is selected", Toast.LENGTH_SHORT).show();
@@ -294,9 +310,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.item4:
                 mAuth.signOut();
                 startActivity(new Intent(this, LoginActivity.class));
-                Toast.makeText(this, "logOut is selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "you are signed out", Toast.LENGTH_SHORT).show();
                 break;
         }
         return true;
+    }
+    public void getUserDataInMenuBar(){
+        reference2=FirebaseDatabase.getInstance().getReference("user_data");
+        reference2.child(uId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                user_name.setText(snapshot.child("fullName").getValue(String.class));
+                user_email.setText(snapshot.child("email").getValue(String.class));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(MainActivity.this, "failed to load data", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

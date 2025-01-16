@@ -26,7 +26,6 @@ public class ProfileUI extends AppCompatActivity {
     private FirebaseUser mUser;
     private CardView editProfile;
     private String userId;
-    private String pId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +85,7 @@ public class ProfileUI extends AppCompatActivity {
         reference.child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Toast.makeText(ProfileUI.this, userId, Toast.LENGTH_SHORT).show();
+
                 profileName.setText(snapshot.child("fullName").getValue(String.class));
                 profileEmail.setText(snapshot.child("email").getValue(String.class));
                 userPhoneNumber.setText(snapshot.child("phoneNumber").getValue(String.class));
@@ -97,7 +96,7 @@ public class ProfileUI extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(ProfileUI.this, "failed to load data", Toast.LENGTH_SHORT).show();
             }
         });
     }
