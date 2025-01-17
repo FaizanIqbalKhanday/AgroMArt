@@ -186,15 +186,7 @@
                     android:text="@string/save"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
-                <ProgressBar
-                    android:id="@+id/progressBar"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
-                    android:visibility="gone"
-                    android:indeterminateDrawable="@drawable/custom_progress_bar"
-                    android:background="@drawable/progress_bg"
-                    android:padding="8dp" />
+
 
 
 
@@ -204,6 +196,21 @@
 
 
         </ScrollView>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:padding="20dp">
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:indeterminateDrawable="@drawable/custom_progress_bar"
+                android:background="@drawable/progress_bg"
+                android:padding="8dp" />
+        </RelativeLayout>
 
 
     </RelativeLayout>

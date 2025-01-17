@@ -167,10 +167,24 @@ public class LoginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
 
-                            // Sign in success, update UI with the signed-in user's information
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                            FirebaseUser user = mAuth.getCurrentUser();
+
+                            if (user != null) {
+                                if (user.isEmailVerified()) {
+                                    // Proceed to the main screen
+                                    Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                } else {
+                                    // Email not verified
+                                    Toast.makeText(LoginActivity.this,
+                                            "Please verify your email before logging in.",
+                                            Toast.LENGTH_SHORT).show();
+
+                                    mAuth.signOut(); // Sign out the user
+                                }
+                            }
                         } else {
                             // If sign in fails, display a message to the user.
                             progress_Bar.setVisibility(View.INVISIBLE);

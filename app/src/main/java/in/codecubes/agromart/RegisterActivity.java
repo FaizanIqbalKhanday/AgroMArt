@@ -2,6 +2,7 @@ package in.codecubes.agromart;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,6 +39,7 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private ImageView menuBar;
     private ProgressBar progress_Bar;
+    private AppCompatButton alreadyHaveAnAccountBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,8 @@ public class RegisterActivity extends AppCompatActivity {
         password = findViewById(R.id.password);
         progress_Bar=findViewById(R.id.progressBar);
         confirmPassword = findViewById(R.id.confirmPassword);
+        alreadyHaveAnAccountBtn=findViewById(R.id.alreadyAccountButton);
+
 
         fullName.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
@@ -145,58 +149,80 @@ public class RegisterActivity extends AppCompatActivity {
         });
 
         signUpBtn.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-
-                if(!validateName() | !validateEmail() | !validatePhoneNumber() | !validateConfirmPassword() | !validatePassword())
-                {
+                if (!validateName() | !validateEmail() | !validatePhoneNumber() | !validateConfirmPassword() | !validatePassword()) {
                     return;
                 }
+
                 progress_Bar.setVisibility(View.VISIBLE);
 
                 String userName = fullName.getEditText().getText().toString();
                 String userEmail = email.getEditText().getText().toString();
                 String userPhoneNumber = phoneNumber.getEditText().getText().toString();
                 String userPassword = password.getEditText().getText().toString();
-                mAuth.fetchSignInMethodsForEmail(userEmail).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
-                        if (task.isSuccessful()) {
-                            SignInMethodQueryResult result = task.getResult();
-                            if (result != null && !result.getSignInMethods().isEmpty()) {
-                                // Email already exists
-                                progress_Bar.setVisibility(View.INVISIBLE);
-                                email.setError("Email is already registered");
-                            } else {
-                                // Email does not exist, proceed with registration
-                                mAuth.createUserWithEmailAndPassword(userEmail, userPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<AuthResult> task) {
-                                        if (task.isSuccessful()) {
-                                            FirebaseUser user = mAuth.getCurrentUser();
-                                            UserHelperClass helperClass = new UserHelperClass(userName, userEmail, userPhoneNumber);
-                                            reference = FirebaseDatabase.getInstance().getReference("user_data");
-                                            reference.child(user.getUid()).setValue(helperClass);
-                                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                            startActivity(intent);
-                                            finish();
-                                        } else {
-                                            progress_Bar.setVisibility(View.INVISIBLE);
-                                            Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_LONG).show();
-                                        }
-                                    }
-                                });
-                            }
-                        } else {
-                            progress_Bar.setVisibility(View.INVISIBLE);
-                            Toast.makeText(RegisterActivity.this, "Error checking email", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
 
+                mAuth.createUserWithEmailAndPassword(userEmail, userPassword)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    if (user != null) {
+                                        // Send email verification
+                                        user.sendEmailVerification()
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()) {
+                                                            // Store user data in Firebase Realtime Database
+                                                            DatabaseReference reference = FirebaseDatabase.getInstance().getReference("user_data");
+
+                                                            // Create a UserHelperClass object to store the user info
+                                                            UserHelperClass userHelper = new UserHelperClass(userName, userEmail, userPhoneNumber);
+
+                                                            // Store the user data with the unique UID
+                                                            reference.child(user.getUid()).setValue(userHelper)
+                                                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                        @Override
+                                                                        public void onComplete(@NonNull Task<Void> task) {
+                                                                            progress_Bar.setVisibility(View.INVISIBLE);
+                                                                            if (task.isSuccessful()) {
+                                                                                // Data stored successfully
+                                                                                Toast.makeText(RegisterActivity.this,
+                                                                                        "Verification email sent. Please verify your email before signing in.",
+                                                                                        Toast.LENGTH_LONG).show();
+
+                                                                                // Sign out the user to prevent further actions until verified
+                                                                                mAuth.signOut();
+                                                                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                                                                startActivity(intent);
+                                                                                finish();
+                                                                            } else {
+                                                                                Toast.makeText(RegisterActivity.this,
+                                                                                        "Failed to store user data.",
+                                                                                        Toast.LENGTH_SHORT).show();
+                                                                            }
+                                                                        }
+                                                                    });
+                                                        } else {
+                                                            progress_Bar.setVisibility(View.INVISIBLE);
+                                                            Toast.makeText(RegisterActivity.this,
+                                                                    "Failed to send verification email.",
+                                                                    Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                });
+                                    }
+                                } else {
+                                    progress_Bar.setVisibility(View.INVISIBLE);
+                                    Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_LONG).show();
+                                }
+                            }
+                        });
             }
         });
+                   
     }
     private Boolean validateName() {
         String val = fullName.getEditText().getText().toString();
@@ -277,5 +303,6 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
     }
+
 
 }

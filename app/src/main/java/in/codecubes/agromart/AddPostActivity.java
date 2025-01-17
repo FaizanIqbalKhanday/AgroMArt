@@ -63,6 +63,7 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
     private static final int REQUEST_CAMERA_PERMISSION = 200;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_PICK = 2;
+    private LinearLayout imageViewBefore, imageviewAfter;
 
     private FirebaseDatabase rootNode;
     private FirebaseAuth mAuth;
@@ -72,7 +73,7 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
 
     private TextInputLayout varietyTIL, gradeTIL, packingTIL, quantityTIL, stateTIL, districtTIL, villageTIL;
     private Button addPostButton;
-    private ImageView uploadImages, takeImages;
+    private ImageView uploadImages, takeImages, imageItem1, imageItem2, imageItem3;
     private Uri imageUri;
     private String userId;
     private String variety, grade, packing, state, district;
@@ -92,6 +93,8 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         storageReference = FirebaseStorage.getInstance().getReference("Images");
+        imageViewBefore=findViewById(R.id.imageViewBefore);
+        imageviewAfter=findViewById(R.id.imageViewAfter);
 
         varietyTIL = findViewById(R.id.selectVariety);
         gradeTIL = findViewById(R.id.selectGrade);
@@ -103,6 +106,9 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         addPostButton = findViewById(R.id.addPostButton);
         uploadImages = findViewById(R.id.uploadImages);
         takeImages=findViewById(R.id.takeImages);
+        imageItem1=findViewById(R.id.image1);
+        imageItem2=findViewById(R.id.image2);
+        imageItem3=findViewById(R.id.image3);
         progressBar=findViewById(R.id.progressBar);
         navigationView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawable_layout);
@@ -118,6 +124,8 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
                 @Override
                 public void onClick(View v) {
                     openGallery();
+
+
 
                 }
             });
@@ -460,13 +468,16 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
+
             if (requestCode == REQUEST_IMAGE_CAPTURE) {
 //                Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
 //                uploadImages.setImageBitmap(imageBitmap);
 //                imageUri = getImageUri(imageBitmap);
                 Glide.with(AddPostActivity.this).load(data.getData()).into(uploadImages);
                 imageUri = data.getData();
+
             } else if (requestCode == REQUEST_IMAGE_PICK && data != null) {
+
                 Uri selectedImageUri = data.getData();
                 imageUri = data.getData();
                 Glide.with(AddPostActivity.this).load(data.getData()).into(uploadImages);

@@ -100,10 +100,11 @@ android:padding="30dp"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
                     android:layout_centerInParent="true"
-                    android:background="@drawable/white_bg"
+                    android:indeterminateDrawable="@drawable/custom_progress_bar"
+                    android:background="@drawable/progress_bg"
                     android:indeterminateTint="@color/default_color"
                     android:padding="5dp"
-                    android:visibility="invisible" />
+                    android:visibility="gone" />
             </RelativeLayout>
         </RelativeLayout>
 
