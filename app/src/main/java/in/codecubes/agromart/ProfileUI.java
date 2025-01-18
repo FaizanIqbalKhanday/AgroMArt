@@ -21,28 +21,27 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class ProfileUI extends AppCompatActivity {
-    private TextView profileName ,profileEmail, userPhoneNumber ,state,district,village;
+    private TextView profileName, profileEmail, userPhoneNumber, state, district, village;
     private DatabaseReference reference, reference2;
     private FirebaseUser mUser;
-    private CardView editProfile;
+    private CardView editProfile, my_posts_card;
     private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_ui);
+
         Button back_btn=findViewById(R.id.back_to_home);
 
-        editProfile= findViewById(R.id.edit_profile);
-        profileName=(TextView) findViewById(R.id.profile_name);
-        profileEmail=(TextView)findViewById(R.id.profile_emailID);
-        userPhoneNumber=(TextView)findViewById(R.id.number);
-        state= (TextView)findViewById(R.id.profile_state);
-        district =(TextView)findViewById(R.id.profile_district);
-        village =(TextView)findViewById(R.id.profile_village);
-
-
-
+        editProfile = (CardView) findViewById(R.id.edit_profile);
+        my_posts_card = (CardView) findViewById(R.id.my_posts_card_btn);
+        profileName = (TextView) findViewById(R.id.profile_name);
+        profileEmail = (TextView)findViewById(R.id.profile_emailID);
+        userPhoneNumber = (TextView)findViewById(R.id.number);
+        state = (TextView)findViewById(R.id.profile_state);
+        district = (TextView)findViewById(R.id.profile_district);
+        village = (TextView)findViewById(R.id.profile_village);
 
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -51,20 +50,19 @@ public class ProfileUI extends AppCompatActivity {
             }
         });
 
+        my_posts_card.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent my_post_intent = new Intent(ProfileUI.this, MyPostsActivity.class);
+                startActivity(my_post_intent);
+            }
+        });
 
         mUser=FirebaseAuth.getInstance().getCurrentUser();
         userId =mUser.getUid();
-       if (mUser!=null){
 
-       }
         reference= FirebaseDatabase.getInstance().getReference("user_data");
             getUserData();
-
-
-
-
-
-
 
         back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
