@@ -7,6 +7,7 @@
     <string name="email">Email</string>
     <string name="full_name">Full Name</string>
     <string name="mobile_number">Mobile Number</string>
+    <string name="alreadyHaveAnAccount">Already Have An Account ?</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="register_button">Sign up</string>

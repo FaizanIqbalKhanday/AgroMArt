@@ -25,6 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class EditProfileActivity extends AppCompatActivity {
     private TextInputLayout changeName, changeNumber,stateTIL, districtTIL, villageTIL;
@@ -263,7 +264,7 @@ public class EditProfileActivity extends AppCompatActivity {
             }
         }).addOnFailureListener(e -> {
             Toast.makeText(EditProfileActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            Log.e("UpdateError", e.getMessage());
+            Log.e("UpdateError", Objects.requireNonNull(e.getMessage()));
         });
     }
     private  boolean validateState(){
@@ -289,7 +290,7 @@ public class EditProfileActivity extends AppCompatActivity {
 
     }
     private  boolean validateVillage(){
-        String village = villageTIL.getEditText().getText().toString();
+        String village = Objects.requireNonNull(villageTIL.getEditText()).getText().toString();
         if(village.isEmpty()) {
             villageTIL.setError("village is required");
             return false;

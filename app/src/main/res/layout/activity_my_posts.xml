@@ -60,8 +60,11 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:textStyle="bold"
+                            android:textSize="24dp"
                             android:text="@string/my_posts"/>
                         <androidx.recyclerview.widget.RecyclerView
+                            android:padding="10dp"
                             android:id="@+id/posts_recycler_view"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">

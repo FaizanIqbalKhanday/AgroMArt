@@ -21,9 +21,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.smarteist.autoimageslider.SliderView;
+import com.library.foysaltech.smarteist.autoimageslider.SliderView;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class PostActivity extends AppCompatActivity {
 
@@ -63,7 +64,7 @@ public class PostActivity extends AppCompatActivity {
         SliderView sliderView = findViewById(R.id.slider);
 
         reference = FirebaseDatabase.getInstance().getReference();
-        reference.child("POSTS").child(getIntent().getStringExtra("post_id")).addValueEventListener(new ValueEventListener() {
+        reference.child("POSTS").child(Objects.requireNonNull(getIntent().getStringExtra("post_id"))).addValueEventListener(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -92,7 +93,7 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
-        reference.child("user_data").child(getIntent().getStringExtra("user_id")).addValueEventListener(new ValueEventListener() {
+        reference.child("user_data").child(Objects.requireNonNull(getIntent().getStringExtra("user_id"))).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 userName.setText(snapshot.child("fullName").getValue(String.class));

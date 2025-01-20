@@ -7,7 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.smarteist.autoimageslider.SliderViewAdapter;
+import com.library.foysaltech.smarteist.autoimageslider.SliderViewAdapter;
+
 
 import java.util.ArrayList;
 import java.util.List;

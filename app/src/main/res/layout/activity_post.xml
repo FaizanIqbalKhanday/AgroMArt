@@ -21,12 +21,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.smarteist.autoimageslider.SliderView
+            <com.library.foysaltech.smarteist.autoimageslider.SliderView
                 android:id="@+id/slider"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 app:sliderAnimationDuration="600"
                 app:sliderAutoCycleDirection="back_and_forth"
+                app:sliderStartAutoCycle="true"
                 app:sliderIndicatorAnimationDuration="600"
                 app:sliderIndicatorEnabled="true"
                 app:sliderIndicatorGravity="center_horizontal|bottom"
@@ -173,13 +174,13 @@
                         android:layout_width="80dp"
                         android:layout_height="80dp"
                         android:elevation="12dp"
-                        app:cardCornerRadius="40dp"
-                        android:layout_centerHorizontal="true">
+                        app:cardCornerRadius="40dp">
 
                         <ImageView
                             android:layout_height="80dp"
                             android:layout_width="match_parent"
                             android:id="@+id/imageView1"
+                            android:contentDescription="@string/todo"
                             android:src="@drawable/logo"
                             android:scaleType="centerCrop"/>
 

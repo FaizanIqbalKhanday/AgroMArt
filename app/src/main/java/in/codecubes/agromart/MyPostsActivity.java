@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -22,12 +24,7 @@ import java.util.ArrayList;
 public class MyPostsActivity extends AppCompatActivity {
     private RecyclerView postRecyclerView;
     private ArrayList<Post> postList;
-    private DatabaseReference reference;
     private PostAdapter adapter;
-    private TextView variety,address;
-
-    private FirebaseAuth mAuth;
-    private FirebaseUser user;
     private String userId;
 
     @Override
@@ -35,40 +32,51 @@ public class MyPostsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_posts);
 
-        mAuth = FirebaseAuth.getInstance();
-        user = mAuth.getCurrentUser();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user == null) {
+            Toast.makeText(this, "User not logged in!", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
         userId = user.getUid();
 
-        postRecyclerView=findViewById(R.id.posts_recycler_view);
+        postRecyclerView = findViewById(R.id.posts_recycler_view);
         postRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
         postRecyclerView.setLayoutManager(layoutManager);
 
+        postList = new ArrayList<>(); // Initialize postList here
         loadMyPosts();
-
     }
-    public void loadMyPosts(){
-        reference = (DatabaseReference) FirebaseDatabase.getInstance().getReference()
-                .child("POSTS").orderByChild("userid")
+
+    public void loadMyPosts() {
+        Query query = FirebaseDatabase.getInstance().getReference()
+                .child("POSTS")
+                .orderByChild("userid")
                 .equalTo(userId);
 
-        reference.addValueEventListener(new ValueEventListener() {
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                postList.clear(); // Clear the list to avoid duplicates
                 if (dataSnapshot.exists()) {
-                    postList = new ArrayList<>();
                     for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                         Post post = dataSnapshot1.getValue(Post.class);
-                        postList.add(post);
+                        if (post != null) {
+                            postList.add(post);
+                        }
                     }
                     adapter = new PostAdapter(MyPostsActivity.this, postList);
                     postRecyclerView.setAdapter(adapter);
+                } else {
+                    Toast.makeText(MyPostsActivity.this, "No posts found.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(MyPostsActivity.this, "Failed to load posts", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MyPostsActivity.this, "Failed to load posts: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
