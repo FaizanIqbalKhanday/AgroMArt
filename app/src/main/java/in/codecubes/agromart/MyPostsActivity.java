@@ -53,7 +53,7 @@ public class MyPostsActivity extends AppCompatActivity {
     public void loadMyPosts() {
         Query query = FirebaseDatabase.getInstance().getReference()
                 .child("POSTS")
-                .orderByChild("userid")
+                .orderByChild("userId")
                 .equalTo(userId);
 
         query.addValueEventListener(new ValueEventListener() {

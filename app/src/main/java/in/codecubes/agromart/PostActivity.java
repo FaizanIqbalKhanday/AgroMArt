@@ -72,18 +72,27 @@ public class PostActivity extends AppCompatActivity {
                 grade.setText(snapshot.child("grade").getValue(String.class));
                 packing.setText(snapshot.child("packingType").getValue(String.class));
                 quantity.setText(snapshot.child("quantity").getValue(String.class) + " Boxes");
-                String addr = snapshot.child("village").getValue(String.class)
+                String full_address = snapshot.child("village").getValue(String.class)
                                 + " "
                                 + snapshot.child("district").getValue(String.class)
                                 + " "
                                 + snapshot.child("state").getValue(String.class);
-                address.setText(addr);
-                address2.setText(addr);
-                sliderDataArrayList.add(new SliderData(snapshot.child("image").getValue(String.class)));
-                // passing this array list inside our adapter class.
+                address.setText(full_address);
+                address2.setText(full_address);
+                sliderDataArrayList.clear();
+
+                if (snapshot.hasChild("images")) {
+                    for (DataSnapshot imageSnapshot : snapshot.child("images").getChildren()) {
+                        String imageUrl = imageSnapshot.getValue(String.class);
+                        if (imageUrl != null && !imageUrl.isEmpty()) {
+                            sliderDataArrayList.add(new SliderData(imageUrl));
+                        }
+                    }
+                }
+
                 adapter = new SliderAdapter(PostActivity.this, sliderDataArrayList);
-                // below method is used to
-                // setadapter to sliderview.
+                sliderView.setSliderAdapter(adapter);
+                adapter = new SliderAdapter(PostActivity.this, sliderDataArrayList);
                 sliderView.setSliderAdapter(adapter);
             }
 
@@ -109,13 +118,7 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
-//        // adding the urls inside array list
-//        sliderDataArrayList.add(new SliderData(url1));
-//        sliderDataArrayList.add(new SliderData(url2));
-//        sliderDataArrayList.add(new SliderData(url3));
-
-        // below method is used to set auto cycle direction in left to
-        // right direction you can change according to requirement.
+//
         sliderView.setAutoCycleDirection(SliderView.LAYOUT_DIRECTION_LTR);
 
         // below method is use to set

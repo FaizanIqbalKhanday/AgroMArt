@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="200dp"
     android:padding="20dp"
+    android:layout_gravity=""
     android:orientation="vertical"
     android:background="@drawable/applebg">
     <androidx.constraintlayout.utils.widget.ImageFilterView
@@ -19,7 +20,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="5dp"
         android:textColor="@color/white"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:textStyle="bold"/>
     <TextView
         android:id="@+id/userEmail"
@@ -29,7 +30,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="5dp"
         android:textColor="@color/white"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:textStyle="bold"/>
 
 

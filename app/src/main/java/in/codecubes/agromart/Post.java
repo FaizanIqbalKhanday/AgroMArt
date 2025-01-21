@@ -1,8 +1,10 @@
 package in.codecubes.agromart;
 
+import java.util.List;
+
 public class Post {
     private String title;
-    private String image;
+    private List<String> images;
     private String variety;
     private String grade;
     private String packingType;
@@ -25,7 +27,7 @@ public class Post {
             String village,
             String userId,
             String postId,
-            String image
+            List<String> images
     ){
         this.variety = variety;
         this.grade = grade;
@@ -36,7 +38,7 @@ public class Post {
         this.village = village;
         this.userId = userId;
         this.postId = postId;
-        this.image = image;
+        this.images = images;
     }
 
     public Post(String variety, String grade, String packing, String quantity, String state, String district, String village, String toString, String userId) {
@@ -123,11 +125,11 @@ public class Post {
         this.userId = userId;
     }
 
-    public String getImage() {
-        return image;
+    public List<String> getImages() {
+        return images;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 }

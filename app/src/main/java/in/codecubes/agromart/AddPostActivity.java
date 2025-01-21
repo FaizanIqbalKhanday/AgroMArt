@@ -1,79 +1,74 @@
 package in.codecubes.agromart;
 
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
-import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-
-import android.Manifest;
-import android.app.Activity;
 import android.content.ClipData;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-
-import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.UUID;
+import java.util.List;
 
 public class AddPostActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private static final int REQUEST_CAMERA_PERMISSION = 200;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_PICK = 2;
-    private LinearLayout imageViewBefore, imageviewAfter;
+    private static final int GALLERY_REQUEST_CODE = 123;
 
     private FirebaseDatabase rootNode;
-    private FirebaseAuth mAuth;
     private FirebaseUser mUser;
+    private ImageAdapter imageAdapter;
     private DatabaseReference reference;
     private StorageReference storageReference;
 
     private TextInputLayout varietyTIL, gradeTIL, packingTIL, quantityTIL, stateTIL, districtTIL, villageTIL;
     private Button addPostButton;
-    private ImageView uploadImages, takeImages, imageItem1, imageItem2, imageItem3;
+    private static final int PICK_IMAGE = 1;
+    private static final int TAKE_PHOTO = 2;
+
+    private LinearLayout takePhoto, selectFromGallery;
+    private GridView uploadedImagesGrid;
+    private ImageGridAdapter adapter;
+
+    private ArrayList<Bitmap> imageList = new ArrayList<>();
     private Uri imageUri;
     private String userId;
     private String variety, grade, packing, state, district;
@@ -82,19 +77,22 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
     private DrawerLayout drawerLayout;
     private ActionBar actionBar;
     private ProgressBar progressBar;
+    private static final int CAMERA_REQUEST_CODE = 1001;
+    private ArrayList<Uri> imageUris = new ArrayList<>();
+    private String currentPhotoPath;
     private ActivityResultLauncher<String> cameraPermissionLauncher;
     private ActivityResultLauncher<Intent> takePictureLauncher;
+
+    private String postId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_post);
         rootNode = FirebaseDatabase.getInstance();
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mUser = mAuth.getCurrentUser();
         storageReference = FirebaseStorage.getInstance().getReference("Images");
-        imageViewBefore=findViewById(R.id.imageViewBefore);
-        imageviewAfter=findViewById(R.id.imageViewAfter);
 
         varietyTIL = findViewById(R.id.selectVariety);
         gradeTIL = findViewById(R.id.selectGrade);
@@ -104,11 +102,10 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         districtTIL = findViewById(R.id.setDistrict);
         villageTIL = findViewById(R.id.set_village);
         addPostButton = findViewById(R.id.addPostButton);
-        uploadImages = findViewById(R.id.uploadImages);
-        takeImages=findViewById(R.id.takeImages);
-        imageItem1=findViewById(R.id.image1);
-        imageItem2=findViewById(R.id.image2);
-        imageItem3=findViewById(R.id.image3);
+        selectFromGallery = findViewById(R.id.selectFromGallery);
+        takePhoto = findViewById(R.id.takePhoto);
+        uploadedImagesGrid = findViewById(R.id.uploadedImagesGrid);
+
         progressBar=findViewById(R.id.progressBar);
         navigationView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawable_layout);
@@ -118,81 +115,46 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         drawerToggle.syncState();
         actionBar = getSupportActionBar();
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
+        imageAdapter = new ImageAdapter(this, imageUris);
+        uploadedImagesGrid.setAdapter(imageAdapter);
 
-        if (uploadImages != null) {
-            uploadImages.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    openGallery();
+        selectFromGallery.setOnClickListener(v -> openGallery());
+        takePhoto.setOnClickListener(v -> openCamera());
 
-
-
-                }
-            });
-        } else {
-            // Handle null uploadImages
-        }
-
-        cameraPermissionLauncher = registerForActivityResult(
-                new ActivityResultContracts.RequestPermission(),
-                isGranted -> {
-                    if (isGranted) {
-                        openCamera();
-                    } else {
-                        Toast.makeText(AddPostActivity.this, "Camera permission is required", Toast.LENGTH_SHORT).show();
-                    }
-                }
-        );
-
-        // Initialize the camera intent launcher
-        takePictureLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == RESULT_OK) {
-                        Uri imageUri = result.getData() != null ? result.getData().getData() : null;
-                        if (imageUri != null) {
-                            Glide.with(AddPostActivity.this).load(imageUri).into(uploadImages);
-                            this.imageUri = imageUri;
-                        }
-                    }
-                }
-        );
-        if(takeImages!=null){
-            takeImages.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    checkCameraPermission();
-                }
-            });
-
-        }
-        else{
-
-        }
-
-
+        uploadedImagesGrid.setOnItemClickListener((AdapterView<?> parent, View view, int position, long id) -> {
+            Toast.makeText(this, "Clicked image at position: " + position, Toast.LENGTH_SHORT).show();
+        });
 
         addPostButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!validateVariety() | !validateGrade() | !validatePacking() | !validateQuantity()
-                        | !validateState() | !validateDistrict() | !validateVillage()){
+                // Validate the form fields
+                if (!validateVariety() || !validateGrade() || !validatePacking() || !validateQuantity()
+                        || !validateState() || !validateDistrict() || !validateVillage()) {
                     return;
                 }
-                progressBar.setVisibility(View.VISIBLE);
-                String userId = mUser.getUid();
 
-                // Get village and quantity values
+                // Show progress bar
+                progressBar.setVisibility(View.VISIBLE);
+
+                // Get userId, quantity, and village from the fields
+                String userId = mUser.getUid();
                 String quantity = quantityTIL.getEditText().getText().toString();
                 String village = villageTIL.getEditText().getText().toString();
 
-                if (imageUri != null) {
-                    uploadImage(variety, grade, packing, quantity, state, district, village, userId);
+                AddPost(variety, grade, packing, quantity,state,district, village, userId);
+
+                // Check if imageUris is empty
+                if (!imageUris.isEmpty()) {
+                    uploadImage(imageUris);
                 } else {
-                    Toast.makeText(AddPostActivity.this, "Please select image first.", Toast.LENGTH_SHORT).show();
+                    // Show a message if no images are selected
+                    progressBar.setVisibility(View.INVISIBLE);
+                    Toast.makeText(AddPostActivity.this, "Please select images first.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
 
         varietyTIL.setEndIconOnClickListener(new View.OnClickListener() {
             @Override
@@ -397,30 +359,86 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
 
 
     private void openGallery() {
-//        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        Intent intent = new Intent();
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent, REQUEST_IMAGE_PICK);
-
+        startActivityForResult(Intent.createChooser(intent, "Select Images"), GALLERY_REQUEST_CODE);
     }
 
-    private void checkCameraPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            // Request permission using the ActivityResultLauncher
-            cameraPermissionLauncher.launch(Manifest.permission.CAMERA);
-        } else {
-            openCamera();
+
+    private void openCamera() {
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (cameraIntent.resolveActivity(getPackageManager()) != null) {
+            // Create a file to store the photo
+            File photoFile = null;
+            try {
+                photoFile = createImageFile(); // Create a file for the image
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            if (photoFile != null) {
+                Uri photoURI = FileProvider.getUriForFile(this,
+                        "com.example.myapp.fileprovider", photoFile);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
+            }
         }
     }
 
-    private void openCamera() {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        takePictureLauncher.launch(intent);
+    private void uploadImage(List<Uri> imageFiles) {
+        List<String> imageUrls = new ArrayList<>();
+
+        for (Uri imageFile : imageFiles) {
+            StorageReference imageRef = storageReference.child(System.currentTimeMillis() + ".jpg");
+            imageRef.putFile(imageFile).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            String image = uri.toString();
+
+                            imageUrls.add(uri.toString());
+
+                            // Save URLs to the database once all images are uploaded
+                            if (imageUrls.size() == imageFiles.size()) {
+                                rootNode.getReference("POSTS").child(postId).child("images").setValue(imageUrls).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        Toast.makeText(AddPostActivity.this, "Images uploaded successfully...", Toast.LENGTH_SHORT).show();
+                                        progressBar.setVisibility(View.INVISIBLE);
+                                        Intent intent = new Intent(AddPostActivity.this, MainActivity.class);
+                                        startActivity(intent);
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(AddPostActivity.this, "Image upload error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(AddPostActivity.this, "There is an error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
+                    progressBar.setVisibility(View.VISIBLE);
+                    Toast.makeText(AddPostActivity.this, "Uploading... " +
+                                    (float) (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount()) + " %",
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
-
-    private void uploadImage(
+    private void AddPost(
             String variety,
             String grade,
             String packing,
@@ -430,71 +448,45 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
             String village,
             String userId
     ) {
-        StorageReference imageRef = storageReference.child(System.currentTimeMillis() + ".jpg");
         reference = rootNode.getReference("POSTS");
-        imageRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        String image = uri.toString();
-                        String postId = reference.push().getKey();
-                        Post post = new Post(variety, grade, packing, quantity, state, district, village, userId, postId, image);
+        postId = reference.push().getKey();
+        List<String> images = new ArrayList<>();
 
-                        if (postId != null) {
-                            reference.child(postId).setValue(post);
-                            progressBar.setVisibility(View.INVISIBLE);
-                            startActivity(new Intent(AddPostActivity.this, MainActivity.class));
-                        }
-                    }
-                });
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(AddPostActivity.this, "There is some error " + e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(@NonNull UploadTask.TaskSnapshot snapshot) {
-                progressBar.setVisibility(View.VISIBLE);
-                Toast.makeText(AddPostActivity.this, "Getting Uploaded... " + (float) (100.0 * snapshot.getBytesTransferred() / snapshot.getTotalByteCount()) + " %", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
+        Post post = new Post(
+                variety, grade, packing, quantity, state, district, village, userId, postId, images
+        );
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-
-            if (requestCode == REQUEST_IMAGE_CAPTURE) {
-//                Bitmap imageBitmap = (Bitmap) data.getExtras().get("data");
-//                uploadImages.setImageBitmap(imageBitmap);
-//                imageUri = getImageUri(imageBitmap);
-                Glide.with(AddPostActivity.this).load(data.getData()).into(uploadImages);
-                imageUri = data.getData();
-
-            } else if (requestCode == REQUEST_IMAGE_PICK && data != null) {
-
-                Uri selectedImageUri = data.getData();
-                imageUri = data.getData();
-                Glide.with(AddPostActivity.this).load(data.getData()).into(uploadImages);
-            }
+        if (postId != null) {
+            reference.child(postId).setValue(post);
+            progressBar.setVisibility(View.INVISIBLE);
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (resultCode == RESULT_OK && data != null) {
+            // Check if multiple images are selected
+            if (data.getClipData() != null) {
+                ClipData clipData = data.getClipData();
+                imageUris.clear(); // Clear previous selections
 
-    private Uri getImageUri(Bitmap bitmap) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "Title", null);
-        return Uri.parse(path);
+                // Add all selected images
+                for (int i = 0; i < clipData.getItemCount(); i++) {
+                    imageUris.add(clipData.getItemAt(i).getUri());
+                }
+            }
+            // Single image selected
+            else if (data.getData() != null) {
+                imageUris.clear(); // Clear previous selections
+                imageUris.add(data.getData()); // Add single selected image
+            }
+
+            // Notify the adapter that the data has changed
+            imageAdapter.notifyDataSetChanged();
+        }
     }
-
-
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
     }
@@ -513,6 +505,11 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         }
 
     }
+    private void addImageToGrid(Bitmap image) {
+        imageList.add(image);
+        adapter.notifyDataSetChanged();
+    }
+
     private  boolean validateGrade(){
         if(grade==null) {
             gradeTIL.setError("select grade");
@@ -580,6 +577,17 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
             return true;
         }
 
+    }
+    private File createImageFile() throws IOException {
+        // Create an image file name
+        String imageFileName = "JPEG_" + System.currentTimeMillis() + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+        return image;
     }
 
 }

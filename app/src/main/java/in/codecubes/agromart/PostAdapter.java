@@ -1,9 +1,11 @@
+
 package in.codecubes.agromart;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +50,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        Glide.with(context).load(filteredList.get(position).getImage()).into(holder.image);
+        Toast.makeText(context, "Image list " + filteredList.get(position).getImages().get(0), Toast.LENGTH_LONG).show();
+        Glide.with(context).load(filteredList.get(position).getImages().get(0)).into(holder.thumbnail);
         holder.variety.setText(filteredList.get(position).getVariety());
         String address = filteredList.get(position).getVillage() + " " + filteredList.get(position).getDistrict();
         holder.address.setText(address);
@@ -109,14 +112,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     public class PostViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView image;
+        ImageView thumbnail;
         TextView variety, address;
         LinearLayout postListLayout;
 
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            image = itemView.findViewById(R.id.post_thumbnail_main);
+            thumbnail = itemView.findViewById(R.id.post_thumbnail_main);
             variety = itemView.findViewById(R.id.post_variety_main);
             address = itemView.findViewById(R.id.post_address_main);
             postListLayout = itemView.findViewById(R.id.post_list_layout);
