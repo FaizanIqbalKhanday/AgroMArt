@@ -43,7 +43,7 @@ public class MyPostsActivity extends AppCompatActivity {
 
         postRecyclerView = findViewById(R.id.posts_recycler_view);
         postRecyclerView.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 1);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 2);
         postRecyclerView.setLayoutManager(layoutManager);
 
         postList = new ArrayList<>(); // Initialize postList here

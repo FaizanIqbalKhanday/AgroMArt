@@ -50,7 +50,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        Toast.makeText(context, "Image list " + filteredList.get(position).getImages().get(0), Toast.LENGTH_LONG).show();
         Glide.with(context).load(filteredList.get(position).getImages().get(0)).into(holder.thumbnail);
         holder.variety.setText(filteredList.get(position).getVariety());
         String address = filteredList.get(position).getVillage() + " " + filteredList.get(position).getDistrict();
