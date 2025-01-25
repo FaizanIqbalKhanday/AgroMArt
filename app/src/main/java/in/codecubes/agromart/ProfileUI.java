@@ -5,7 +5,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -63,6 +65,24 @@ public class ProfileUI extends AppCompatActivity {
         village = findViewById(R.id.profile_village);
         profileImageView = findViewById(R.id.imageView9);
         uploadImageButton = findViewById(R.id.uploadImageButton); // Make sure you have this button in your layout
+
+        profileImageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                new AlertDialog.Builder(ProfileUI.this)
+                        .setTitle("Delete Image")
+                        .setMessage("Are you sure you want to delete this image?")
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                deleteProfileImage();
+                            }
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
+                return true;
+            }
+        });
 
         editProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,18 +231,87 @@ public class ProfileUI extends AppCompatActivity {
     }
 
     private void saveImageUrlToDatabase(String imageUrl) {
-        reference.child(userId).child("profileImageUrl").setValue(imageUrl)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Toast.makeText(ProfileUI.this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(ProfileUI.this, "Failed to save image URL", Toast.LENGTH_SHORT).show();
-                    }
-                });
+        reference.child(userId).child("profileImageUrl").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String oldImageUrl = snapshot.getValue(String.class);
+                if (oldImageUrl != null && !oldImageUrl.isEmpty()) {
+                    // Delete old image from Firebase Storage
+                    StorageReference oldImageRef = FirebaseStorage.getInstance().getReferenceFromUrl(oldImageUrl);
+                    oldImageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                             Toast.makeText(ProfileUI.this, "Old profile image deleted", Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                             Toast.makeText(ProfileUI.this, "Failed to delete old profile image", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+
+                // Update profileImageUrl with new URL
+                reference.child(userId).child("profileImageUrl").setValue(imageUrl)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(ProfileUI.this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(ProfileUI.this, "Failed to save image URL", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                 Toast.makeText(ProfileUI.this, "Failed to get old profile image URL", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void deleteProfileImage() {
+        // Get current profile image URL from database
+        reference.child(userId).child("profileImageUrl").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String profileImageUrl = snapshot.getValue(String.class);
+                if (profileImageUrl != null && !profileImageUrl.isEmpty()) {
+                    // Delete image from Firebase Storage
+                    StorageReference imageRef = FirebaseStorage.getInstance().getReferenceFromUrl(profileImageUrl);
+                    imageRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            // Remove profileImageUrl from database
+                            reference.child(userId).child("profileImageUrl").removeValue();
+
+                            // Update profileImageView with default image
+                            profileImageView.setImageResource(R.drawable.pro_icon); // Replace with your default image
+
+                            Toast.makeText(ProfileUI.this, "Image deleted successfully", Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(ProfileUI.this, "Failed to delete image", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+
+                     Toast.makeText(ProfileUI.this, "No profile image to delete", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+                 Toast.makeText(ProfileUI.this, "Failed to get profile image URL", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
