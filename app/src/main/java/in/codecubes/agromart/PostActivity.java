@@ -9,8 +9,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -51,6 +53,7 @@ public class PostActivity extends AppCompatActivity {
         userName = (TextView) findViewById(R.id.post_user_name);
         full_name = (TextView) findViewById(R.id.full_name);
         userPhoneNumber = (TextView) findViewById(R.id.post_user_phone);
+
 
         // we are creating array list for storing our image urls.
         ArrayList<SliderData> sliderDataArrayList = new ArrayList<>();
@@ -105,6 +108,20 @@ public class PostActivity extends AppCompatActivity {
                 String phone = snapshot.child("phoneNumber").getValue(String.class);
                 phoneNumber = phone;
                 userPhoneNumber.setText(phone);
+
+                // Find the ImageView inside the CardView
+                ImageView profileImageView = findViewById(R.id.imageView1);
+
+                // Get profile image URL from database
+                String profileImageUrl = snapshot.child("profileImageUrl").getValue(String.class);
+
+                // Load image using Glide if URL is available
+                if (profileImageUrl != null) {
+                    Glide.with(PostActivity.this)
+                            .load(profileImageUrl)
+                            .circleCrop() // Apply circular crop if needed
+                            .into(profileImageView);
+                }
             }
 
             @Override

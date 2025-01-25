@@ -16,12 +16,14 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.utils.widget.ImageFilterView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.FirebaseApp;
@@ -37,6 +39,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private ImageView account,menuBar;
+    private ImageFilterView userProfilePic;
     private FloatingActionButton addPostBtn;
     private FirebaseAuth mAuth;
    private FirebaseUser mUser;
@@ -63,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         FirebaseApp.initializeApp(this);
         mAuth = FirebaseAuth.getInstance();
-
         addPostBtn = findViewById(R.id.addPost);
         menuBar=findViewById(R.id.menu_bar);
         account = findViewById(R.id.goToProfile);
@@ -73,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         View headerView = navigationView.getHeaderView(0);
         user_name=headerView.findViewById(R.id.userName);
         user_email=headerView.findViewById(R.id.userEmail);
+        userProfilePic = headerView.findViewById(R.id.user_Profile_Pic);
         navigationView.setNavigationItemSelectedListener(this);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
 
@@ -300,13 +303,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         return true;
     }
-    public void getUserDataInMenuBar(){
-        reference2=FirebaseDatabase.getInstance().getReference("user_data");
+    public void getUserDataInMenuBar() {
+        reference2 = FirebaseDatabase.getInstance().getReference("user_data");
         reference2.child(uId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 user_name.setText(snapshot.child("fullName").getValue(String.class));
                 user_email.setText(snapshot.child("email").getValue(String.class));
+
+                // Get profile image URL from database
+                String profileImageUrl = snapshot.child("profileImageUrl").getValue(String.class);
+
+                // Load image using Glide if URL is available
+                if (profileImageUrl != null) {
+                    Glide.with(MainActivity.this) // Use MainActivity context
+                            .load(profileImageUrl)
+                            .circleCrop() // Apply circular crop if needed
+                            .into(userProfilePic); // Set image to userProfilePic ImageFilterView
+                }
             }
 
             @Override
