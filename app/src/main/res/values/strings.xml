@@ -65,6 +65,11 @@
     <string name="select_grade">Select Grade</string>
     <string name="or">OR</string>
     <string name="quantity">Quantity</string>
+    <string name="post_description">Post Description</string>
+    <string name="description_content">Here you can add the detailed description of the post.</string>
+    <string name="write_commits">Write your comment here</string>
+    <string name="commits">Commits</string>
+    <string name="submit">Submit</string>
     <string name="select_variety">Select Variety</string>
     <string name="select_packing_type">Select Packing Type</string>
     <string name="set_address">Set Address</string>

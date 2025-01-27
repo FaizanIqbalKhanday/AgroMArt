@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -68,6 +69,25 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
         holder.postListLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                // Check if filteredList or postList are null or empty
+                if (filteredList == null || postList == null || filteredList.isEmpty() || postList.isEmpty()) {
+                    Toast.makeText(context, "Invalid data", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+                // Check for valid position
+                if (position < 0 || position >= filteredList.size() || position >= postList.size()) {
+                    Toast.makeText(context, "Invalid position", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+                // Check if current user is logged in
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                if (currentUser == null) {
+                    Toast.makeText(context, "User not logged in", Toast.LENGTH_SHORT).show();
+                    return false; // Prevent the crash if no user is logged in
+                }
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("Delete Post")
                         .setMessage("Are you sure you want to delete this post?")
@@ -75,10 +95,16 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // Get the current user's ID
-                                String currentUserID = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                                String currentUserID = currentUser.getUid();
 
                                 // Get the post's user ID
-                                String postUserID = filteredList.get(position).getUserId();
+                                Post post = filteredList.get(position);
+                                if (post == null || post.getUserId() == null) {
+                                    Toast.makeText(context, "Invalid post data", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+
+                                String postUserID = post.getUserId();
 
                                 if (currentUserID.equals(postUserID)) {
                                     // Remove the post from filteredList
@@ -102,6 +128,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 return true;
             }
         });
+
     }
 
     @Override

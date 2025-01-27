@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- User Name -->
+    <TextView
+        android:id="@+id/userNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="User Name" />
+    <TextView
+        android:id="@+id/dateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#666666"
+        android:text="27-Jan-2025"
+        android:textSize="12sp"
+        android:layout_marginBottom="4dp" />
+    <TextView
+        android:id="@+id/commentTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Review Comment" />
+
+    <!-- Review Date -->
+
+
+    <!-- Review Comment -->
+
+</LinearLayout>
