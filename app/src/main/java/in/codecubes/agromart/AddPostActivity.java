@@ -59,7 +59,7 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
     private DatabaseReference reference;
     private StorageReference storageReference;
 
-    private TextInputLayout varietyTIL, gradeTIL, packingTIL, quantityTIL, stateTIL, districtTIL, villageTIL;
+    private TextInputLayout varietyTIL, gradeTIL, packingTIL, quantityTIL, stateTIL, districtTIL, villageTIL,postDescription;
     private Button addPostButton;
     private static final int PICK_IMAGE = 1;
     private static final int TAKE_PHOTO = 2;
@@ -71,7 +71,7 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
     private ArrayList<Bitmap> imageList = new ArrayList<>();
     private Uri imageUri;
     private String userId;
-    private String variety, grade, packing, state, district;
+    private String variety, grade, packing, state, district,description;
     private NavigationView navigationView;
     private ActionBarDrawerToggle drawerToggle;
     private DrawerLayout drawerLayout;
@@ -95,6 +95,7 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         storageReference = FirebaseStorage.getInstance().getReference("Images");
 
         varietyTIL = findViewById(R.id.selectVariety);
+        postDescription=findViewById(R.id.set_description);
         gradeTIL = findViewById(R.id.selectGrade);
         packingTIL = findViewById(R.id.packingType);
         quantityTIL = findViewById(R.id.setQuantity);
@@ -129,7 +130,7 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
             @Override
             public void onClick(View v) {
                 // Validate the form fields
-                if (!validateVariety() || !validateGrade() || !validatePacking() || !validateQuantity()
+                if (!validateVariety() || !validateDescription() || !validateGrade() || !validatePacking() || !validateQuantity()
                         || !validateState() || !validateDistrict() || !validateVillage()) {
                     return;
                 }
@@ -141,8 +142,9 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
                 String userId = mUser.getUid();
                 String quantity = quantityTIL.getEditText().getText().toString();
                 String village = villageTIL.getEditText().getText().toString();
+                String description =postDescription.getEditText().getText().toString();
 
-                AddPost(variety, grade, packing, quantity,state,district, village, userId);
+                AddPost(variety, grade, packing, quantity,state,district, village,  description,userId);
 
                 // Check if imageUris is empty
                 if (!imageUris.isEmpty()) {
@@ -446,14 +448,16 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
             String state,
             String district,
             String village,
+            String description,
             String userId
+
     ) {
         reference = rootNode.getReference("POSTS");
         postId = reference.push().getKey();
         List<String> images = new ArrayList<>();
 
         Post post = new Post(
-                variety, grade, packing, quantity, state, district, village, userId, postId, images
+                images, variety,grade, packing, quantity, state, district, village, userId, description, postId
         );
 
         if (postId != null) {
@@ -562,6 +566,18 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         }
         else {
             villageTIL.setError(null);
+            return true;
+        }
+
+    }
+    private  boolean validateDescription(){
+        String description = villageTIL.getEditText().getText().toString();
+        if(description.isEmpty()) {
+            postDescription.setError("village is required");
+            return false;
+        }
+        else {
+            postDescription.setError(null);
             return true;
         }
 

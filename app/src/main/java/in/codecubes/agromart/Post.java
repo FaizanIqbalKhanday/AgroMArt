@@ -13,11 +13,14 @@ public class Post {
     private String district;
     private String village;
     private String userId;
+    private String description;
     private String postId;
 
     public Post(){}
 
     public Post(
+
+            List<String> images,
             String variety,
             String grade,
             String packingType,
@@ -26,9 +29,9 @@ public class Post {
             String district,
             String village,
             String userId,
-            String postId,
-            List<String> images
-    ){
+            String description,
+            String postId) {
+        this.images = images;
         this.variety = variety;
         this.grade = grade;
         this.packingType = packingType;
@@ -37,21 +40,17 @@ public class Post {
         this.district = district;
         this.village = village;
         this.userId = userId;
+        this.description = description;
         this.postId = postId;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
         this.images = images;
     }
-
-    public Post(String variety, String grade, String packing, String quantity, String state, String district, String village, String toString, String userId) {
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
 
     public String getVariety() {
         return variety;
@@ -109,14 +108,6 @@ public class Post {
         this.village = village;
     }
 
-    public String getPostId() {
-        return postId;
-    }
-
-    public void setPostId(String postId) {
-        this.postId = postId;
-    }
-
     public String getUserId() {
         return userId;
     }
@@ -125,11 +116,19 @@ public class Post {
         this.userId = userId;
     }
 
-    public List<String> getImages() {
-        return images;
+    public String getDescription() {
+        return description;
     }
 
-    public void setImages(List<String> images) {
-        this.images = images;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getPostId() {
+        return postId;
+    }
+
+    public void setPostId(String postId) {
+        this.postId = postId;
     }
 }

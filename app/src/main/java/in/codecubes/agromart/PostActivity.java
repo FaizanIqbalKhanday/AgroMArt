@@ -33,7 +33,7 @@ public class PostActivity extends AppCompatActivity {
     private Button  submit_commit;
 
     private Button callBtn, chatBtn;
-    private TextView variety, grade, packing, quantity, address, userName, userPhoneNumber;
+    private TextView variety, grade, packing, quantity, address, userName, userPhoneNumber,postDescription;
     private String phoneNumber;
 
     private EditText commentEditText;
@@ -72,6 +72,7 @@ public class PostActivity extends AppCompatActivity {
         address = findViewById(R.id.post_user_address);
         userName = findViewById(R.id.post_user_name);
         userPhoneNumber = findViewById(R.id.post_user_phone);
+        postDescription=findViewById(R.id.post_description);
 
         SliderView sliderView = findViewById(R.id.slider);
 
@@ -138,6 +139,7 @@ public class PostActivity extends AppCompatActivity {
                 variety.setText(snapshot.child("variety").getValue(String.class));
                 grade.setText(snapshot.child("grade").getValue(String.class));
                 packing.setText(snapshot.child("packingType").getValue(String.class));
+                postDescription.setText(snapshot.child("description").getValue(String.class));
                 quantity.setText(snapshot.child("quantity").getValue(String.class) + " Boxes");
 
                 // Build Address

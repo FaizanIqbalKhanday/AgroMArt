@@ -165,6 +165,27 @@
                         android:textSize="18sp"
                         android:textStyle="bold" />
                 </LinearLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/set_description"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/post_description"
+                    android:textColorHint="@color/default_color"
+                    app:boxStrokeColor="@color/black"
+                    app:boxStrokeWidthFocused="2dp"
+                    app:endIconMode="clear_text"
+                    app:endIconTint="@color/default_color"
+                    app:hintTextColor="@color/default_color"
+                    app:startIconDrawable="@drawable/description"
+                    app:startIconTint="@color/black">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/default_color"
+                        android:inputType="textMultiLine"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/selectVariety"
@@ -190,6 +211,8 @@
                         android:textColor="@color/default_color"
                         tools:ignore="SpeakableTextPresentCheck" />
                 </com.google.android.material.textfield.TextInputLayout>
+
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/selectGrade"
