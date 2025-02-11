@@ -10,9 +10,12 @@ import androidx.core.content.FileProvider;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.ClipData;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -42,15 +45,17 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AddPostActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    private static final int REQUEST_CAMERA_PERMISSION = 200;
+    private static final int REQUEST_GALLERY = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 1;
-    private static final int REQUEST_IMAGE_PICK = 2;
+    private static final int REQUEST_CAMERA = 2;
+    private static final int REQUEST_PERMISSIONS = 100;
     private static final int GALLERY_REQUEST_CODE = 123;
 
     private FirebaseDatabase rootNode;
@@ -367,26 +372,16 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         startActivityForResult(Intent.createChooser(intent, "Select Images"), GALLERY_REQUEST_CODE);
     }
 
-
     private void openCamera() {
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (cameraIntent.resolveActivity(getPackageManager()) != null) {
-            // Create a file to store the photo
-            File photoFile = null;
-            try {
-                photoFile = createImageFile(); // Create a file for the image
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            if (photoFile != null) {
-                Uri photoURI = FileProvider.getUriForFile(this,
-                        "com.example.myapp.fileprovider", photoFile);
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
-            }
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
+
+
+
+
 
     private void uploadImage(List<Uri> imageFiles) {
         List<String> imageUrls = new ArrayList<>();
@@ -470,26 +465,50 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK && data != null) {
-            // Check if multiple images are selected
-            if (data.getClipData() != null) {
-                ClipData clipData = data.getClipData();
-                imageUris.clear(); // Clear previous selections
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_IMAGE_CAPTURE) {
+                // Handle camera photo
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                if (imageBitmap != null) {
+                    // Convert Bitmap to Uri and add to the list
+                    Uri imageUri = getImageUri(this, imageBitmap);
+                    imageUris.add(imageUri);
+                    imageAdapter.notifyDataSetChanged();// Add the captured image
 
-                // Add all selected images
-                for (int i = 0; i < clipData.getItemCount(); i++) {
-                    imageUris.add(clipData.getItemAt(i).getUri());
+                }
+            } else if (requestCode == GALLERY_REQUEST_CODE) {
+                // Handle gallery selection
+                if (data != null) {
+                    // Check if multiple images are selected
+                    if (data.getClipData() != null) {
+                        ClipData clipData = data.getClipData();
+                        imageUris.clear();//
+                        // Clear previous selections
+
+                        // Add all selected images
+                        for (int i = 0; i < clipData.getItemCount(); i++) {
+                            imageUris.add(clipData.getItemAt(i).getUri());
+                        }
+                        imageAdapter.notifyDataSetChanged();
+                    }
+                    // Single image selected
+                    else if (data.getData() != null) {
+                        imageUris.clear(); // Clear previous selections
+                        imageUris.add(data.getData()); // Add single selected image
+                    }
+
+                    // Upload images to Firebase
+                    imageAdapter.notifyDataSetChanged();
                 }
             }
-            // Single image selected
-            else if (data.getData() != null) {
-                imageUris.clear(); // Clear previous selections
-                imageUris.add(data.getData()); // Add single selected image
-            }
-
-            // Notify the adapter that the data has changed
-            imageAdapter.notifyDataSetChanged();
         }
+    }
+    private Uri getImageUri(Context context, Bitmap bitmap) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), bitmap, "Title", null);
+        return Uri.parse(path);
     }
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
