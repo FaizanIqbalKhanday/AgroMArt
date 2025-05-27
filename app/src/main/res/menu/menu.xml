@@ -1,27 +1,32 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/item1"
+            android:id="@+id/home"
             android:icon="@drawable/home"
             android:title="home" />
         <item
-            android:id="@+id/item2"
+            android:id="@+id/my_posts"
             android:icon="@drawable/camera"
             android:title="my Posts" />
         <item
-            android:id="@+id/item3"
+            android:id="@+id/wish_list"
+            android:icon="@drawable/camera"
+            android:title="Wish List" />
+        <item
+
+            android:id="@+id/terms"
             android:icon="@drawable/terms"
             android:title="Terms and Conditions" />
         <item
-            android:id="@+id/item5"
+            android:id="@+id/about"
             android:icon="@drawable/about"
-            android:title="about us" />
+            android:title="About" />
         <item
             android:title="logout">
             <menu>
                 <group android:checkableBehavior="single">
                     <item
-                        android:id="@+id/item4"
+                        android:id="@+id/logout"
                         android:icon="@drawable/logout"
                         android:title="logout" />
                 </group>

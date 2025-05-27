@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace 'in.codecubes.agromart'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "in.codecubes.agromart"
@@ -50,6 +50,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.16.0'
 
     implementation 'com.squareup.picasso:picasso:2.71828'
+    implementation 'androidx.activity:activity:1.10.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'

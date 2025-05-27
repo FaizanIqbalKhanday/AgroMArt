@@ -9,11 +9,14 @@ import androidx.appcompat.widget.PopupMenu;
 import androidx.core.content.FileProvider;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,6 +37,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,44 +56,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddPostActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    private static final int REQUEST_GALLERY = 1;
-    private static final int REQUEST_IMAGE_CAPTURE = 1;
-    private static final int REQUEST_CAMERA = 2;
-    private static final int REQUEST_PERMISSIONS = 100;
-    private static final int GALLERY_REQUEST_CODE = 123;
 
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
+    private static final int GALLERY_REQUEST_CODE = 123;
     private FirebaseDatabase rootNode;
     private FirebaseUser mUser;
     private ImageAdapter imageAdapter;
     private DatabaseReference reference;
     private StorageReference storageReference;
-
     private TextInputLayout varietyTIL, gradeTIL, packingTIL, quantityTIL, stateTIL, districtTIL, villageTIL,postDescription;
     private Button addPostButton;
-    private static final int PICK_IMAGE = 1;
-    private static final int TAKE_PHOTO = 2;
-
     private LinearLayout takePhoto, selectFromGallery;
     private GridView uploadedImagesGrid;
-    private ImageGridAdapter adapter;
-
-    private ArrayList<Bitmap> imageList = new ArrayList<>();
-    private Uri imageUri;
-    private String userId;
-    private String variety, grade, packing, state, district,description;
-    private NavigationView navigationView;
+    private String variety, grade, packing, state, district;
     private ActionBarDrawerToggle drawerToggle;
     private DrawerLayout drawerLayout;
     private ActionBar actionBar;
     private ProgressBar progressBar;
-    private static final int CAMERA_REQUEST_CODE = 1001;
     private ArrayList<Uri> imageUris = new ArrayList<>();
-    private String currentPhotoPath;
-    private ActivityResultLauncher<String> cameraPermissionLauncher;
-    private ActivityResultLauncher<Intent> takePictureLauncher;
-
     private String postId;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,7 +98,6 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         uploadedImagesGrid = findViewById(R.id.uploadedImagesGrid);
 
         progressBar=findViewById(R.id.progressBar);
-        navigationView = findViewById(R.id.nav_view);
         drawerLayout = findViewById(R.id.drawable_layout);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
 
@@ -250,6 +234,8 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
             }
 
         });
+
+
 
         String[] states;
         String[][] districts;
@@ -528,10 +514,7 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         }
 
     }
-    private void addImageToGrid(Bitmap image) {
-        imageList.add(image);
-        adapter.notifyDataSetChanged();
-    }
+
 
     private  boolean validateGrade(){
         if(grade==null) {
@@ -613,16 +596,4 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         }
 
     }
-    private File createImageFile() throws IOException {
-        // Create an image file name
-        String imageFileName = "JPEG_" + System.currentTimeMillis() + "_";
-        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-        return image;
-    }
-
 }

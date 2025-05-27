@@ -6,16 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".PostActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
     <!-- Scrollable content -->
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/buttonContainer"
-        tools:ignore="SpeakableTextPresentCheck">
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="75dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -26,11 +29,10 @@
             <!-- Image Slider -->
             <com.library.foysaltech.smarteist.autoimageslider.SliderView
                 android:id="@+id/slider"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="250dp"
                 app:sliderAnimationDuration="600"
                 app:sliderAutoCycleDirection="back_and_forth"
-                app:sliderStartAutoCycle="true"
                 app:sliderIndicatorAnimationDuration="600"
                 app:sliderIndicatorEnabled="true"
                 app:sliderIndicatorGravity="center_horizontal|bottom"
@@ -40,7 +42,9 @@
                 app:sliderIndicatorRadius="2dp"
                 app:sliderIndicatorSelectedColor="#5A5A5A"
                 app:sliderIndicatorUnselectedColor="#FFF"
-                app:sliderScrollTimeInSec="1" />
+                app:sliderScrollTimeInSec="1"
+                app:sliderStartAutoCycle="true" />
+
 
             <!-- Post Description -->
             <TextView
@@ -323,12 +327,25 @@
         </LinearLayout>
 
     </ScrollView>
+    </RelativeLayout>
+    <ImageButton
+        android:id="@+id/btn_wishlist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/wish_list"
+        android:scaleX=".4"
+        android:scaleY=".4"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/todo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
     <!-- Bottom Button Container -->
     <androidx.cardview.widget.CardView
         android:id="@+id/buttonContainer"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="wrap_content"
         android:layout_margin="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -340,7 +357,7 @@
             android:orientation="horizontal"
             android:layout_margin="10dp"
             android:weightSum="2"
-            android:padding="10dp">
+            android:padding="5dp">
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/chat_btn"
@@ -359,7 +376,7 @@
                 android:id="@+id/call_btn"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="match_parent"
+                android:layout_height="48dp"
                 android:text="@string/call"
                 android:background="@drawable/button_bg"
                 android:textSize="20sp"

@@ -281,25 +281,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id=item.getItemId();
         switch (id){
-            case R.id.item1:
+            case R.id.home:
                 startActivity(new Intent(this, MainActivity.class));
 
                 break;
-            case R.id.item3:
+            case R.id.terms:
                 Toast.makeText(this, "terms is selected", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse("https://agromarttermsandcondations.blogspot.com/2025/01/agromart-terms-and-conditions-welcome.html"));
                 startActivity(intent);
                 break;
-            case R.id.item5:
+            case R.id.about:
                 Toast.makeText(this, "home is selected", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, AboutUsActivity.class));
                 break;
-            case R.id.item4:
+            case R.id.logout:
                 mAuth.signOut();
                 startActivity(new Intent(this, LoginActivity.class));
                 Toast.makeText(this, "you are signed out", Toast.LENGTH_SHORT).show();
                 break;
+            case R.id.wish_list:
+                startActivity(new Intent(this,WishlistActivity.class));
+                break;
+            case R.id.my_posts:
+                startActivity(new Intent(this,MyPostsActivity.class));
         }
         return true;
     }

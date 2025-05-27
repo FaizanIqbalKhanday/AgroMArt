@@ -1,11 +1,9 @@
-
 package in.codecubes.agromart;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,15 +24,22 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
+import in.codecubes.agromart.R;
+
+public  class WishListAdapter extends RecyclerView.Adapter<WishListAdapter.PostViewHolder> {
+
     Context context;
     ArrayList<Post> postList;
     ArrayList<Post> filteredList;
 
-    public PostAdapter(Context context, ArrayList<Post> postList) {
+    public WishListAdapter(Context context, ArrayList<Post> postList) {
         this.context = context;
         this.postList = postList;
         this.filteredList = new ArrayList<>(postList);
+    }
+
+    public WishListAdapter() {
+
     }
 
     public void setFilteredList(ArrayList<Post> filteredList) {
@@ -65,67 +70,60 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 context.startActivity(intent);
             }
         });
-
-
         holder.postListLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                // Check if filteredList or postList are null or empty
                 if (filteredList == null || postList == null || filteredList.isEmpty() || postList.isEmpty()) {
                     Toast.makeText(context, "Invalid data", Toast.LENGTH_SHORT).show();
                     return false;
                 }
 
-                // Check for valid position
                 if (position < 0 || position >= filteredList.size() || position >= postList.size()) {
                     Toast.makeText(context, "Invalid position", Toast.LENGTH_SHORT).show();
                     return false;
                 }
 
-                // Check if current user is logged in
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                 if (currentUser == null) {
                     Toast.makeText(context, "User not logged in", Toast.LENGTH_SHORT).show();
-                    return false; // Prevent the crash if no user is logged in
+                    return false;
                 }
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Delete Post")
-                        .setMessage("Are you sure you want to delete this post?")
-                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                builder.setTitle("Remove from Wishlist")
+                        .setMessage("Are you sure you want to remove this post from your wishlist?")
+                        .setPositiveButton("Remove", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                // Get the current user's ID
                                 String currentUserID = currentUser.getUid();
-
-                                // Get the post's user ID
                                 Post post = filteredList.get(position);
-                                if (post == null || post.getUserId() == null) {
+                                if (post == null || post.getPostId() == null) {
                                     Toast.makeText(context, "Invalid post data", Toast.LENGTH_SHORT).show();
                                     return;
                                 }
 
-                                String postUserID = post.getUserId();
+                                String postId = post.getPostId();
 
-                                if (currentUserID.equals(postUserID)) {
-                                    // Remove the post from filteredList
-                                    filteredList.remove(position);
-                                    notifyItemRemoved(position);
-                                    notifyItemRangeChanged(position, getItemCount());
+                                // Remove from wishlist only (not from POSTS)
+                                DatabaseReference wishlistRef = FirebaseDatabase.getInstance().getReference()
+                                        .child("wishlist").child(currentUserID).child(postId);
 
-                                    // Delete the post from the Firebase Realtime Database
-                                    String postId = postList.get(position).getPostId();
-                                    DatabaseReference postRef = FirebaseDatabase.getInstance().getReference().child("POSTS").child(postId);
-                                    postRef.removeValue();
+                                wishlistRef.removeValue().addOnCompleteListener(task -> {
+                                    if (task.isSuccessful()) {
+                                        filteredList.remove(position);
+                                        notifyItemRemoved(position);
+                                        notifyItemRangeChanged(position, getItemCount());
 
-                                    Toast.makeText(context, "Post deleted", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(context, "You can only delete your own posts", Toast.LENGTH_SHORT).show();
-                                }
+                                        Toast.makeText(context, "Removed from wishlist", Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(context, "Failed to remove from wishlist", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
                         })
                         .setNegativeButton("Cancel", null)
                         .show();
+
                 return true;
             }
         });

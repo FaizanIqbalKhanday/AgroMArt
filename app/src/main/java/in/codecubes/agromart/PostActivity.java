@@ -2,20 +2,29 @@ package in.codecubes.agromart;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -40,7 +49,10 @@ public class PostActivity extends AppCompatActivity {
     private RecyclerView commentsRecyclerView;
     private CommitAdapter commentAdapter;
     private List<Commits> commentList;
-    private DatabaseReference reference;
+    private DatabaseReference reference, reference2;
+    private FirebaseAuth auth;
+    private String uId;
+    private ImageButton btnWishlist;
 
 
     private SliderAdapter adapter;
@@ -74,10 +86,33 @@ public class PostActivity extends AppCompatActivity {
         userPhoneNumber = findViewById(R.id.post_user_phone);
         postDescription=findViewById(R.id.post_description);
 
+        btnWishlist = findViewById(R.id.btn_wishlist);
+
+
         SliderView sliderView = findViewById(R.id.slider);
 
         // Initialize Firebase Reference
+        auth = FirebaseAuth.getInstance();
+
+        // Now you can safely access auth.getCurrentUser()
+        FirebaseUser user = auth.getCurrentUser();
+        if (user == null) {
+            Toast.makeText(this, "User not logged in!", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        uId = user.getUid(); // Use the user object to get UID
         reference = FirebaseDatabase.getInstance().getReference();
+        reference2 = FirebaseDatabase.getInstance().getReference("user_data");
+
+
+        // Now you can safely access auth.getCurrentUser()
+
+
+        uId = user.getUid(); // Use the user object to get UID
+        reference = FirebaseDatabase.getInstance().getReference();
+        reference2 = FirebaseDatabase.getInstance().getReference("user_data");
 
         // Get Intent Extras
         String postId = getIntent().getStringExtra("post_id");
@@ -128,11 +163,48 @@ public class PostActivity extends AppCompatActivity {
 
             }
         });
+
+
+
+
+        // Track the current color state
+
+        btnWishlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference wishlistRef = FirebaseDatabase.getInstance().getReference("wishlist");
+                String uId = FirebaseAuth.getInstance().getCurrentUser().getUid(); // current user ID
+                String postId = getIntent().getStringExtra("post_id");
+                // get this from the current post context
+
+                if (btnWishlist.getTag() != null && btnWishlist.getTag().equals("added")) {
+                    // Remove from Wishlist
+                    wishlistRef.child(uId).child(postId).removeValue()
+                            .addOnSuccessListener(aVoid -> {
+                                btnWishlist.setColorFilter(ContextCompat.getColor(PostActivity.this, R.color.gray));
+                                btnWishlist.setTag("removed");
+                                Log.d(TAG, "Post removed from wishlist");
+                            })
+                            .addOnFailureListener(e -> Log.e(TAG, "Failed to remove post from wishlist", e));
+                } else {
+                    wishlistRef.child(uId).child(postId).setValue(true);  // Add to Wishlist and store the postId as the value
+                    wishlistRef.child(uId).child("post_id").setValue(postId)
+                            .addOnSuccessListener(aVoid -> {
+                                btnWishlist.setColorFilter(ContextCompat.getColor(PostActivity.this, R.color.progress_end));
+                                btnWishlist.setTag("added");
+                                Log.d(TAG, "Post added to wishlist");
+                            })
+                            .addOnFailureListener(e -> Log.e(TAG, "Failed to add post to wishlist", e));
+                }
+            }
+        });
+
+
+
     }
 
     private void fetchPostData(String postId, SliderView sliderView) {
         reference.child("POSTS").child(postId).addValueEventListener(new ValueEventListener() {
-            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 // Set Post Details
@@ -185,15 +257,7 @@ public class PostActivity extends AppCompatActivity {
                 phoneNumber = snapshot.child("phoneNumber").getValue(String.class);
                 userPhoneNumber.setText(phoneNumber);
 
-                // Set Profile Image
-                /*String profileImageUrl = snapshot.child("profileImageUrl").getValue(String.class);
-                ImageView profileImageView = findViewById(R.id.imageView1);
-                if (profileImageUrl != null) {
-                    Glide.with(PostActivity.this)
-                            .load(profileImageUrl)
-                            .circleCrop()
-                            .into(profileImageView);
-                }*/
+
             }
 
             @Override
