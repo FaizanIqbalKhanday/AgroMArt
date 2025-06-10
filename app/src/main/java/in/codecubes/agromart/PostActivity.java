@@ -123,6 +123,27 @@ public class PostActivity extends AppCompatActivity {
             finish();
             return;
         }
+        DatabaseReference wishlistRef = FirebaseDatabase.getInstance().getReference("wishlist").child(uId).child(postId);
+
+        wishlistRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    // Post is in wishlist -> show red
+                    btnWishlist.setColorFilter(ContextCompat.getColor(PostActivity.this, R.color.progress_end)); // red
+                    btnWishlist.setTag("added");
+                } else {
+                    // Post not in wishlist -> show gray
+                    btnWishlist.setColorFilter(ContextCompat.getColor(PostActivity.this, R.color.gray)); // gray
+                    btnWishlist.setTag("removed");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("PostActivity", "Failed to read wishlist state", error.toException());
+            }
+        });
 
         // Fetch Post Data
         fetchPostData(postId, sliderView);
@@ -173,31 +194,29 @@ public class PostActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DatabaseReference wishlistRef = FirebaseDatabase.getInstance().getReference("wishlist");
-                String uId = FirebaseAuth.getInstance().getCurrentUser().getUid(); // current user ID
+                String uId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                 String postId = getIntent().getStringExtra("post_id");
-                // get this from the current post context
 
                 if (btnWishlist.getTag() != null && btnWishlist.getTag().equals("added")) {
-                    // Remove from Wishlist
                     wishlistRef.child(uId).child(postId).removeValue()
                             .addOnSuccessListener(aVoid -> {
                                 btnWishlist.setColorFilter(ContextCompat.getColor(PostActivity.this, R.color.gray));
                                 btnWishlist.setTag("removed");
-                                Log.d(TAG, "Post removed from wishlist");
+                                Log.d("PostActivity", "Post removed from wishlist");
                             })
-                            .addOnFailureListener(e -> Log.e(TAG, "Failed to remove post from wishlist", e));
+                            .addOnFailureListener(e -> Log.e("PostActivity", "Failed to remove post from wishlist", e));
                 } else {
-                    wishlistRef.child(uId).child(postId).setValue(true);  // Add to Wishlist and store the postId as the value
-                    wishlistRef.child(uId).child("post_id").setValue(postId)
+                    wishlistRef.child(uId).child(postId).setValue(true)
                             .addOnSuccessListener(aVoid -> {
                                 btnWishlist.setColorFilter(ContextCompat.getColor(PostActivity.this, R.color.progress_end));
                                 btnWishlist.setTag("added");
-                                Log.d(TAG, "Post added to wishlist");
+                                Log.d("PostActivity", "Post added to wishlist");
                             })
-                            .addOnFailureListener(e -> Log.e(TAG, "Failed to add post to wishlist", e));
+                            .addOnFailureListener(e -> Log.e("PostActivity", "Failed to add post to wishlist", e));
                 }
             }
         });
+
 
 
 

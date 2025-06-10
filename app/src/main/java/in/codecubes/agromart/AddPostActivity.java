@@ -438,7 +438,7 @@ public class AddPostActivity extends AppCompatActivity implements AdapterView.On
         List<String> images = new ArrayList<>();
 
         Post post = new Post(
-                images, variety,grade, packing, quantity, state, district, village, userId, description, postId
+                images,System.currentTimeMillis(),variety,grade, packing, quantity, state, district, village, userId, description, postId
         );
 
         if (postId != null) {

@@ -1,11 +1,9 @@
-
 package in.codecubes.agromart;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,19 +23,28 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder> {
+
     Context context;
     ArrayList<Post> postList;
     ArrayList<Post> filteredList;
 
     public PostAdapter(Context context, ArrayList<Post> postList) {
         this.context = context;
+
+        // Sort postList by timestamp in descending order (newest first)
+        postList.sort((o1, o2) -> Long.compare(o2.getTimestamp(), o1.getTimestamp()));
+
         this.postList = postList;
         this.filteredList = new ArrayList<>(postList);
     }
 
     public void setFilteredList(ArrayList<Post> filteredList) {
+        // Sort filteredList by timestamp in descending order
+        filteredList.sort((o1, o2) -> Long.compare(o2.getTimestamp(), o1.getTimestamp()));
         this.filteredList = filteredList;
         notifyDataSetChanged();
     }
@@ -66,27 +73,23 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
             }
         });
 
-
         holder.postListLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                // Check if filteredList or postList are null or empty
                 if (filteredList == null || postList == null || filteredList.isEmpty() || postList.isEmpty()) {
                     Toast.makeText(context, "Invalid data", Toast.LENGTH_SHORT).show();
                     return false;
                 }
 
-                // Check for valid position
                 if (position < 0 || position >= filteredList.size() || position >= postList.size()) {
                     Toast.makeText(context, "Invalid position", Toast.LENGTH_SHORT).show();
                     return false;
                 }
 
-                // Check if current user is logged in
                 FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
                 if (currentUser == null) {
                     Toast.makeText(context, "User not logged in", Toast.LENGTH_SHORT).show();
-                    return false; // Prevent the crash if no user is logged in
+                    return false;
                 }
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -95,10 +98,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                         .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                // Get the current user's ID
                                 String currentUserID = currentUser.getUid();
-
-                                // Get the post's user ID
                                 Post post = filteredList.get(position);
                                 if (post == null || post.getUserId() == null) {
                                     Toast.makeText(context, "Invalid post data", Toast.LENGTH_SHORT).show();
@@ -106,15 +106,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                                 }
 
                                 String postUserID = post.getUserId();
-
                                 if (currentUserID.equals(postUserID)) {
-                                    // Remove the post from filteredList
                                     filteredList.remove(position);
                                     notifyItemRemoved(position);
                                     notifyItemRangeChanged(position, getItemCount());
 
-                                    // Delete the post from the Firebase Realtime Database
-                                    String postId = postList.get(position).getPostId();
+                                    String postId = post.getPostId();
                                     DatabaseReference postRef = FirebaseDatabase.getInstance().getReference().child("POSTS").child(postId);
                                     postRef.removeValue();
 
@@ -129,7 +126,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
                 return true;
             }
         });
-
     }
 
     @Override
@@ -145,7 +141,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
         public PostViewHolder(@NonNull View itemView) {
             super(itemView);
-
             thumbnail = itemView.findViewById(R.id.post_thumbnail_main);
             variety = itemView.findViewById(R.id.post_variety_main);
             address = itemView.findViewById(R.id.post_address_main);

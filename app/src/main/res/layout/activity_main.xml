@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-
+        android:visibility="visible"
         app:headerLayout="@layout/activity_menu_bar"
         app:menu="@menu/menu" />
 
@@ -33,12 +33,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 tools:ignore="UseCompoundDrawables">
+
                 <ImageView
                     android:id="@+id/menu_bar"
-                    android:layout_width="48dp"
+                    android:layout_width="41dp"
                     android:layout_height="48dp"
                     android:contentDescription="@string/todo"
-                    android:src="@drawable/menu_bar"/>
+                    android:src="@drawable/menu_bar" />
                 <TextView
                     android:id="@+id/toolbar_title"
                     android:layout_width="wrap_content"
@@ -439,6 +440,7 @@
                 android:layout_alignParentBottom="true"
                 android:elevation="4dp"
                 android:orientation="horizontal"
+                android:background="@color/white"
                 android:padding="8dp"
                 android:weightSum="100">
                 <LinearLayout
@@ -459,6 +461,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
+                        android:textColor="@color/default_color"
                         android:text="@string/home"/>
 
                 </LinearLayout>
@@ -481,6 +484,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/default_color"
                         android:text="@string/account"
                         android:textAlignment="center"/>
 

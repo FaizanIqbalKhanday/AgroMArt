@@ -8,6 +8,7 @@ public class Post {
     private String variety;
     private String grade;
     private String packingType;
+    private long timestamp;
     private String quantity;
     private String state;
     private String district;
@@ -21,6 +22,7 @@ public class Post {
     public Post(
 
             List<String> images,
+            long timestamp,
             String variety,
             String grade,
             String packingType,
@@ -31,6 +33,7 @@ public class Post {
             String userId,
             String description,
             String postId) {
+        this.timestamp=timestamp;
         this.images = images;
         this.variety = variety;
         this.grade = grade;
@@ -42,6 +45,14 @@ public class Post {
         this.userId = userId;
         this.description = description;
         this.postId = postId;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 
     public List<String> getImages() {
