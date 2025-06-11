@@ -286,19 +286,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 break;
             case R.id.terms:
-                Toast.makeText(this, "terms is selected", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse("https://agromarttermsandcondations.blogspot.com/2025/01/agromart-terms-and-conditions-welcome.html"));
+                intent.setData(Uri.parse("https://newagromart.blogspot.com/2025/06/terms-and-conditions.html"));
                 startActivity(intent);
                 break;
             case R.id.about:
-                Toast.makeText(this, "home is selected", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(this, AboutUsActivity.class));
                 break;
             case R.id.logout:
                 mAuth.signOut();
                 startActivity(new Intent(this, LoginActivity.class));
-                Toast.makeText(this, "you are signed out", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.wish_list:
                 startActivity(new Intent(this,WishlistActivity.class));

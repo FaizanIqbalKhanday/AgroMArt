@@ -6,11 +6,11 @@
             android:title="home" />
         <item
             android:id="@+id/my_posts"
-            android:icon="@drawable/camera"
+            android:icon="@drawable/my_posts"
             android:title="my Posts" />
         <item
             android:id="@+id/wish_list"
-            android:icon="@drawable/camera"
+            android:icon="@drawable/wish_lst"
             android:title="Wish List" />
         <item
 

@@ -38,10 +38,10 @@ import java.util.UUID;
 
 public class ProfileUI extends AppCompatActivity {
 
-    private TextView profileName, profileEmail, userPhoneNumber, state, district, village;
+    private TextView profileName, profileEmail, userPhoneNumber, state, district, village, change_password;
     private DatabaseReference reference;
     private FirebaseUser mUser;
-    private CardView editProfile, my_posts_card;
+    private CardView editProfile, my_posts_card,  wishlist;
     private String userId;
     private ImageView profileImageView;
     private Button uploadImageButton;
@@ -64,7 +64,9 @@ public class ProfileUI extends AppCompatActivity {
         district = findViewById(R.id.profile_district);
         village = findViewById(R.id.profile_village);
         profileImageView = findViewById(R.id.imageView9);
-        uploadImageButton = findViewById(R.id.uploadImageButton); // Make sure you have this button in your layout
+        change_password=findViewById(R.id.change);
+        wishlist=findViewById(R.id.wish_list_btn);
+        uploadImageButton = findViewById(R.id.uploadImageButton);
 
         profileImageView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -81,6 +83,20 @@ public class ProfileUI extends AppCompatActivity {
                         .setNegativeButton("Cancel", null)
                         .show();
                 return true;
+            }
+        });
+        wishlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(ProfileUI.this,WishlistActivity.class);
+                startActivity(intent );
+            }
+        });
+        change_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(ProfileUI.this,ForgetPassword.class);
+                startActivity(intent);
             }
         });
 
@@ -136,6 +152,7 @@ public class ProfileUI extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
+
 
     private void getUserData() {
         reference.child(userId).addValueEventListener(new ValueEventListener() {

@@ -205,6 +205,7 @@
 
                             </androidx.cardview.widget.CardView>
                             <androidx.cardview.widget.CardView
+                                android:id="@+id/wish_list_btn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"
@@ -235,7 +236,7 @@
                                             app:layout_constraintEnd_toEndOf="parent"
                                             app:layout_constraintStart_toStartOf="parent"
                                             app:layout_constraintTop_toTopOf="parent"
-                                            app:srcCompat="@drawable/language" />
+                                            app:srcCompat="@drawable/wish_lst" />
 
                                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -243,7 +244,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:layout_marginBottom="8dp"
-                                        android:text="@string/language"
+                                        android:text="@string/wish_list"
                                         android:textAlignment="center"
                                         android:textColor="@color/black"
                                         android:textStyle="bold" />
