@@ -15,8 +15,8 @@
             <shape android:shape="ring">
                 <size android:width="50dp" android:height="50dp" />
                 <gradient
-                    android:startColor="@color/progress_start"
-                    android:endColor="@color/progress_end"
+                    android:startColor="@color/gray"
+                    android:endColor="@color/black"
                     android:angle="0" />
             </shape>
         </rotate>

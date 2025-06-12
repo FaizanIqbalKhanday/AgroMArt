@@ -58,75 +58,77 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.PostViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        Glide.with(context).load(filteredList.get(position).getImages().get(0)).into(holder.thumbnail);
-        holder.variety.setText(filteredList.get(position).getVariety());
-        String address = filteredList.get(position).getVillage() + " " + filteredList.get(position).getDistrict();
-        holder.address.setText(address);
+        if (filteredList == null || position < 0 || position >= filteredList.size()) {
+            return;
+        }
 
-        holder.postListLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, PostActivity.class);
-                intent.putExtra("post_id", filteredList.get(position).getPostId());
-                intent.putExtra("user_id", filteredList.get(position).getUserId());
-                context.startActivity(intent);
-            }
+        Post post = filteredList.get(position);
+
+        // Load image safely
+        if (post.getImages() != null && !post.getImages().isEmpty() && post.getImages().get(0) != null) {
+            Glide.with(context).load(post.getImages().get(0)).into(holder.thumbnail);
+        } else {
+            // Load placeholder or leave empty
+            holder.thumbnail.setImageResource(R.drawable.logo); // use your default image
+        }
+
+        // Set variety
+        if (post.getVariety() != null) {
+            holder.variety.setText(post.getVariety());
+        } else {
+            holder.variety.setText("Unknown Variety");
+        }
+
+        // Set address safely
+        String village = post.getVillage() != null ? post.getVillage() : "";
+        String district = post.getDistrict() != null ? post.getDistrict() : "";
+        holder.address.setText(village + " " + district);
+
+        holder.postListLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(context, PostActivity.class);
+            intent.putExtra("post_id", post.getPostId());
+            intent.putExtra("user_id", post.getUserId());
+            context.startActivity(intent);
         });
 
-        holder.postListLayout.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (filteredList == null || postList == null || filteredList.isEmpty() || postList.isEmpty()) {
-                    Toast.makeText(context, "Invalid data", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-
-                if (position < 0 || position >= filteredList.size() || position >= postList.size()) {
-                    Toast.makeText(context, "Invalid position", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-
-                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                if (currentUser == null) {
-                    Toast.makeText(context, "User not logged in", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Delete Post")
-                        .setMessage("Are you sure you want to delete this post?")
-                        .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String currentUserID = currentUser.getUid();
-                                Post post = filteredList.get(position);
-                                if (post == null || post.getUserId() == null) {
-                                    Toast.makeText(context, "Invalid post data", Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
-
-                                String postUserID = post.getUserId();
-                                if (currentUserID.equals(postUserID)) {
-                                    filteredList.remove(position);
-                                    notifyItemRemoved(position);
-                                    notifyItemRangeChanged(position, getItemCount());
-
-                                    String postId = post.getPostId();
-                                    DatabaseReference postRef = FirebaseDatabase.getInstance().getReference().child("POSTS").child(postId);
-                                    postRef.removeValue();
-
-                                    Toast.makeText(context, "Post deleted", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(context, "You can only delete your own posts", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        })
-                        .setNegativeButton("Cancel", null)
-                        .show();
-                return true;
+        holder.postListLayout.setOnLongClickListener(v -> {
+            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+            if (currentUser == null) {
+                Toast.makeText(context, "User not logged in", Toast.LENGTH_SHORT).show();
+                return false;
             }
+
+            new AlertDialog.Builder(context)
+                    .setTitle("Delete Post")
+                    .setMessage("Are you sure you want to delete this post?")
+                    .setPositiveButton("Delete", (dialog, which) -> {
+                        if (post.getUserId() == null) {
+                            Toast.makeText(context, "Invalid post data", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        if (currentUser.getUid().equals(post.getUserId())) {
+                            filteredList.remove(position);
+                            notifyItemRemoved(position);
+                            notifyItemRangeChanged(position, getItemCount());
+
+                            FirebaseDatabase.getInstance().getReference()
+                                    .child("POSTS")
+                                    .child(post.getPostId())
+                                    .removeValue();
+
+                            Toast.makeText(context, "Post deleted", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context, "You can only delete your own posts", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
+
+            return true;
         });
     }
+
 
     @Override
     public int getItemCount() {

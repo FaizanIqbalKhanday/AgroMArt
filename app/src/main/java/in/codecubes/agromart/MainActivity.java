@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         getUserDataInMenuBar();
 
+        progress_Bar.setVisibility(View.VISIBLE);
         loadData();
 
         addPostBtn.setOnClickListener(new View.OnClickListener() {
@@ -219,6 +220,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                progress_Bar.setVisibility(View.INVISIBLE);
+
                 if (dataSnapshot.exists()) {
                     postList = new ArrayList<>();
                     for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
