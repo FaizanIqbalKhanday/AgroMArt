@@ -3,11 +3,11 @@
         <item
             android:id="@+id/home"
             android:icon="@drawable/home"
-            android:title="home" />
+            android:title="Home" />
         <item
             android:id="@+id/my_posts"
             android:icon="@drawable/my_posts"
-            android:title="my Posts" />
+            android:title="My Posts" />
         <item
             android:id="@+id/wish_list"
             android:icon="@drawable/wish_lst"
@@ -22,7 +22,7 @@
             android:icon="@drawable/about"
             android:title="About" />
         <item
-            android:title="logout">
+            android:title="Logout">
             <menu>
                 <group android:checkableBehavior="single">
                     <item

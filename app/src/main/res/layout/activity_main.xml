@@ -4,16 +4,17 @@
     android:id="@+id/drawable_layout"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:padding="10dp"
     android:orientation="vertical"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".MainActivity">
+
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:fitsSystemWindows="false"
         android:visibility="visible"
         app:headerLayout="@layout/activity_menu_bar"
         app:menu="@menu/menu" />
@@ -21,7 +22,8 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:padding="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -358,14 +360,15 @@
                                 </LinearLayout>
 
                             </androidx.cardview.widget.CardView>
+
                             <androidx.cardview.widget.CardView
                                 android:id="@+id/american"
-                                android:layout_width="wrap_content"
+                                android:layout_width="96dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="4dp"
+                                app:cardBackgroundColor="@color/white"
                                 app:cardCornerRadius="8dp"
                                 app:cardElevation="4dp"
-                                app:cardBackgroundColor="@color/white"
                                 app:cardUseCompatPadding="true"
                                 app:contentPadding="12dp">
 
@@ -377,7 +380,7 @@
                                     <ImageView
                                         android:layout_width="65dp"
                                         android:layout_height="50dp"
-                                        android:src="@drawable/american"/>
+                                        android:src="@drawable/american" />
 
                                     <RelativeLayout
                                         android:layout_width="match_parent"
@@ -387,11 +390,11 @@
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:text="@string/american"
                                             android:lineBreakWordStyle="phrase"
+                                            android:text="@string/american"
+                                            android:textColor="@color/default_color"
                                             android:textSize="14sp"
-                                            android:textStyle="bold"
-                                            android:textColor="@color/default_color"/>
+                                            android:textStyle="bold" />
 
 
                                     </RelativeLayout>

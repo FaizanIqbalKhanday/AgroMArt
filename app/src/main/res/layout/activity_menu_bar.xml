@@ -2,10 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:padding="20dp"
-    android:layout_marginTop="10dp"
     android:orientation="vertical"
     android:background="@drawable/applebg">
+
     <androidx.constraintlayout.utils.widget.ImageFilterView
         android:id="@+id/user_Profile_Pic"
         android:layout_width="90dp"
